@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>BChat Copilot: Atendimento assistido por IA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#080b10" />
+    <meta name="description" content="BChat Copilot: atendimento assistido por IA com contexto, conhecimento conectado e sugestões para cada conversa." />
+    <meta property="og:title" content="BChat Copilot: contexto para cada conversa" />
+    <meta property="og:description" content="Conheça o BChat Copilot e descubra como apoiar sua equipe com contexto, conhecimento e sugestões de resposta." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="docs/logobchat.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+    <script type="application/ld+json" id="structured-data">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "BChat Copilot",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "Atendimento assistido por IA com contexto, conhecimento conectado e sugestões para cada conversa."
+      }
+    </script>
+  </head>
+  <body data-plans-endpoint="/public/api/v1/bchat/plans">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <div class="page-shell">
+      <header class="site-header" data-header>
+        <div class="container header-inner">
+          <a class="brand" href="#topo" aria-label="BChat Copilot, início">
+            <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="brand-wordmark">bchat<span>copilot</span></span>
+          </a>
+
+          <nav class="desktop-nav" aria-label="Navegação principal">
+            <a href="#beneficios">Benefícios</a>
+            <a href="#funcionalidades">Funcionalidades</a>
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#planos">Planos</a>
+            <a href="#faq">FAQ</a>
+          </nav>
+
+          <a class="button button-small button-ghost header-cta" href="#contato" data-analytics="landing_primary_cta_click" data-placement="header">Solicitar demonstração <span aria-hidden="true">↗</span></a>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+            <span class="sr-only">Abrir menu</span>
+            <span></span><span></span>
+          </button>
+        </div>
+        <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
+          <nav aria-label="Navegação mobile">
+            <a href="#beneficios">Benefícios <span>01</span></a>
+            <a href="#funcionalidades">Funcionalidades <span>02</span></a>
+            <a href="#como-funciona">Como funciona <span>03</span></a>
+            <a href="#planos">Planos <span>04</span></a>
+            <a href="#faq">FAQ <span>05</span></a>
+          </nav>
+          <a class="button button-primary" href="#contato" data-menu-close>Falar com o time <span aria-hidden="true">↗</span></a>
+        </div>
+      </header>
+
+      <main id="conteudo">
+        <section class="hero" id="topo" aria-labelledby="hero-title">
+          <div class="hero-grid-lines" aria-hidden="true"></div>
+          <div class="hero-glow hero-glow-blue" aria-hidden="true"></div>
+          <div class="hero-glow hero-glow-lime" aria-hidden="true"></div>
+          <div class="container hero-content">
+            <div class="hero-copy">
+              <p class="eyebrow reveal">IA PARA ATENDIMENTO <span class="eyebrow-line"></span> BCHAT</p>
+              <h1 id="hero-title" class="hero-title reveal reveal-delay-1">Contexto para cada conversa.<br /><em>Inteligência</em> para cada resposta.</h1>
+              <p class="hero-description reveal reveal-delay-2">O BChat Copilot apoia sua equipe com resumos, sugestões contextuais e conhecimento conectado ao atendimento. Pessoas no controle.</p>
+              <div class="hero-actions reveal reveal-delay-3">
+                <a class="button button-primary" href="#contato" data-analytics="landing_primary_cta_click" data-placement="hero">Solicitar demonstração <span aria-hidden="true">↗</span></a>
+                <a class="text-link" href="#funcionalidades" data-analytics="landing_secondary_cta_click" data-placement="hero">Conhecer funcionalidades <span aria-hidden="true">↓</span></a>
+              </div>
+              <div class="hero-meta reveal reveal-delay-4"><span class="status-dot"></span> Feito para o fluxo real do atendimento</div>
+            </div>
+
+            <div class="hero-visual reveal reveal-delay-2" aria-hidden="true">
+              <span class="visual-label visual-label-top">COPILOT / LIVE VIEW</span>
+              <span class="visual-label visual-label-bottom">CONTEXT LAYER <span></span></span>
+              <svg class="orbit-lines" viewBox="0 0 760 620" role="img" aria-labelledby="mockup-title mockup-description">
+                <title id="mockup-title">Visualização de uma conversa apoiada pelo Copilot</title>
+                <desc id="mockup-description">Uma conversa em atendimento conectada a uma sugestão do Copilot e a uma base de conhecimento.</desc>
+                <path d="M90 430 C180 140, 540 80, 692 274" fill="none" stroke="rgba(99,230,222,.28)" stroke-width="1" stroke-dasharray="4 8" />
+                <path d="M44 196 C235 46, 580 140, 706 506" fill="none" stroke="rgba(190,247,96,.18)" stroke-width="1" />
+                <circle cx="90" cy="430" r="4" fill="#5DA3FF" /><circle cx="692" cy="274" r="4" fill="#C4F567" />
+                <circle cx="44" cy="196" r="3" fill="#C4F567" /><circle cx="706" cy="506" r="3" fill="#5DA3FF" />
+              </svg>
+              <div class="chat-window glass-panel">
+                <div class="window-bar"><span class="window-dots"><i></i><i></i><i></i></span><span class="window-title">Conversa #4821</span><span class="window-time">agora</span></div>
+                <div class="chat-body">
+                  <div class="chat-contact"><span class="avatar avatar-client">L</span><div><strong>Larissa Mendes</strong><small>Cliente · WhatsApp</small></div><span class="online-badge">online</span></div>
+                  <div class="message message-in"><span class="message-label">Larissa · 10:42</span><p>Oi! Preciso entender quais documentos devo enviar para concluir meu cadastro.</p></div>
+                  <div class="message message-out"><span class="message-label">Você · 10:43</span><p>Oi, Larissa! Vou verificar isso para você.</p></div>
+                  <div class="typing"><span></span><span></span><span></span> Copilot analisando contexto</div>
+                </div>
+              </div>
+              <div class="copilot-panel glass-panel">
+                <div class="copilot-panel-head"><span class="copilot-icon">✦</span><div><strong>Sugestão do Copilot</strong><small>Base de conhecimento · Cadastro</small></div><span class="sparkle">✧</span></div>
+                <p>“Para concluir o cadastro, envie documento de identificação com foto e comprovante de endereço dos últimos 90 dias.”</p>
+                <div class="suggestion-source"><span class="source-icon">↗</span><span>Artigo: Documentos necessários</span><span class="source-confidence">contexto conectado</span></div>
+                <div class="copilot-actions"><button type="button" tabindex="-1" class="mini-button mini-button-primary">Usar sugestão</button><button type="button" tabindex="-1" class="mini-button">Editar</button></div>
+              </div>
+              <div class="floating-note floating-note-one glass-panel"><span class="note-icon">◌</span><div><strong>Resumo pronto</strong><small>3 pontos principais</small></div></div>
+              <div class="floating-note floating-note-two glass-panel"><span class="note-icon note-icon-lime">⌁</span><div><strong>Conhecimento conectado</strong><small>Documentos · Web · Markdown</small></div></div>
+            </div>
+
+            <div class="hero-capabilities reveal reveal-delay-4">
+              <div class="capability-card"><span>01</span><strong>Atendimento assistido</strong><small>Mais contexto no momento certo.</small></div>
+              <div class="capability-card"><span>02</span><strong>Respostas contextuais</strong><small>Sugestões que partem da conversa.</small></div>
+              <div class="capability-card capability-card-accent"><span>03</span><strong>Humano no loop</strong><small>A equipe decide o próximo passo.</small></div>
+            </div>
+          </div>
+          <div class="scroll-cue" aria-hidden="true"><span></span> role para explorar</div>
+        </section>
+
+        <section class="signal-strip" aria-label="Capacidades do BChat Copilot">
+          <div class="container signal-inner"><span>RESUMOS</span><i></i><span>SUGESTÕES</span><i></i><span>CONHECIMENTO CONECTADO</span><i></i><span>AUTOMAÇÕES</span><i></i><span>CONTROLE HUMANO</span></div>
+        </section>
+
+        <section class="section benefits-section" id="beneficios" aria-labelledby="benefits-title">
+          <div class="container">
+            <div class="section-intro split-intro"><div><p class="eyebrow">POR QUE COPILOT <span class="eyebrow-line"></span></p><h2 id="benefits-title">Menos procura.<br /><em>Mais presença.</em></h2></div><p>O Copilot organiza o que importa para que sua equipe possa estar presente na conversa, e não presa ao que veio antes dela.</p></div>
+            <div class="benefits-grid">
+              <article class="benefit-card benefit-card-large"><div class="card-index">01 <span>◒</span></div><div class="benefit-symbol symbol-context" aria-hidden="true"><span></span><span></span><span></span></div><h3>Contexto sem caça ao tesouro</h3><p>Resumos e sinais importantes aparecem junto da conversa, para sua equipe entender o cenário antes de responder.</p><a href="#funcionalidades" class="card-link">Ver contexto em ação <span>↗</span></a></article>
+              <article class="benefit-card"><div class="card-index">02 <span>◒</span></div><div class="benefit-symbol symbol-pulse" aria-hidden="true"><i></i><i></i><i></i><i></i></div><h3>Agilidade com intenção</h3><p>Sugestões contextuais ajudam a transformar a próxima resposta em um próximo passo claro.</p><a href="#como-funciona" class="card-link">Como funciona <span>↗</span></a></article>
+              <article class="benefit-card"><div class="card-index">03 <span>◒</span></div><div class="benefit-symbol symbol-stack" aria-hidden="true"><span>⌁</span><span>⌁</span><span>⌁</span></div><h3>Conhecimento que participa</h3><p>Conecte documentos e fontes aprovadas à operação para apoiar respostas consistentes.</p><a href="#funcionalidades" class="card-link">Conhecer recursos <span>↗</span></a></article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section features-section" id="funcionalidades" aria-labelledby="features-title">
+          <div class="feature-backdrop" aria-hidden="true"></div>
+          <div class="container">
+            <div class="section-intro narrow-intro"><span class="panel-kicker">O QUE ELE FAZ</span><h2 id="features-title">Uma camada de inteligência<br /><em>no fluxo do atendimento.</em></h2><p>Do primeiro contexto ao próximo passo, o BChat Copilot trabalha ao lado da sua equipe.</p></div>
+            <div class="feature-explorer" data-feature-explorer>
+              <div class="feature-tabs" role="tablist" aria-label="Categorias de funcionalidades">
+                <button class="feature-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="feature-panel-contexto" id="feature-tab-contexto" data-feature="contexto"><span>01</span>Contexto</button>
+                <button class="feature-tab" type="button" role="tab" aria-selected="false" aria-controls="feature-panel-conhecimento" id="feature-tab-conhecimento" data-feature="conhecimento"><span>02</span>Conhecimento</button>
+                <button class="feature-tab" type="button" role="tab" aria-selected="false" aria-controls="feature-panel-automacao" id="feature-tab-automacao" data-feature="automacao"><span>03</span>Automação</button>
+              </div>
+              <div class="feature-panel-wrap">
+                <article class="feature-panel is-active" id="feature-panel-contexto" role="tabpanel" aria-labelledby="feature-tab-contexto" data-panel="contexto"><div class="feature-panel-copy"><span class="panel-kicker">01 / CONTEXTO</span><h3>Chegue na conversa<br /><em>já entendendo.</em></h3><p>Resuma conversas, destaque prioridades e encontre contatos sem interromper o ritmo da operação.</p><ul class="feature-list"><li><span>✓</span> Resumos de conversas</li><li><span>✓</span> Sugestões durante o atendimento</li><li><span>✓</span> Busca por conversas e contatos</li></ul></div><div class="feature-illustration feature-illustration-context" aria-hidden="true"><div class="context-orb"></div><div class="context-lines"><span></span><span></span><span></span></div><div class="mini-summary"><small>RESUMO DA CONVERSA</small><strong>Cliente busca atualização<br />sobre seu cadastro.</strong><span class="summary-line"></span><span class="summary-line short"></span></div><div class="mini-priority">◉ prioridade alta</div></div></article>
+                <article class="feature-panel" id="feature-panel-conhecimento" role="tabpanel" aria-labelledby="feature-tab-conhecimento" data-panel="conhecimento" hidden><div class="feature-panel-copy"><span class="panel-kicker">02 / CONHECIMENTO</span><h3>O que sua equipe sabe,<br /><em>na hora de responder.</em></h3><p>Conecte sua base de conhecimento, documentos PDF ou Markdown e conteúdo da web ao atendimento.</p><ul class="feature-list"><li><span>✓</span> Recomendações baseadas na fonte</li><li><span>✓</span> Conteúdo organizado por contexto</li><li><span>✓</span> Fontes visíveis para a equipe</li></ul></div><div class="feature-illustration feature-illustration-knowledge" aria-hidden="true"><div class="knowledge-ring"></div><div class="knowledge-doc"><span class="doc-icon">⌁</span><strong>Base de conhecimento</strong><small>12 fontes conectadas</small><div class="doc-meter"><i></i></div></div><div class="knowledge-chip">PDF <span>+ 11</span></div><div class="knowledge-chip chip-two">WEB</div></div></article>
+                <article class="feature-panel" id="feature-panel-automacao" role="tabpanel" aria-labelledby="feature-tab-automacao" data-panel="automacao" hidden><div class="feature-panel-copy"><span class="panel-kicker">03 / AUTOMAÇÃO</span><h3>Automatize o possível.<br /><em>Transfira o necessário.</em></h3><p>Use assistentes para apoiar respostas automatizadas e mantenha a transferência para uma pessoa quando o contexto pedir.</p><ul class="feature-list"><li><span>✓</span> Assistentes para respostas</li><li><span>✓</span> Transferência para atendimento humano</li><li><span>✓</span> Etiquetas e transcrição quando habilitadas</li></ul></div><div class="feature-illustration feature-illustration-automation" aria-hidden="true"><div class="automation-path"><span class="path-node node-start">mensagem</span><i></i><span class="path-node node-ai">✦ copilot</span><i></i><span class="path-node node-human">equipe</span></div><div class="automation-card"><span class="automation-check">✓</span><div><strong>Próximo passo definido</strong><small>Transferir para especialista</small></div></div></div></article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section process-section" id="como-funciona" aria-labelledby="process-title">
+          <div class="container">
+            <div class="section-intro split-intro"><div><span class="panel-kicker">COMO FUNCIONA</span><h2 id="process-title">Do contexto<br /><em>à ação.</em></h2></div><p>Uma experiência pensada para entrar no fluxo existente da sua equipe, com clareza em cada etapa.</p></div>
+            <div class="process-list">
+              <article class="process-step"><div class="process-number">01</div><div class="process-marker"><span></span></div><div><h3>Conecte o conhecimento</h3><p>Reúna documentos, páginas e referências que sua equipe já usa no dia a dia.</p></div><span class="process-arrow" aria-hidden="true">↗</span></article>
+              <article class="process-step"><div class="process-number">02</div><div class="process-marker"><span></span></div><div><h3>Converse como sempre</h3><p>O Copilot acompanha as conversas e organiza os sinais que ajudam no atendimento.</p></div><span class="process-arrow" aria-hidden="true">↗</span></article>
+              <article class="process-step"><div class="process-number">03</div><div class="process-marker"><span></span></div><div><h3>Receba uma sugestão</h3><p>Resumos e recomendações aparecem como apoio, com as fontes à vista para sua equipe.</p></div><span class="process-arrow" aria-hidden="true">↗</span></article>
+              <article class="process-step"><div class="process-number">04</div><div class="process-marker"><span></span></div><div><h3>Decida o próximo passo</h3><p>Use, edite ou siga outro caminho. O controle continua com quem atende.</p></div><span class="process-arrow" aria-hidden="true">↗</span></article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section pricing-section" id="planos" aria-labelledby="pricing-title">
+          <div class="pricing-glow" aria-hidden="true"></div>
+          <div class="container">
+            <div class="section-intro split-intro pricing-intro"><div><span class="panel-kicker">PLANOS PUBLICADOS</span><h2 id="pricing-title">Escolha o espaço<br /><em>para evoluir.</em></h2></div><div><p>Compare os planos disponíveis do BChat. Os dados abaixo são carregados da API pública e atualizados sem depender de conteúdo administrativo.</p><div class="pricing-status" aria-live="polite" data-pricing-status><span class="status-dot"></span> Catálogo atualizado</div></div></div>
+            <div class="pricing-toolbar"><div class="billing-control" role="group" aria-label="Ciclo de cobrança" data-billing-control></div><button class="comparison-toggle" type="button" data-comparison-toggle aria-expanded="false">Ver comparação completa <span>↓</span></button></div>
+            <div class="pricing-grid" data-pricing-grid><div class="pricing-loading" aria-label="Carregando planos"><span></span><span></span><span></span></div></div>
+            <div class="pricing-comparison" data-pricing-comparison hidden></div>
+            <div class="pricing-footnote"><span>✦</span> Os valores e recursos apresentados podem variar conforme a publicação comercial vigente. <a href="#contato">Fale com o time para entender o plano ideal.</a></div>
+          </div>
+        </section>
+
+        <section class="section faq-section" id="faq" aria-labelledby="faq-title">
+          <div class="container faq-layout"><div class="faq-intro"><span class="panel-kicker">DÚVIDAS FREQUENTES</span><h2 id="faq-title">Perguntas que<br /><em>fazem sentido.</em></h2><p>O que o Copilot faz, o que ele não faz, e quem continua no comando da conversa.</p><a class="text-link" href="#contato">Falar com o time <span aria-hidden="true">↗</span></a></div><div class="faq-list"><details class="faq-item" open><summary>O que o BChat Copilot faz exatamente?<span></span></summary><div class="faq-answer"><p>O Copilot acompanha a conversa e oferece <strong>resumos</strong>, <strong>sugestões contextuais</strong> e <strong>conhecimento conectado</strong> à sua base de fontes. O time vê o contexto junto da mensagem, sem precisar procurar em outro lugar.</p></div></details><details class="faq-item"><summary>O Copilot responde no lugar da minha equipe?<span></span></summary><div class="faq-answer"><p>Não por padrão. O Copilot <strong>propõe</strong>, não decide. Sugestões aparecem como apoio e a equipe escolhe usar, editar ou seguir outro caminho. Automações podem assumir parte da resposta apenas quando você configurar explicitamente.</p></div></details><details class="faq-item"><summary>De onde vêm as sugestões?<span></span></summary><div class="faq-answer"><p>Da conversa atual e das fontes que você conecta: <strong>documentos PDF e Markdown</strong>, conteúdo da web e a base de conhecimento da operação. As fontes ficam visíveis junto da sugestão para o time conferir a origem.</p></div></details><details class="faq-item"><summary>Como o Copilot usa os dados das conversas?<span></span></summary><div class="faq-answer"><p>Apenas como contexto para as sugestões da sua operação, seguindo as configurações de privacidade e <strong>etiquetas</strong> definidas no BChat. Converse com o time comercial para entender as opções de armazenamento e retenção disponíveis no seu plano.</p></div></details><details class="faq-item"><summary>Preciso treinar ou configurar muito?<span></span></summary><div class="faq-answer"><p>Não. Basta <strong>conectar o conhecimento</strong> que sua equipe já usa (documentos, páginas e referências). O Copilot passa a usar isso no fluxo de atendimento. Ajustes de automação e etiquetas ficam à disposição conforme a operação avança.</p></div></details><details class="faq-item"><summary>O Copilot funciona para qualquer tipo de atendimento?<span></span></summary><div class="faq-answer"><p>Ele é desenhado para <strong>fluxos reais de atendimento</strong>: canais, contatos e conversas que já fazem parte do BChat. A profundidade das sugestões depende de quanto contexto e conhecimento está conectado à operação.</p></div></details><details class="faq-item"><summary>O que muda para quem já usa o BChat?<span></span></summary><div class="faq-answer"><p>O Copilot entra <strong>ao lado</strong> do atendimento atual, sem substituir o fluxo. Contexto, resumos e sugestões aparecem como apoio, e o controle do próximo passo continua com quem atende.</p></div></details></div></div>
+        </section>
+
+        <section class="final-cta" id="contato" aria-labelledby="final-cta-title"><div class="final-cta-grid" aria-hidden="true"></div><div class="container final-cta-inner"><div><p class="eyebrow">PRÓXIMO PASSO <span class="eyebrow-line"></span></p><h2 id="final-cta-title">Toda conversa tem<br /><em>um próximo passo.</em></h2></div><div class="final-cta-action"><p>Veja o BChat Copilot em contexto e descubra como ele pode apoiar a sua equipe.</p><a class="button button-primary button-large" href="#contato" data-analytics="landing_primary_cta_click" data-placement="final">Solicitar demonstração <span aria-hidden="true">↗</span></a></div></div></section>
+      </main>
+
+      <footer class="site-footer"><div class="container footer-inner"><div class="footer-brand"><a class="brand" href="#topo" aria-label="BChat Copilot, voltar ao início"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span class="brand-wordmark">bchat<span>copilot</span></span></a><p>Contexto para cada conversa.<br />Inteligência para cada resposta.</p></div><div class="footer-links"><div><small>NAVEGAR</small><a href="#beneficios">Benefícios</a><a href="#funcionalidades">Funcionalidades</a><a href="#planos">Planos</a></div><div><small>CONTATO</small><a href="#contato">Time comercial</a><a href="#faq">Perguntas frequentes</a></div></div></div><div class="container footer-bottom"><span>© 2026 BChat. Todos os direitos reservados.</span><span>Feito para conversas que importam <i>✦</i></span></div></footer>
+    </div>
+    <div class="checkout-dialog" data-checkout-dialog hidden>
+      <div class="checkout-backdrop" data-checkout-close></div>
+      <section class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title" aria-describedby="checkout-description">
+        <button class="checkout-close" type="button" aria-label="Fechar checkout" data-checkout-close>×</button>
+        <h2 id="checkout-title">Vamos começar<br /><em>essa conversa.</em></h2>
+        <p id="checkout-description">Informe seu e-mail para continuar com o plano <strong data-checkout-plan-name>selecionado</strong>.</p>
+        <form class="checkout-form" data-checkout-form novalidate>
+          <label for="checkout-email">E-mail profissional</label>
+          <input id="checkout-email" name="customer_email" type="email" autocomplete="email" placeholder="voce@empresa.com" required />
+          <p class="checkout-error" data-checkout-error role="alert" hidden></p>
+          <button class="button button-primary button-large" type="submit" data-checkout-submit>Continuar para o checkout <span aria-hidden="true">↗</span></button>
+        </form>
+        <small class="checkout-privacy">Você será redirecionado para o ambiente seguro de pagamento.</small>
+      </section>
+    </div>
+    <div id="react-root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

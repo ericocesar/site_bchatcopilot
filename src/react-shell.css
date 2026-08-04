@@ -1,0 +1,11 @@
+#react-root:empty { display: contents; }
+.is-blog-route .page-shell { display: none; }
+.blog-placeholder { position: relative; display: grid; min-height: 100vh; place-content: center; padding: 64px 24px; overflow: hidden; color: var(--text); background: var(--canvas); font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
+.blog-placeholder::before { content: ""; position: absolute; inset: 0; opacity: .3; background-image: linear-gradient(rgba(174, 205, 235, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(174, 205, 235, .06) 1px, transparent 1px); background-size: 80px 80px; mask-image: linear-gradient(to bottom, black, transparent 82%); }
+.blog-placeholder > *:not(.blog-placeholder-orbit) { position: relative; z-index: 1; max-width: 680px; }
+.blog-kicker { margin: 0 0 20px; color: var(--blue-bright); font-size: 11px; font-weight: 800; letter-spacing: .2em; }
+.blog-placeholder h1 { margin: 0; max-width: 720px; font-family: "Manrope", sans-serif; font-size: clamp(48px, 8vw, 92px); line-height: .96; letter-spacing: -.08em; }
+.blog-placeholder > p:not(.blog-kicker) { margin: 28px 0 0; max-width: 450px; color: var(--muted); font-size: 16px; line-height: 1.7; }
+.blog-back-link { display: inline-flex; gap: 10px; align-items: center; width: max-content; margin-top: 34px; color: var(--lime); font-size: 13px; font-weight: 800; }
+.blog-back-link span { font-size: 18px; }
+.blog-placeholder-orbit { position: absolute; width: 650px; height: 650px; right: -210px; top: 50%; border: 1px solid rgba(99, 230, 222, .2); border-radius: 50%; box-shadow: 0 0 0 70px rgba(99, 230, 222, .03), 0 0 0 140px rgba(99, 230, 222, .02); transform: translateY(-50%); }
