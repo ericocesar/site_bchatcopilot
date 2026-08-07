@@ -1,6 +1,6 @@
 import { CATEGORY_ORDER, copilotAllowance, cycleLabel, planHighlights, resolveCardPrice, sharedCycles } from "./lib/pricing.js";
 import { buildLeadPayload, submitLead, validateLead } from "./lib/leads.js";
-import { contact } from "./content/landing-content.js";
+import { clientLogos, contact, fitStatements, testimonials } from "./content/landing-content.js";
 
 (() => {
   "use strict";
@@ -239,9 +239,43 @@ import { contact } from "./content/landing-content.js";
     });
   }
 
+  function renderProof() {
+    const fit = $("[data-proof-fit]");
+    if (fit) fit.innerHTML = fitStatements.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+
+    const clients = $("[data-proof-clients]"); const clientsList = $("[data-proof-clients-list]");
+    if (clients && clientsList) {
+      clientsList.innerHTML = clientLogos
+        .map((logo) => `<li><img src="${escapeHtml(logo.src)}" alt="${escapeHtml(logo.name)}" width="${Number(logo.width) || 120}" height="${Number(logo.height) || 32}" loading="lazy" decoding="async" /></li>`)
+        .join("");
+      clients.hidden = clientLogos.length === 0;
+    }
+
+    const quote = $("[data-proof-quote]"); const [primary] = testimonials;
+    if (quote) {
+      if (primary) {
+        $("[data-proof-quote-text]", quote).textContent = `“${primary.quote}”`;
+        $("[data-proof-quote-author]", quote).textContent = primary.author;
+        $("[data-proof-quote-role]", quote).textContent = `${primary.role} · ${primary.company}`;
+      }
+      quote.hidden = !primary;
+    }
+
+    // Microprova junto ao CTA final: usa o segundo depoimento para não repetir
+    // o primeiro; sem depoimento nenhum, cai nas declarações de adequação.
+    const finalProof = $("[data-final-proof]");
+    if (finalProof) {
+      const near = testimonials[1] || testimonials[0];
+      finalProof.innerHTML = near
+        ? `<p>“${escapeHtml(near.quote)}”</p><small>${escapeHtml(near.author)} · ${escapeHtml(near.role)}, ${escapeHtml(near.company)}</small>`
+        : `<p>${escapeHtml(fitStatements.join(" · "))}</p>`;
+      finalProof.hidden = false;
+    }
+  }
+
   function init() {
     if (window.location.pathname.replace(/\/$/, "") === "/blog") return;
-    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); loadPlans();
+    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); renderProof(); loadPlans();
   }
   document.addEventListener("DOMContentLoaded", init);
 })();
