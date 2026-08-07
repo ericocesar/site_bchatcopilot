@@ -1,3 +1,5 @@
+import { cycleLabel, resolveCardPrice, sharedCycles } from "./lib/pricing.js";
+
 (() => {
   "use strict";
 
@@ -67,8 +69,6 @@
   function normalizePlans(plans) { return plans.map(normalizePlan); }
   function escapeHtml(value) { return String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character])); }
   function formatCurrency(amount, currency) { try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: currency || "BRL", maximumFractionDigits: 0 }).format(amount); } catch { return `${currency || "R$"} ${amount}`; } }
-  function getPrice(plan, cycle) { return plan.prices.find((price) => price.billing_cycle === cycle) || null; }
-  function activeCycles(plans) { return [...new Set(plans.flatMap((plan) => plan.prices.map((price) => price.billing_cycle)))]; }
   function buildComparison(plans) {
     const features = new Map();
     plans.forEach((plan) => plan.features.forEach((feature) => { if (!features.has(feature.code)) features.set(feature.code, feature); }));
@@ -80,26 +80,30 @@
 
   function renderBillingControl() {
     const control = $("[data-billing-control]"); if (!control) return;
-    const cycles = activeCycles(state.plans);
-    const available = ["monthly", "yearly"].filter((cycle) => cycles.includes(cycle));
-    if (available.length < 2) { control.innerHTML = `<span class="billing-single">Valores publicados <span>· mensal</span></span>`; return; }
+    const available = sharedCycles(state.plans);
+    if (available.length < 2) {
+      state.billingCycle = available[0] || null;
+      control.innerHTML = state.billingCycle
+        ? `<span class="billing-single">Valores publicados <span>· ${cycleLabel(state.billingCycle).toLowerCase()}</span></span>`
+        : `<span class="billing-single">Valores publicados <span>· por plano</span></span>`;
+      return;
+    }
     if (!available.includes(state.billingCycle)) state.billingCycle = available[0];
-    control.innerHTML = available.map((cycle) => `<button type="button" class="${cycle === state.billingCycle ? "is-active" : ""}" aria-pressed="${cycle === state.billingCycle}" data-cycle="${cycle}">${cycle === "monthly" ? "Mensal" : "Anual"}</button>`).join("");
+    control.innerHTML = available.map((cycle) => `<button type="button" class="${cycle === state.billingCycle ? "is-active" : ""}" aria-pressed="${cycle === state.billingCycle}" data-cycle="${cycle}">${cycleLabel(cycle)}</button>`).join("");
     $$('[data-cycle]', control).forEach((button) => button.addEventListener("click", () => { if (state.billingCycle === button.dataset.cycle) return; const previous = state.billingCycle; state.billingCycle = button.dataset.cycle; emit("pricing_cycle_change", { from_cycle: previous, to_cycle: state.billingCycle }); renderBillingControl(); renderPricing(); }));
   }
   function renderPricing() {
     const grid = $("[data-pricing-grid]"); if (!grid) return;
     if (!state.plans.length) { grid.innerHTML = `<div class="pricing-empty"><strong>Nenhum plano publicado no momento.</strong><p>O catálogo está sendo atualizado. Fale com o time para encontrar o melhor próximo passo.</p><a class="button button-primary" href="#contato">Falar com o time <span aria-hidden="true">↗</span></a></div>`; return; }
     const cards = state.plans.map((plan) => {
-      const price = getPrice(plan, state.billingCycle);
+      const price = resolveCardPrice(plan, state.billingCycle);
       const featured = plan.featured ? `<span class="featured-label">Em destaque</span>` : "";
-      const priceMarkup = price ? `<div class="price-line"><span class="price-value">${price.effective_amount === 0 ? "Grátis" : formatCurrency(price.effective_amount, price.currency)}</span>${price.effective_amount !== 0 ? `<span class="price-cycle">/ ${price.billing_cycle === "yearly" ? "ano" : "mês"}</span>` : ""}${price.promotional_amount !== null && price.promotional_amount < price.amount ? `<span class="price-old">${formatCurrency(price.amount, price.currency)}</span>` : ""}</div>` : `<div class="price-line"><span class="price-value price-consult">Sob consulta</span></div>`;
+      const priceMarkup = price ? `<div class="price-line"><span class="price-value">${price.effective_amount === 0 ? "Grátis" : formatCurrency(price.effective_amount, price.currency)}</span>${price.effective_amount !== 0 ? `<span class="price-cycle">/ ${cycleLabel(price.billing_cycle, "period")}</span>` : ""}${price.promotional_amount !== null && price.promotional_amount < price.amount ? `<span class="price-old">${formatCurrency(price.amount, price.currency)}</span>` : ""}</div>` : `<div class="price-line"><span class="price-value price-consult">Sob consulta</span></div>`;
       const featureNames = plan.features.slice(0, 3).map((feature) => `<li>${escapeHtml(feature.name)}</li>`).join("");
-      const unavailable = !price && plan.prices.length ? `<small class="price-unavailable">Ciclo anual indisponível neste plano</small>` : "";
       const cta = price
         ? `<button class="button ${plan.featured ? "button-primary" : "button-ghost"} pricing-card-cta" type="button" data-checkout-plan="${escapeHtml(plan.slug)}" data-plan-name="${escapeHtml(plan.name)}" data-billing-cycle="${escapeHtml(state.billingCycle)}">Ir para checkout <span aria-hidden="true">↗</span></button>`
         : `<a class="button button-ghost pricing-card-cta" href="#contato">Falar com o time <span aria-hidden="true">↗</span></a>`;
-      return `<article class="pricing-card ${plan.featured ? "is-featured" : ""}">${featured}<div class="pricing-card-top"><h3>${escapeHtml(plan.name)}</h3><span class="card-index">${String(state.plans.indexOf(plan) + 1).padStart(2, "0")}</span></div><p class="pricing-card-description">${escapeHtml(plan.short_description || "Plano BChat para sua operação de atendimento.")}</p>${priceMarkup}${unavailable}${cta}<ul class="pricing-card-features">${featureNames || "<li>Recursos conforme configuração publicada</li>"}${plan.features.length > 3 ? `<li class="pricing-card-more">+ ${plan.features.length - 3} outros recursos</li>` : ""}</ul></article>`;
+      return `<article class="pricing-card ${plan.featured ? "is-featured" : ""}">${featured}<div class="pricing-card-top"><h3>${escapeHtml(plan.name)}</h3><span class="card-index">${String(state.plans.indexOf(plan) + 1).padStart(2, "0")}</span></div><p class="pricing-card-description">${escapeHtml(plan.short_description || "Plano BChat para sua operação de atendimento.")}</p>${priceMarkup}${cta}<ul class="pricing-card-features">${featureNames || "<li>Recursos conforme configuração publicada</li>"}${plan.features.length > 3 ? `<li class="pricing-card-more">+ ${plan.features.length - 3} outros recursos</li>` : ""}</ul></article>`;
     }).join("");
     grid.innerHTML = cards;
   }

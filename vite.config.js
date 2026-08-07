@@ -5,4 +5,8 @@ export default defineConfig({
   plugins: [react()],
   server: { port: 5173 },
   build: { sourcemap: false },
+  test: {
+    environment: "node",
+    include: ["src/**/*.test.js"],
+  },
 });
