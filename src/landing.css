@@ -68,7 +68,7 @@ button { color: inherit; font: inherit; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 48px; padding: 0 20px; border: 1px solid transparent; border-radius: 9px; cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: .01em; transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
 .button:hover { transform: translateY(-2px); }
 .button:active { transform: translateY(0); }
-.button:focus-visible, .text-link:focus-visible, .feature-tab:focus-visible, .comparison-toggle:focus-visible, .mini-button:focus-visible, .menu-toggle:focus-visible, .billing-control button:focus-visible, .pricing-card-cta:focus-visible, .retry-button:focus-visible, .checkout-close:focus-visible, .checkout-form input:focus-visible, .faq-item summary:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; }
+.button:focus-visible, .text-link:focus-visible, .feature-tab:focus-visible, .comparison-toggle:focus-visible, .mini-button:focus-visible, .menu-toggle:focus-visible, .billing-control button:focus-visible, .pricing-card-cta:focus-visible, .retry-button:focus-visible, .faq-item summary:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; }
 .button span { font-size: 18px; line-height: 0; font-weight: 400; }
 .button-primary { color: #08100a; background: var(--lime); box-shadow: 0 11px 35px rgb(var(--rgb-limelight), .15); }
 .button-primary:hover { background: #d6ff87; box-shadow: 0 15px 38px rgb(var(--rgb-limelight), .25); }
@@ -149,18 +149,6 @@ button { color: inherit; font: inherit; }
 .feature-illustration { background: radial-gradient(circle at 50% 50%, rgb(var(--rgb-teal), .2), transparent 52%), rgba(8, 13, 20, .46); }
 .pricing-glow { background: radial-gradient(circle, rgb(var(--rgb-teal), .13), transparent 66%); }
 .signal-inner i { background: var(--blue); box-shadow: 0 0 0 4px rgb(var(--rgb-teal), .1); }
-.checkout-open { overflow: hidden; }
-.checkout-dialog { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 24px; }
-.checkout-dialog[hidden] { display: none; }
-.checkout-backdrop { position: absolute; inset: 0; background: rgba(3, 6, 9, .78); backdrop-filter: blur(8px); }
-.checkout-modal { position: relative; width: min(100%, 520px); padding: 42px; border: 1px solid rgb(var(--rgb-limebright), .3); border-radius: 22px; background: linear-gradient(145deg, #162329, #0d1319); box-shadow: 0 30px 90px rgba(0, 0, 0, .55); }
-.checkout-close { position: absolute; top: 15px; right: 17px; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%; color: var(--muted); background: transparent; cursor: pointer; font-size: 24px; line-height: 1; }
-.checkout-modal h2 { margin: 0; font-size: clamp(36px, 6vw, 54px); line-height: .98; }.checkout-modal > p:first-child { margin-top: 0; }
-.checkout-modal > p:not(.eyebrow) { margin: 22px 0 25px; color: var(--muted); font-size: 13px; line-height: 1.65; }
-.checkout-modal > p strong { color: var(--text); }
-.checkout-form { display: grid; gap: 10px; }.checkout-form label { color: var(--text); font-size: 11px; font-weight: 700; }.checkout-form input { width: 100%; min-height: 50px; padding: 0 14px; border: 1px solid var(--border-strong); border-radius: 8px; outline: none; color: var(--text); background: rgba(5, 10, 14, .58); font: inherit; font-size: 13px; }.checkout-form input:focus { border-color: var(--lime); box-shadow: 0 0 0 3px rgb(var(--rgb-limebright), .12); }.checkout-form .button { margin-top: 10px; width: 100%; }.checkout-form .button:disabled { cursor: wait; opacity: .65; }.checkout-error { margin: 5px 0 0; color: var(--danger); font-size: 11px; line-height: 1.5; }.checkout-privacy { display: block; margin-top: 20px; color: var(--muted-2); font-size: 9px; line-height: 1.5; }
-@media (max-width: 600px) { .checkout-modal { padding: 34px 22px 25px; border-radius: 17px; } }
-
 .final-cta-inner { display: grid; grid-template-columns: 1fr minmax(340px, 460px); gap: 80px; align-items: start; }
 .final-cta-lead { max-width: 460px; margin: 26px 0 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
 .final-cta-expectations { display: grid; gap: 12px; margin: 30px 0 0; padding: 0; list-style: none; }

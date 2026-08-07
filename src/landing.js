@@ -11,16 +11,12 @@ import { contact } from "./content/landing-content.js";
     selectedFeature: "contexto",
     apiState: "loading",
     cacheKey: "bchat-copilot-public-plans-v1",
-    checkout: { planSlug: null, billingCycle: null, previousFocus: null },
   };
 
   const configuredApiUrl = (import.meta.env.VITE_BCHAT_API_URL || "").trim().replace(/\/+$/, "");
   const endpoint = configuredApiUrl
     ? `${configuredApiUrl}/public/api/v1/bchat/plans`
     : document.body.dataset.plansEndpoint || "/public/api/v1/bchat/plans";
-  const checkoutEndpoint = configuredApiUrl
-    ? `${configuredApiUrl}/public/api/v1/bchat/checkout_sessions`
-    : "/public/api/v1/bchat/checkout_sessions";
   const demoEndpoint = configuredApiUrl
     ? `${configuredApiUrl}/public/api/v1/bchat/demo_requests`
     : "/public/api/v1/bchat/demo_requests";
@@ -105,9 +101,7 @@ import { contact } from "./content/landing-content.js";
       const featured = plan.featured ? `<span class="featured-label">Em destaque</span>` : "";
       const priceMarkup = price ? `<div class="price-line"><span class="price-value">${price.effective_amount === 0 ? "Grátis" : formatCurrency(price.effective_amount, price.currency)}</span>${price.effective_amount !== 0 ? `<span class="price-cycle">/ ${cycleLabel(price.billing_cycle, "period")}</span>` : ""}${price.promotional_amount !== null && price.promotional_amount < price.amount ? `<span class="price-old">${formatCurrency(price.amount, price.currency)}</span>` : ""}</div>` : `<div class="price-line"><span class="price-value price-consult">Sob consulta</span></div>`;
       const featureNames = plan.features.slice(0, 3).map((feature) => `<li>${escapeHtml(feature.name)}</li>`).join("");
-      const cta = price
-        ? `<button class="button ${plan.featured ? "button-primary" : "button-ghost"} pricing-card-cta" type="button" data-checkout-plan="${escapeHtml(plan.slug)}" data-plan-name="${escapeHtml(plan.name)}" data-billing-cycle="${escapeHtml(state.billingCycle)}">Ir para checkout <span aria-hidden="true">↗</span></button>`
-        : `<a class="button button-ghost pricing-card-cta" href="#contato">Falar com o time <span aria-hidden="true">↗</span></a>`;
+      const cta = `<a class="button ${plan.featured ? "button-primary" : "button-ghost"} pricing-card-cta" href="#contato" data-analytics="landing_primary_cta_click" data-placement="pricing_card" data-plan-slug="${escapeHtml(plan.slug)}">Solicitar demonstração <span aria-hidden="true">↗</span></a>`;
       return `<article class="pricing-card ${plan.featured ? "is-featured" : ""}">${featured}<div class="pricing-card-top"><h3>${escapeHtml(plan.name)}</h3><span class="card-index">${String(state.plans.indexOf(plan) + 1).padStart(2, "0")}</span></div><p class="pricing-card-description">${escapeHtml(plan.short_description || "Plano BChat para sua operação de atendimento.")}</p>${priceMarkup}${cta}<ul class="pricing-card-features">${featureNames || "<li>Recursos conforme configuração publicada</li>"}${plan.features.length > 3 ? `<li class="pricing-card-more">+ ${plan.features.length - 3} outros recursos</li>` : ""}</ul></article>`;
     }).join("");
     grid.innerHTML = cards;
@@ -140,53 +134,6 @@ import { contact } from "./content/landing-content.js";
   }
   function setupComparison() { const button = $("[data-comparison-toggle]"); const comparison = $("[data-pricing-comparison]"); if (!button || !comparison) return; button.addEventListener("click", () => { const isOpen = button.getAttribute("aria-expanded") === "true"; button.setAttribute("aria-expanded", String(!isOpen)); comparison.hidden = isOpen; button.innerHTML = isOpen ? 'Ver comparação completa <span>↓</span>' : 'Ocultar comparação <span>↑</span>'; if (!isOpen) emit("pricing_section_view", { plans_count: state.plans.length, cache_state: state.apiState }); }); }
   function setupAnalytics() { $$('[data-analytics]').forEach((element) => element.addEventListener("click", () => emit(element.dataset.analytics, { placement: element.dataset.placement || "unknown", target_section: element.getAttribute("href")?.replace("#", "") || null }))); }
-  function setCheckoutError(message = "Não foi possível iniciar o checkout. Tente novamente.") { const error = $("[data-checkout-error]"); if (!error) return; error.textContent = message; error.hidden = false; }
-  function getFocusable(dialog) {
-    return [...dialog.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])')].filter((element) => !element.disabled && element.offsetParent !== null);
-  }
-  function trapFocus(event, dialog) {
-    if (event.key !== "Tab") return;
-    const focusable = getFocusable(dialog);
-    if (!focusable.length) return;
-    const first = focusable[0]; const last = focusable[focusable.length - 1];
-    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-  }
-  function closeCheckout() { const dialog = $("[data-checkout-dialog]"); if (!dialog) return; dialog.hidden = true; document.body.classList.remove("checkout-open"); const shell = $(".page-shell"); shell?.removeAttribute("inert"); state.checkout.previousFocus?.focus(); state.checkout.previousFocus = null; }
-  function openCheckout(button) {
-    const dialog = $("[data-checkout-dialog]"); const form = $("[data-checkout-form]"); const email = $("#checkout-email"); const name = $("[data-checkout-plan-name]"); const error = $("[data-checkout-error]");
-    if (!dialog || !form || !email || !name) return;
-    state.checkout = { planSlug: button.dataset.checkoutPlan, billingCycle: button.dataset.billingCycle, previousFocus: button };
-    name.textContent = button.dataset.planName || "selecionado"; error.hidden = true; form.reset(); dialog.hidden = false; document.body.classList.add("checkout-open"); $(".page-shell")?.setAttribute("inert", ""); window.requestAnimationFrame(() => email.focus());
-  }
-  async function submitCheckout(event) {
-    event.preventDefault();
-    const form = event.currentTarget; const email = $("#checkout-email"); const submit = $("[data-checkout-submit]");
-    if (!email.reportValidity()) return;
-    submit.disabled = true; submit.classList.add("is-loading"); submit.innerHTML = "Criando checkout <span aria-hidden=\"true\">…</span>";
-    try {
-      const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 4500);
-      let response;
-      try {
-        response = await fetch(checkoutEndpoint, { method: "POST", headers: { Accept: "application/json", "Content-Type": "application/json" }, credentials: "omit", signal: controller.signal, body: JSON.stringify({ plan_slug: state.checkout.planSlug, billing_cycle: state.checkout.billingCycle, customer: { email: email.value.trim() } }) });
-      } finally { window.clearTimeout(timeout); }
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        if (response.status >= 500) throw new Error("O checkout está temporariamente indisponível. Tente novamente em instantes ou fale com o time comercial.");
-        throw new Error(payload.message || payload.error || "Confira o e-mail informado e tente novamente.");
-      }
-      const checkoutUrl = payload.checkout_url || payload.url || payload.data?.checkout_url || payload.data?.url;
-      if (!checkoutUrl) throw new Error("O checkout foi criado, mas não retornou uma URL válida.");
-      emit("conversion_started", { plan_slug: state.checkout.planSlug, flow_kind: "checkout" });
-      window.location.assign(checkoutUrl);
-    } catch (error) { setCheckoutError(error.name === "AbortError" ? "A conexão demorou demais. Tente novamente." : error.message); submit.disabled = false; submit.classList.remove("is-loading"); submit.innerHTML = 'Continuar para o checkout <span aria-hidden="true">↗</span>'; }
-  }
-  function setupCheckout() {
-    const dialog = $("[data-checkout-dialog]"); const form = $("[data-checkout-form]"); if (!dialog || !form) return;
-    document.addEventListener("click", (event) => { const button = event.target.closest("[data-checkout-plan]"); if (button) { emit("pricing_plan_cta_click", { plan_slug: button.dataset.checkoutPlan, billing_cycle: button.dataset.billingCycle, cta_kind: "checkout", featured: state.plans.find((plan) => plan.slug === button.dataset.checkoutPlan)?.featured || false }); openCheckout(button); } if (event.target.closest("[data-checkout-close]")) closeCheckout(); });
-    form.addEventListener("submit", submitCheckout); document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !dialog.hidden) closeCheckout(); if (!dialog.hidden) trapFocus(event, dialog); });
-  }
   function fallbackContactHtml() {
     const options = [];
     if (contact.salesEmail) options.push(`<a href="mailto:${escapeHtml(contact.salesEmail)}">${escapeHtml(contact.salesEmail)}</a>`);
@@ -254,9 +201,22 @@ import { contact } from "./content/landing-content.js";
     });
   }
 
+  function setupCtaFocus() {
+    const field = $("#demo-name");
+    if (!field) return;
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest('a[href="#contato"]');
+      if (!link) return;
+      const form = $("[data-demo-form]");
+      if (!form || form.hidden) return;
+      // O scroll da âncora é do navegador; só assumimos o foco depois dele.
+      window.setTimeout(() => field.focus({ preventScroll: true }), 400);
+    });
+  }
+
   function init() {
     if (window.location.pathname.replace(/\/$/, "") === "/blog") return;
-    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupCheckout(); setupDemoForm(); loadPlans();
+    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); loadPlans();
   }
   document.addEventListener("DOMContentLoaded", init);
 })();
