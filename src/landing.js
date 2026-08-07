@@ -1,4 +1,4 @@
-import { cycleLabel, resolveCardPrice, sharedCycles } from "./lib/pricing.js";
+import { CATEGORY_ORDER, copilotAllowance, cycleLabel, planHighlights, resolveCardPrice, sharedCycles } from "./lib/pricing.js";
 import { buildLeadPayload, submitLead, validateLead } from "./lib/leads.js";
 import { contact } from "./content/landing-content.js";
 
@@ -21,12 +21,11 @@ import { contact } from "./content/landing-content.js";
     ? `${configuredApiUrl}/public/api/v1/bchat/demo_requests`
     : "/public/api/v1/bchat/demo_requests";
   const allowedExtra = new Set(["captain_credits", "captain_documents", "emails_monthly"]);
-  const categoryOrder = ["core", "channels", "productivity", "reporting", "enterprise", "other"];
   const categoryLabels = { core: "Core", channels: "Canais", productivity: "Produtividade", reporting: "Relatórios", enterprise: "Enterprise", other: "Outros" };
   const demoPlans = [
     { id: 2, uuid: "demo-profissional", slug: "profissional", name: "Profissional", short_description: "Para equipes que querem mais contexto no atendimento.", long_description: null, featured: true, prices: [{ billing_cycle: "monthly", currency: "BRL", amount: 249, promotional_amount: null, effective_amount: 249, trial_days: 0, setup_fee: 0 }], limits: { users_limit: 15, inboxes_limit: 5, teams_limit: 4, contacts_limit: 5000, automations_limit: 20, campaigns_limit: 10, macros_limit: 50, integrations_limit: 8, extra: { captain_credits: 500, captain_documents: 50 } }, features: [{ code: "captain", name: "BChat Copilot", category: "productivity", enabled: true }, { code: "summaries", name: "Resumos de conversas", category: "productivity", enabled: true }, { code: "knowledge_base", name: "Base de conhecimento conectada", category: "productivity", enabled: true }, { code: "reports", name: "Relatórios", category: "reporting", enabled: true }] },
-    { id: 1, uuid: "demo-essencial", slug: "essencial", name: "Essencial", short_description: "O ponto de partida para organizar seu atendimento.", long_description: null, featured: false, prices: [{ billing_cycle: "monthly", currency: "BRL", amount: 99, promotional_amount: null, effective_amount: 99, trial_days: 0, setup_fee: 0 }, { billing_cycle: "yearly", currency: "BRL", amount: 990, promotional_amount: null, effective_amount: 990, trial_days: 0, setup_fee: 0 }], limits: { users_limit: 5, inboxes_limit: 2, teams_limit: 2, contacts_limit: 1000, automations_limit: 5, campaigns_limit: 3, macros_limit: 15, integrations_limit: 3, extra: {} }, features: [{ code: "inboxes", name: "Canais de atendimento", category: "channels", enabled: true }, { code: "reports", name: "Relatórios", category: "reporting", enabled: true }] },
-    { id: 3, uuid: "demo-enterprise", slug: "enterprise", name: "Enterprise", short_description: "Para operações com necessidades específicas.", long_description: null, featured: false, prices: [], limits: { users_limit: 0, inboxes_limit: 0, teams_limit: 0, contacts_limit: 0, automations_limit: 0, campaigns_limit: 0, macros_limit: 0, integrations_limit: 0, extra: {} }, features: [{ code: "captain", name: "BChat Copilot", category: "productivity", enabled: true }, { code: "knowledge_base", name: "Base de conhecimento conectada", category: "productivity", enabled: true }, { code: "enterprise_support", name: "Atendimento personalizado", category: "enterprise", enabled: true }] },
+    { id: 1, uuid: "demo-essencial", slug: "essencial", name: "Essencial", short_description: "O ponto de partida para organizar seu atendimento.", long_description: null, featured: false, prices: [{ billing_cycle: "monthly", currency: "BRL", amount: 99, promotional_amount: null, effective_amount: 99, trial_days: 0, setup_fee: 0 }, { billing_cycle: "yearly", currency: "BRL", amount: 990, promotional_amount: null, effective_amount: 990, trial_days: 0, setup_fee: 0 }], limits: { users_limit: 5, inboxes_limit: 2, teams_limit: 2, contacts_limit: 1000, automations_limit: 5, campaigns_limit: 3, macros_limit: 15, integrations_limit: 3, extra: { captain_credits: 100, captain_documents: 10 } }, features: [{ code: "captain", name: "BChat Copilot", category: "productivity", enabled: true }, { code: "inboxes", name: "Canais de atendimento", category: "channels", enabled: true }, { code: "reports", name: "Relatórios", category: "reporting", enabled: true }] },
+    { id: 3, uuid: "demo-enterprise", slug: "enterprise", name: "Enterprise", short_description: "Para operações com necessidades específicas.", long_description: null, featured: false, prices: [], limits: { users_limit: 0, inboxes_limit: 0, teams_limit: 0, contacts_limit: 0, automations_limit: 0, campaigns_limit: 0, macros_limit: 0, integrations_limit: 0, extra: { captain_credits: 5000, captain_documents: 500 } }, features: [{ code: "captain", name: "BChat Copilot", category: "productivity", enabled: true }, { code: "knowledge_base", name: "Base de conhecimento conectada", category: "productivity", enabled: true }, { code: "enterprise_support", name: "Atendimento personalizado", category: "enterprise", enabled: true }] },
   ];
 
   const $ = (selector, scope = document) => scope.querySelector(selector);
@@ -64,7 +63,7 @@ import { contact } from "./content/landing-content.js";
   }
   function normalizePlan(plan) {
     const prices = plan.prices.filter((price) => isRecord(price) && ["monthly", "yearly"].includes(price.billing_cycle) && typeof price.currency === "string" && typeof price.effective_amount === "number").map((price) => ({ ...price, effective_amount: Math.max(0, price.effective_amount) }));
-    const features = plan.features.filter((feature) => isRecord(feature) && typeof feature.code === "string" && typeof feature.name === "string").map((feature) => ({ ...feature, category: categoryOrder.includes(feature.category) ? feature.category : "other" }));
+    const features = plan.features.filter((feature) => isRecord(feature) && typeof feature.code === "string" && typeof feature.name === "string").map((feature) => ({ ...feature, category: CATEGORY_ORDER.includes(feature.category) ? feature.category : "other" }));
     return { ...plan, prices, features, limits: isRecord(plan.limits) ? { ...plan.limits, extra: normalizeExtra(plan.limits.extra) } : { extra: {} } };
   }
   function normalizePlans(plans) { return plans.map(normalizePlan); }
@@ -73,7 +72,7 @@ import { contact } from "./content/landing-content.js";
   function buildComparison(plans) {
     const features = new Map();
     plans.forEach((plan) => plan.features.forEach((feature) => { if (!features.has(feature.code)) features.set(feature.code, feature); }));
-    return [...features.values()].sort((a, b) => categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category) || a.name.localeCompare(b.name, "pt-BR"));
+    return [...features.values()].sort((a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category) || a.name.localeCompare(b.name, "pt-BR"));
   }
 
   function emit(name, properties = {}) { window.dispatchEvent(new CustomEvent(name, { detail: properties })); }
@@ -100,9 +99,15 @@ import { contact } from "./content/landing-content.js";
       const price = resolveCardPrice(plan, state.billingCycle);
       const featured = plan.featured ? `<span class="featured-label">Em destaque</span>` : "";
       const priceMarkup = price ? `<div class="price-line"><span class="price-value">${price.effective_amount === 0 ? "Grátis" : formatCurrency(price.effective_amount, price.currency)}</span>${price.effective_amount !== 0 ? `<span class="price-cycle">/ ${cycleLabel(price.billing_cycle, "period")}</span>` : ""}${price.promotional_amount !== null && price.promotional_amount < price.amount ? `<span class="price-old">${formatCurrency(price.amount, price.currency)}</span>` : ""}</div>` : `<div class="price-line"><span class="price-value price-consult">Sob consulta</span></div>`;
-      const featureNames = plan.features.slice(0, 3).map((feature) => `<li>${escapeHtml(feature.name)}</li>`).join("");
+      const allowance = copilotAllowance(plan);
+      const allowanceMarkup = allowance.length
+        ? `<ul class="pricing-card-allowance">${allowance.map((item) => `<li><strong>${new Intl.NumberFormat("pt-BR").format(item.value)}</strong> ${escapeHtml(item.label)}</li>`).join("")}</ul>`
+        : "";
+      const highlights = planHighlights(plan, state.plans, 3);
+      const featureNames = highlights.map((item) => `<li>${escapeHtml(item.name)}</li>`).join("");
+      const remaining = plan.features.length - highlights.length;
       const cta = `<a class="button ${plan.featured ? "button-primary" : "button-ghost"} pricing-card-cta" href="#contato" data-analytics="landing_primary_cta_click" data-placement="pricing_card" data-plan-slug="${escapeHtml(plan.slug)}">Solicitar demonstração <span aria-hidden="true">↗</span></a>`;
-      return `<article class="pricing-card ${plan.featured ? "is-featured" : ""}">${featured}<div class="pricing-card-top"><h3>${escapeHtml(plan.name)}</h3><span class="card-index">${String(state.plans.indexOf(plan) + 1).padStart(2, "0")}</span></div><p class="pricing-card-description">${escapeHtml(plan.short_description || "Plano BChat para sua operação de atendimento.")}</p>${priceMarkup}${cta}<ul class="pricing-card-features">${featureNames || "<li>Recursos conforme configuração publicada</li>"}${plan.features.length > 3 ? `<li class="pricing-card-more">+ ${plan.features.length - 3} outros recursos</li>` : ""}</ul></article>`;
+      return `<article class="pricing-card ${plan.featured ? "is-featured" : ""}">${featured}<div class="pricing-card-top"><h3>${escapeHtml(plan.name)}</h3><span class="card-index">${String(state.plans.indexOf(plan) + 1).padStart(2, "0")}</span></div><p class="pricing-card-description">${escapeHtml(plan.short_description || "Plano BChat para sua operação de atendimento.")}</p>${priceMarkup}${allowanceMarkup}${cta}<ul class="pricing-card-features">${featureNames || "<li>Recursos conforme configuração publicada</li>"}</ul>${remaining > 0 ? `<button class="pricing-card-more" type="button" data-comparison-toggle-from-card>Ver os outros ${remaining} recursos <span aria-hidden="true">↓</span></button>` : ""}</article>`;
     }).join("");
     grid.innerHTML = cards;
   }
@@ -111,7 +116,7 @@ import { contact } from "./content/landing-content.js";
     const features = buildComparison(state.plans);
     const groups = features.reduce((result, feature) => { (result[feature.category] ||= []).push(feature); return result; }, {});
     const head = state.plans.map((plan) => `<th scope="col">${escapeHtml(plan.name)}</th>`).join("");
-    const rows = Object.entries(groups).sort(([a], [b]) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b)).map(([category, items]) => `<tr class="comparison-group"><td colspan="${state.plans.length + 1}">${escapeHtml(categoryLabels[category] || categoryLabels.other)}</td></tr>${items.map((feature) => `<tr><th scope="row">${escapeHtml(feature.name)}</th>${state.plans.map((plan) => { const included = plan.features.some((item) => item.code === feature.code); return `<td aria-label="${included ? "Incluído" : "Não incluído"}"><span class="${included ? "included" : "not-included"}" aria-hidden="true">${included ? "✓" : "—"}</span><span class="sr-only">${included ? "Incluído" : "Não incluído"}</span></td>`; }).join("")}</tr>`).join("")}`).join("");
+    const rows = Object.entries(groups).sort(([a], [b]) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b)).map(([category, items]) => `<tr class="comparison-group"><td colspan="${state.plans.length + 1}">${escapeHtml(categoryLabels[category] || categoryLabels.other)}</td></tr>${items.map((feature) => `<tr><th scope="row">${escapeHtml(feature.name)}</th>${state.plans.map((plan) => { const included = plan.features.some((item) => item.code === feature.code); return `<td aria-label="${included ? "Incluído" : "Não incluído"}"><span class="${included ? "included" : "not-included"}" aria-hidden="true">${included ? "✓" : "—"}</span><span class="sr-only">${included ? "Incluído" : "Não incluído"}</span></td>`; }).join("")}</tr>`).join("")}`).join("");
     container.innerHTML = `<table class="comparison-table"><caption>Comparação de recursos publicados por plano</caption><thead><tr><th scope="col">Recursos</th>${head}</tr></thead><tbody>${rows || `<tr><td colspan="${state.plans.length + 1}">Nenhum recurso comparável publicado.</td></tr>`}</tbody></table>`;
   }
   function setPlans(plans, kind, message) { state.plans = normalizePlans(plans); state.apiState = kind; renderBillingControl(); renderPricing(); renderComparison(); updatePricingStatus(kind === "stale" ? "stale" : kind === "error" ? "error" : "", message); }
@@ -132,7 +137,21 @@ import { contact } from "./content/landing-content.js";
     tabs.forEach((tab) => { tab.addEventListener("click", () => select(tab)); tab.addEventListener("keydown", (event) => { const index = tabs.indexOf(tab); let next = null; if (event.key === "ArrowRight" || event.key === "ArrowDown") next = tabs[(index + 1) % tabs.length]; else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = tabs[(index - 1 + tabs.length) % tabs.length]; else if (event.key === "Home") next = tabs[0]; else if (event.key === "End") next = tabs[tabs.length - 1]; if (next) { event.preventDefault(); select(next, true); } }); });
     tabs[0]?.setAttribute("tabindex", "0"); tabs.slice(1).forEach((tab) => tab.setAttribute("tabindex", "-1"));
   }
-  function setupComparison() { const button = $("[data-comparison-toggle]"); const comparison = $("[data-pricing-comparison]"); if (!button || !comparison) return; button.addEventListener("click", () => { const isOpen = button.getAttribute("aria-expanded") === "true"; button.setAttribute("aria-expanded", String(!isOpen)); comparison.hidden = isOpen; button.innerHTML = isOpen ? 'Ver comparação completa <span>↓</span>' : 'Ocultar comparação <span>↑</span>'; if (!isOpen) emit("pricing_section_view", { plans_count: state.plans.length, cache_state: state.apiState }); }); }
+  function setupComparison() {
+    const button = $("[data-comparison-toggle]"); const comparison = $("[data-pricing-comparison]"); if (!button || !comparison) return;
+    const setOpen = (open) => {
+      button.setAttribute("aria-expanded", String(open));
+      comparison.hidden = !open;
+      button.innerHTML = open ? 'Ocultar comparação <span>↑</span>' : 'Ver comparação completa <span>↓</span>';
+      if (open) emit("pricing_section_view", { plans_count: state.plans.length, cache_state: state.apiState });
+    };
+    button.addEventListener("click", () => setOpen(button.getAttribute("aria-expanded") !== "true"));
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest("[data-comparison-toggle-from-card]")) return;
+      setOpen(true);
+      comparison.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
   function setupAnalytics() {
     document.addEventListener("click", (event) => {
       const element = event.target.closest("[data-analytics]");
