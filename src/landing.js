@@ -1,4 +1,6 @@
 import { cycleLabel, resolveCardPrice, sharedCycles } from "./lib/pricing.js";
+import { buildLeadPayload, submitLead, validateLead } from "./lib/leads.js";
+import { contact } from "./content/landing-content.js";
 
 (() => {
   "use strict";
@@ -19,6 +21,9 @@ import { cycleLabel, resolveCardPrice, sharedCycles } from "./lib/pricing.js";
   const checkoutEndpoint = configuredApiUrl
     ? `${configuredApiUrl}/public/api/v1/bchat/checkout_sessions`
     : "/public/api/v1/bchat/checkout_sessions";
+  const demoEndpoint = configuredApiUrl
+    ? `${configuredApiUrl}/public/api/v1/bchat/demo_requests`
+    : "/public/api/v1/bchat/demo_requests";
   const allowedExtra = new Set(["captain_credits", "captain_documents", "emails_monthly"]);
   const categoryOrder = ["core", "channels", "productivity", "reporting", "enterprise", "other"];
   const categoryLabels = { core: "Core", channels: "Canais", productivity: "Produtividade", reporting: "Relatórios", enterprise: "Enterprise", other: "Outros" };
@@ -182,9 +187,76 @@ import { cycleLabel, resolveCardPrice, sharedCycles } from "./lib/pricing.js";
     document.addEventListener("click", (event) => { const button = event.target.closest("[data-checkout-plan]"); if (button) { emit("pricing_plan_cta_click", { plan_slug: button.dataset.checkoutPlan, billing_cycle: button.dataset.billingCycle, cta_kind: "checkout", featured: state.plans.find((plan) => plan.slug === button.dataset.checkoutPlan)?.featured || false }); openCheckout(button); } if (event.target.closest("[data-checkout-close]")) closeCheckout(); });
     form.addEventListener("submit", submitCheckout); document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !dialog.hidden) closeCheckout(); if (!dialog.hidden) trapFocus(event, dialog); });
   }
+  function fallbackContactHtml() {
+    const options = [];
+    if (contact.salesEmail) options.push(`<a href="mailto:${escapeHtml(contact.salesEmail)}">${escapeHtml(contact.salesEmail)}</a>`);
+    if (contact.salesWhatsappUrl) options.push(`<a href="${escapeHtml(contact.salesWhatsappUrl)}" target="_blank" rel="noopener noreferrer">WhatsApp comercial</a>`);
+    return options.length ? ` Fale direto com o time por ${options.join(" ou ")}.` : "";
+  }
+
+  function clearDemoErrors(form) {
+    $$('[data-error-for]', form).forEach((element) => { element.textContent = ""; element.hidden = true; });
+    $$('input, select', form).forEach((field) => field.removeAttribute("aria-invalid"));
+    const status = $("[data-demo-status]", form);
+    if (status) { status.textContent = ""; status.hidden = true; status.classList.remove("is-error"); }
+  }
+
+  function showDemoErrors(form, errors) {
+    let firstInvalid = null;
+    Object.entries(errors).forEach(([field, message]) => {
+      const element = $(`[data-error-for="${field}"]`, form);
+      const input = $(`[name="${field}"]`, form);
+      if (element) { element.textContent = message; element.hidden = false; }
+      if (input) { input.setAttribute("aria-invalid", "true"); firstInvalid = firstInvalid || input; }
+    });
+    firstInvalid?.focus();
+  }
+
+  function showDemoStatus(form, message) {
+    const status = $("[data-demo-status]", form);
+    if (!status) return;
+    status.innerHTML = message;
+    status.hidden = false;
+    status.classList.add("is-error");
+  }
+
+  function setupDemoForm() {
+    const form = $("[data-demo-form]"); const success = $("[data-demo-success]");
+    if (!form || !success) return;
+    const submit = $("[data-demo-submit]", form);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearDemoErrors(form);
+
+      const input = Object.fromEntries(new FormData(form).entries());
+      const { valid, errors } = validateLead(input);
+      if (!valid) { showDemoErrors(form, errors); return; }
+
+      submit.disabled = true;
+      submit.innerHTML = 'Enviando <span aria-hidden="true">…</span>';
+      emit("conversion_started", { flow_kind: "demo_request" });
+
+      const result = await submitLead(demoEndpoint, buildLeadPayload(input));
+
+      if (result.ok) {
+        emit("conversion_completed", { flow_kind: "demo_request" });
+        form.hidden = true;
+        success.hidden = false;
+        success.focus();
+        return;
+      }
+
+      submit.disabled = false;
+      submit.innerHTML = 'Solicitar demonstração <span aria-hidden="true">↗</span>';
+      if (result.reason === "invalid" && Object.keys(result.errors || {}).length) { showDemoErrors(form, result.errors); return; }
+      showDemoStatus(form, `${escapeHtml(result.message)}${result.reason === "unavailable" ? fallbackContactHtml() : ""}`);
+    });
+  }
+
   function init() {
     if (window.location.pathname.replace(/\/$/, "") === "/blog") return;
-    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupCheckout(); loadPlans();
+    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupCheckout(); setupDemoForm(); loadPlans();
   }
   document.addEventListener("DOMContentLoaded", init);
 })();
