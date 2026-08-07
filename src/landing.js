@@ -95,7 +95,7 @@ import { contact } from "./content/landing-content.js";
   }
   function renderPricing() {
     const grid = $("[data-pricing-grid]"); if (!grid) return;
-    if (!state.plans.length) { grid.innerHTML = `<div class="pricing-empty"><strong>Nenhum plano publicado no momento.</strong><p>O catálogo está sendo atualizado. Fale com o time para encontrar o melhor próximo passo.</p><a class="button button-primary" href="#contato">Falar com o time <span aria-hidden="true">↗</span></a></div>`; return; }
+    if (!state.plans.length) { grid.innerHTML = `<div class="pricing-empty"><strong>Nenhum plano publicado no momento.</strong><p>O catálogo está sendo atualizado. Fale com o time para encontrar o melhor próximo passo.</p><a class="button button-primary" href="#contato">Solicitar demonstração <span aria-hidden="true">↗</span></a></div>`; return; }
     const cards = state.plans.map((plan) => {
       const price = resolveCardPrice(plan, state.billingCycle);
       const featured = plan.featured ? `<span class="featured-label">Em destaque</span>` : "";
@@ -133,7 +133,13 @@ import { contact } from "./content/landing-content.js";
     tabs[0]?.setAttribute("tabindex", "0"); tabs.slice(1).forEach((tab) => tab.setAttribute("tabindex", "-1"));
   }
   function setupComparison() { const button = $("[data-comparison-toggle]"); const comparison = $("[data-pricing-comparison]"); if (!button || !comparison) return; button.addEventListener("click", () => { const isOpen = button.getAttribute("aria-expanded") === "true"; button.setAttribute("aria-expanded", String(!isOpen)); comparison.hidden = isOpen; button.innerHTML = isOpen ? 'Ver comparação completa <span>↓</span>' : 'Ocultar comparação <span>↑</span>'; if (!isOpen) emit("pricing_section_view", { plans_count: state.plans.length, cache_state: state.apiState }); }); }
-  function setupAnalytics() { $$('[data-analytics]').forEach((element) => element.addEventListener("click", () => emit(element.dataset.analytics, { placement: element.dataset.placement || "unknown", target_section: element.getAttribute("href")?.replace("#", "") || null }))); }
+  function setupAnalytics() {
+    document.addEventListener("click", (event) => {
+      const element = event.target.closest("[data-analytics]");
+      if (!element) return;
+      emit(element.dataset.analytics, { placement: element.dataset.placement || "unknown", target_section: element.getAttribute("href")?.replace("#", "") || null });
+    });
+  }
   function fallbackContactHtml() {
     const options = [];
     if (contact.salesEmail) options.push(`<a href="mailto:${escapeHtml(contact.salesEmail)}">${escapeHtml(contact.salesEmail)}</a>`);
