@@ -273,9 +273,13 @@ import { clientLogos, contact, fitStatements, testimonials } from "./content/lan
     }
   }
 
+  function setupFaqAnalytics() {
+    $$('.faq-item').forEach((item) => item.addEventListener("toggle", () => emit("faq_item_toggle", { faq_id: item.id || "unknown", expanded: item.open })));
+  }
+
   function init() {
     if (window.location.pathname.replace(/\/$/, "") === "/blog") return;
-    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); renderProof(); loadPlans();
+    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); setupFaqAnalytics(); renderProof(); loadPlans();
   }
   document.addEventListener("DOMContentLoaded", init);
 })();
