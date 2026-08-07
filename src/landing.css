@@ -222,3 +222,13 @@ button { color: inherit; font: inherit; }
   .proof-inner { grid-template-columns: 1fr; gap: 30px; }
   .proof-quote { max-width: none; }
 }
+
+.scenarios-section { padding: 110px 0; background: var(--canvas-soft); }
+.scenarios-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 62px; }
+.scenario-card { padding: 30px 26px 34px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgba(17, 23, 33, .5); }
+.scenario-index { display: block; margin-bottom: 22px; color: var(--blue-bright); font-family: "Manrope", sans-serif; font-size: 11px; font-weight: 800; letter-spacing: .12em; }
+.scenario-card h3 { margin: 0 0 12px; font-size: 18px; line-height: 1.2; }
+.scenario-card p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.65; }
+
+@media (max-width: 1100px) { .scenarios-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .scenarios-section { padding: 78px 0; } .scenarios-grid { grid-template-columns: 1fr; margin-top: 44px; } }
