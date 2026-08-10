@@ -81,41 +81,22 @@
               <div class="hero-meta reveal reveal-delay-4"><span class="status-dot"></span> Humano no controle · fontes visíveis em cada sugestão</div>
             </div>
 
-            <div class="hero-visual reveal reveal-delay-2" aria-hidden="true">
-              <span class="visual-label visual-label-top">COPILOT / LIVE VIEW</span>
-              <span class="visual-label visual-label-bottom">CONTEXT LAYER <span></span></span>
-              <svg class="orbit-lines" viewBox="0 0 760 620" role="img" aria-labelledby="mockup-title mockup-description">
-                <title id="mockup-title">Visualização de uma conversa apoiada pelo Copilot</title>
-                <desc id="mockup-description">Uma conversa em atendimento conectada a uma sugestão do Copilot e a uma base de conhecimento.</desc>
-                <path d="M90 430 C180 140, 540 80, 692 274" fill="none" stroke="rgba(99,230,222,.28)" stroke-width="1" stroke-dasharray="4 8" />
-                <path d="M44 196 C235 46, 580 140, 706 506" fill="none" stroke="rgba(190,247,96,.18)" stroke-width="1" />
-                <circle cx="90" cy="430" r="4" fill="#5DA3FF" /><circle cx="692" cy="274" r="4" fill="#C4F567" />
-                <circle cx="44" cy="196" r="3" fill="#C4F567" /><circle cx="706" cy="506" r="3" fill="#5DA3FF" />
-              </svg>
-              <div class="chat-window glass-panel">
-                <div class="window-bar"><span class="window-dots"><i></i><i></i><i></i></span><span class="window-title">Conversa #4821</span><span class="window-time">agora</span></div>
-                <div class="chat-body">
-                  <div class="chat-contact"><span class="avatar avatar-client">L</span><div><strong>Larissa Mendes</strong><small>Cliente · WhatsApp</small></div><span class="online-badge">online</span></div>
-                  <div class="message message-in"><span class="message-label">Larissa · 10:42</span><p>Oi! Preciso entender quais documentos devo enviar para concluir meu cadastro.</p></div>
-                  <div class="message message-out"><span class="message-label">Você · 10:43</span><p>Oi, Larissa! Vou verificar isso para você.</p></div>
-                  <div class="typing"><span></span><span></span><span></span> Copilot analisando contexto</div>
+            <figure class="hero-visual">
+              <div class="hero-product-stage" aria-hidden="true">
+                <div class="hero-product-scene">
+                  <span class="hero-product-glow"></span>
+                  <span class="hero-product-orbit hero-product-orbit-outer"></span>
+                  <span class="hero-product-orbit hero-product-orbit-inner"></span>
+                  <div class="hero-product-camera">
+                    <div class="hero-product-shot hero-product-shot-single">
+                      <img src="/hero/hero_image.png" alt="" width="1000" height="750" />
+                    </div>
+                    <span class="hero-product-sheen"></span>
+                  </div>
                 </div>
               </div>
-              <div class="copilot-panel glass-panel">
-                <div class="copilot-panel-head"><span class="copilot-icon">✦</span><div><strong>Sugestão do Copilot</strong><small>Base de conhecimento · Cadastro</small></div><span class="sparkle">✧</span></div>
-                <p>“Para concluir o cadastro, envie documento de identificação com foto e comprovante de endereço dos últimos 90 dias.”</p>
-                <div class="suggestion-source"><span class="source-icon">↗</span><span>Artigo: Documentos necessários</span><span class="source-confidence">contexto conectado</span></div>
-                <div class="copilot-actions"><button type="button" tabindex="-1" class="mini-button mini-button-primary">Usar sugestão</button><button type="button" tabindex="-1" class="mini-button">Editar</button></div>
-              </div>
-              <div class="floating-note floating-note-one glass-panel"><span class="note-icon">◌</span><div><strong>Resumo pronto</strong><small>3 pontos principais</small></div></div>
-              <div class="floating-note floating-note-two glass-panel"><span class="note-icon note-icon-lime">⌁</span><div><strong>Conhecimento conectado</strong><small>Documentos · Web · Markdown</small></div></div>
-            </div>
-
-            <div class="hero-capabilities reveal reveal-delay-4">
-              <div class="capability-card"><span>01</span><strong>Contexto pronto</strong><small>O resumo chega antes da resposta.</small></div>
-              <div class="capability-card"><span>02</span><strong>Resposta com fonte</strong><small>A origem fica visível ao lado da sugestão.</small></div>
-              <div class="capability-card capability-card-accent"><span>03</span><strong>Humano no loop</strong><small>A equipe decide o próximo passo.</small></div>
-            </div>
+              <figcaption class="sr-only">Interface do BChat Copilot em uma conversa de atendimento.</figcaption>
+            </figure>
           </div>
           <div class="scroll-cue" aria-hidden="true"><span></span> role para explorar</div>
         </section>
@@ -283,7 +264,6 @@
         </section>
       </main>
 
-      <footer class="site-footer"><div class="container footer-inner"><div class="footer-brand"><a class="brand" href="#topo" aria-label="BChat Copilot, voltar ao início"><img class="brand-mark" src="docs/logobchat.png" alt="BChat Copilot" /><span class="brand-wordmark">bchat<span>copilot</span></span></a><p>Contexto para cada conversa.<br />Inteligência para cada resposta.</p></div><div class="footer-links"><div><small>NAVEGAR</small><a href="#beneficios">Benefícios</a><a href="#funcionalidades">Funcionalidades</a><a href="#planos">Planos</a></div><div><small>CONTATO</small><a href="#contato">Time comercial</a><a href="#faq">Perguntas frequentes</a></div></div></div><div class="container footer-bottom"><span>© 2026 BChat. Todos os direitos reservados.</span><span>Feito para conversas que importam <i>✦</i></span></div></footer>
     </div>
     <div id="react-root"></div>
     <script type="module" src="/src/main.jsx"></script>

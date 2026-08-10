@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import { CinematicFooter } from "./components/ui/motion-footer.jsx";
 import "./react-shell.css";
 
 function BlogPlaceholder() {
@@ -30,5 +31,5 @@ export default function App() {
     return undefined;
   }, [isBlogRoute]);
 
-  return isBlogRoute ? <BlogPlaceholder /> : null;
+  return isBlogRoute ? <BlogPlaceholder /> : <CinematicFooter />;
 }
