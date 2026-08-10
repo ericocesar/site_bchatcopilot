@@ -1,6 +1,6 @@
 import { CATEGORY_ORDER, copilotAllowance, cycleLabel, planHighlights, resolveCardPrice, sharedCycles } from "./lib/pricing.js";
 import { buildLeadPayload, submitLead, validateLead } from "./lib/leads.js";
-import { clientLogos, contact, fitStatements, testimonials } from "./content/landing-content.js";
+import { clientLogos, contact, testimonials } from "./content/landing-content.js";
 
 (() => {
   "use strict";
@@ -240,9 +240,6 @@ import { clientLogos, contact, fitStatements, testimonials } from "./content/lan
   }
 
   function renderProof() {
-    const fit = $("[data-proof-fit]");
-    if (fit) fit.innerHTML = fitStatements.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
-
     const clients = $("[data-proof-clients]"); const clientsList = $("[data-proof-clients-list]");
     if (clients && clientsList) {
       clientsList.innerHTML = clientLogos
