@@ -274,9 +274,46 @@ import { clientLogos, contact, testimonials } from "./content/landing-content.js
     $$('.faq-item').forEach((item) => item.addEventListener("toggle", () => emit("faq_item_toggle", { faq_id: item.id || "unknown", expanded: item.open })));
   }
 
+  function setupScenarioDialog() {
+    const overlay = $("[data-scenario-dialog]");
+    const panel = $("[data-scenario-dialog-panel]");
+    const closeBtn = $("[data-scenario-dialog-close]", overlay);
+    if (!overlay || !panel) return;
+
+    let returnFocus = null;
+
+    function openDialog(card) {
+      returnFocus = card;
+      overlay.hidden = false;
+      requestAnimationFrame(() => overlay.setAttribute("aria-hidden", "false"));
+      document.body.style.overflow = "hidden";
+      emit("scenario_dialog_open", { card_index: card.querySelector(".scenario-index")?.textContent?.trim() || "" });
+    }
+
+    function closeDialog() {
+      overlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      setTimeout(() => { overlay.hidden = true; }, 500);
+      if (returnFocus) { returnFocus.focus(); returnFocus = null; }
+    }
+
+    $$("#cenarios .scenario-card").forEach((card) => {
+      card.style.cursor = "pointer";
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", card.querySelector("h3")?.textContent?.trim() || "Abrir detalhes");
+      card.addEventListener("click", (e) => { if (!e.target.closest("a")) openDialog(card); });
+      card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDialog(card); } });
+    });
+
+    closeBtn?.addEventListener("click", closeDialog);
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeDialog(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && overlay.getAttribute("aria-hidden") === "false") closeDialog(); });
+  }
+
   function init() {
     if (window.location.pathname.replace(/\/$/, "") === "/blog") return;
-    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); setupFaqAnalytics(); renderProof(); loadPlans();
+    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); setupFaqAnalytics(); setupScenarioDialog(); renderProof(); loadPlans();
   }
   document.addEventListener("DOMContentLoaded", init);
 })();
