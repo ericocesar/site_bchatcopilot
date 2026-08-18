@@ -23,7 +23,7 @@ export const testimonials = [];
 
 /**
  * Adequação: descrição de produto, não claim de desempenho.
- * Sempre visível — não depende de autorização externa.
+ * Sempre visível: não depende de autorização externa.
  */
 export const fitStatements = [
   "Feito para operações com múltiplos canais",

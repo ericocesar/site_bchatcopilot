@@ -1,6 +1,6 @@
 import { CATEGORY_ORDER, copilotAllowance, cycleLabel, planHighlights, resolveCardPrice, sharedCycles } from "./lib/pricing.js";
 import { buildLeadPayload, submitLead, validateLead } from "./lib/leads.js";
-import { clientLogos, contact, testimonials } from "./content/landing-content.js";
+import { clientLogos, contact, fitStatements, testimonials } from "./content/landing-content.js";
 
 (() => {
   "use strict";
@@ -116,7 +116,7 @@ import { clientLogos, contact, testimonials } from "./content/landing-content.js
     const features = buildComparison(state.plans);
     const groups = features.reduce((result, feature) => { (result[feature.category] ||= []).push(feature); return result; }, {});
     const head = state.plans.map((plan) => `<th scope="col">${escapeHtml(plan.name)}</th>`).join("");
-    const rows = Object.entries(groups).sort(([a], [b]) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b)).map(([category, items]) => `<tr class="comparison-group"><td colspan="${state.plans.length + 1}">${escapeHtml(categoryLabels[category] || categoryLabels.other)}</td></tr>${items.map((feature) => `<tr><th scope="row">${escapeHtml(feature.name)}</th>${state.plans.map((plan) => { const included = plan.features.some((item) => item.code === feature.code); return `<td aria-label="${included ? "Incluído" : "Não incluído"}"><span class="${included ? "included" : "not-included"}" aria-hidden="true">${included ? "✓" : "—"}</span><span class="sr-only">${included ? "Incluído" : "Não incluído"}</span></td>`; }).join("")}</tr>`).join("")}`).join("");
+    const rows = Object.entries(groups).sort(([a], [b]) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b)).map(([category, items]) => `<tr class="comparison-group"><td colspan="${state.plans.length + 1}">${escapeHtml(categoryLabels[category] || categoryLabels.other)}</td></tr>${items.map((feature) => `<tr><th scope="row">${escapeHtml(feature.name)}</th>${state.plans.map((plan) => { const included = plan.features.some((item) => item.code === feature.code); return `<td aria-label="${included ? "Incluído" : "Não incluído"}"><span class="${included ? "included" : "not-included"}" aria-hidden="true">${included ? "✓" : "–"}</span><span class="sr-only">${included ? "Incluído" : "Não incluído"}</span></td>`; }).join("")}</tr>`).join("")}`).join("");
     container.innerHTML = `<table class="comparison-table"><caption>Comparação de recursos publicados por plano</caption><thead><tr><th scope="col">Recursos</th>${head}</tr></thead><tbody>${rows || `<tr><td colspan="${state.plans.length + 1}">Nenhum recurso comparável publicado.</td></tr>`}</tbody></table>`;
   }
   function setPlans(plans, kind, message) { state.plans = normalizePlans(plans); state.apiState = kind; renderBillingControl(); renderPricing(); renderComparison(); updatePricingStatus(kind === "stale" ? "stale" : kind === "error" ? "error" : "", message); }
@@ -285,17 +285,29 @@ import { clientLogos, contact, testimonials } from "./content/landing-content.js
     function openDialog(card) {
       returnFocus = card;
       overlay.hidden = false;
-      requestAnimationFrame(() => overlay.setAttribute("aria-hidden", "false"));
+      requestAnimationFrame(() => { overlay.setAttribute("aria-hidden", "false"); closeBtn?.focus({ preventScroll: true }); });
       document.body.style.overflow = "hidden";
+      document.querySelector("#conteudo")?.setAttribute("inert", "");
       emit("scenario_dialog_open", { card_index: card.querySelector(".scenario-index")?.textContent?.trim() || "" });
     }
 
     function closeDialog() {
       overlay.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
+      document.querySelector("#conteudo")?.removeAttribute("inert");
       setTimeout(() => { overlay.hidden = true; }, 500);
       if (returnFocus) { returnFocus.focus(); returnFocus = null; }
     }
+
+    overlay.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") return;
+      const focusables = $$('a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])', overlay).filter((element) => !element.hidden && element.getClientRects().length);
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
 
     $$("#cenarios .scenario-card").forEach((card) => {
       card.style.cursor = "pointer";

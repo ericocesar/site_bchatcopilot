@@ -113,15 +113,15 @@ export function CinematicFooter() {
 
       gsap.fromTo(
         giantTextRef.current,
-        { y: "10vh", scale: 0.8, opacity: 0 },
+        { y: "18vh", scale: 0.75, opacity: 0 },
         {
-          y: "0vh",
-          scale: 1,
+          y: "-9vh",
+          scale: 1.6,
           opacity: 1,
           ease: "power1.out",
           scrollTrigger: {
             trigger: wrapperRef.current,
-            start: "top 80%",
+            start: "top 100%",
             end: "bottom bottom",
             scrub: 1,
           },
@@ -138,7 +138,22 @@ export function CinematicFooter() {
           ease: "power3.out",
           scrollTrigger: {
             trigger: wrapperRef.current,
-            start: "top 48%",
+            start: "top 72%",
+            end: "bottom bottom",
+            scrub: 1,
+          },
+        },
+      );
+
+      gsap.fromTo(
+        document.querySelector(".cinematic-footer-primary"),
+        { y: -6 },
+        {
+          y: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: "top 72%",
             end: "bottom bottom",
             scrub: 1,
           },
@@ -170,7 +185,7 @@ export function CinematicFooter() {
 
         <div className="cinematic-footer-content">
           <p className="cinematic-footer-kicker">
-            <span /> O PRÓXIMO PASSO
+            <span /> O próximo passo
           </p>
           <h2 id="cinematic-footer-title" ref={headingRef}>
             Responda com mais <em>contexto.</em>

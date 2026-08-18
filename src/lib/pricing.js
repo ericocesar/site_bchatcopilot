@@ -16,8 +16,8 @@ function priceFor(plan, cycle) {
 /**
  * Ciclos oferecidos por TODOS os planos que publicam algum preço.
  * Planos sem preço (Enterprise "sob consulta") não têm ciclo e por isso
- * não participam da interseção — caso contrário um único card sem preço
- * derrubaria o seletor para a página inteira.
+ * não participam da interseção (senão um único card sem preço
+ * derrubaria o seletor para a página inteira).
  */
 export function sharedCycles(plans) {
   const priced = (Array.isArray(plans) ? plans : []).filter(hasPrice);
