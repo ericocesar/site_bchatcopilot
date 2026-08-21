@@ -1,0 +1,9 @@
+<svg width="200" height="140" viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <g transform="translate(100 50)" stroke="#63E6DE" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="-62" cy="-22" r="22"/>
+    <path d="M-96 62V33C-96 9-82 2-62 2C-42 2-28 9-28 33V62"/>
+    <circle cx="62" cy="-22" r="22"/>
+    <path d="M28 62V33C28 9 42 2 62 2C82 2 96 9 96 33V62"/>
+    <path d="M-20 18H20M8 4L24 18L8 32"/>
+  </g>
+</svg>

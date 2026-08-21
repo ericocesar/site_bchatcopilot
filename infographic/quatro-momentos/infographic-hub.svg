@@ -1,0 +1,52 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <defs>
+    <radialGradient id="outer-ring" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(745 380) rotate(52) scale(250)">
+      <stop stop-color="#B6FFF9"/>
+      <stop offset="0.22" stop-color="#55DCD0"/>
+      <stop offset="0.65" stop-color="#188692"/>
+      <stop offset="1" stop-color="#073B46"/>
+    </radialGradient>
+    <linearGradient id="ring-bevel" x1="690" y1="312" x2="909" y2="594" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E3FFFC"/>
+      <stop offset="0.28" stop-color="#51D9D1"/>
+      <stop offset="0.7" stop-color="#0B616D"/>
+      <stop offset="1" stop-color="#63E6DE"/>
+    </linearGradient>
+    <radialGradient id="disc" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(756 397) rotate(58) scale(193)">
+      <stop stop-color="#293640"/>
+      <stop offset="0.33" stop-color="#111923"/>
+      <stop offset="0.82" stop-color="#05090D"/>
+      <stop offset="1" stop-color="#020406"/>
+    </radialGradient>
+    <linearGradient id="disc-sheen" x1="710" y1="328" x2="868" y2="533" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.2"/>
+      <stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.015"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 450) rotate(90) scale(230)">
+      <stop stop-color="#63E6DE" stop-opacity="0.32"/>
+      <stop offset="0.56" stop-color="#188692" stop-opacity="0.11"/>
+      <stop offset="1" stop-color="#188692" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="hub-shadow" x="-55%" y="-55%" width="220%" height="235%">
+      <feDropShadow dx="13" dy="28" stdDeviation="22" flood-color="#000000" flood-opacity="0.88"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="13" flood-color="#55DCD0" flood-opacity="0.3"/>
+    </filter>
+    <clipPath id="disc-clip">
+      <circle cx="800" cy="450" r="132"/>
+    </clipPath>
+  </defs>
+  <circle cx="800" cy="450" r="230" fill="url(#glow)"/>
+  <g filter="url(#hub-shadow)">
+    <circle cx="800" cy="450" r="174" fill="#051117" stroke="#082F37" stroke-width="3"/>
+    <circle cx="800" cy="450" r="166" fill="url(#outer-ring)" stroke="url(#ring-bevel)" stroke-width="5"/>
+    <circle cx="800" cy="450" r="143" fill="#071015" stroke="#B5FFF9" stroke-opacity="0.42" stroke-width="2"/>
+    <circle cx="800" cy="450" r="132" fill="url(#disc)" stroke="#020609" stroke-width="5"/>
+    <g clip-path="url(#disc-clip)">
+      <ellipse cx="758" cy="374" rx="148" ry="92" transform="rotate(-13 758 374)" fill="url(#disc-sheen)"/>
+      <path d="M687 385C724 323 812 299 881 339" stroke="#FFFFFF" stroke-opacity="0.17" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <path d="M680 354C711 307 768 282 824 286" stroke="#FFFFFF" stroke-opacity="0.48" stroke-width="5" stroke-linecap="round"/>
+    <path d="M917 541C889 580 842 604 792 615" stroke="#073C46" stroke-opacity="0.72" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>

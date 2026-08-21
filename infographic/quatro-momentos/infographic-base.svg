@@ -1,0 +1,54 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <defs>
+    <radialGradient id="bg-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 430) rotate(90) scale(610 900)">
+      <stop stop-color="#14202B"/>
+      <stop offset="0.52" stop-color="#090E15"/>
+      <stop offset="1" stop-color="#030609"/>
+    </radialGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#05090E"/>
+      <stop offset="0.34" stop-color="#55606A"/>
+      <stop offset="0.49" stop-color="#131B24"/>
+      <stop offset="0.72" stop-color="#060A0F"/>
+      <stop offset="1" stop-color="#28333D"/>
+    </linearGradient>
+    <linearGradient id="steel-edge" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#A7B6C1" stop-opacity="0.55"/>
+      <stop offset="0.45" stop-color="#27343E" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#020406" stop-opacity="0.9"/>
+    </linearGradient>
+    <pattern id="carbon" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="12" height="12" fill="#080D13"/>
+      <path d="M0 2H12M0 8H12" stroke="#9BC2C5" stroke-opacity="0.035" stroke-width="2"/>
+    </pattern>
+    <pattern id="pin-stripe" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 1H10" stroke="#63E6DE" stroke-opacity="0.045"/>
+    </pattern>
+    <radialGradient id="vignette" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 450) rotate(90) scale(560 960)">
+      <stop offset="0.54" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.78"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg-glow)"/>
+  <rect width="1600" height="900" fill="url(#carbon)"/>
+  <rect width="1600" height="900" fill="url(#pin-stripe)" opacity="0.72"/>
+  <g opacity="0.95">
+    <path d="M-230 48L38 -220H316L-112 208L-230 208Z" fill="url(#steel)"/>
+    <path d="M-115 214L329 -230H382L-89 241L-115 214Z" fill="url(#steel-edge)"/>
+    <path d="M1164 -220H1357L1735 158V351L1164 -220Z" fill="url(#steel)"/>
+    <path d="M1112 -220H1167L1735 348V403L1112 -220Z" fill="url(#steel-edge)"/>
+    <path d="M-236 658L18 912H313L-86 513L-236 658Z" fill="url(#steel)"/>
+    <path d="M-96 497L319 912H373L-69 470L-96 497Z" fill="url(#steel-edge)"/>
+    <path d="M1301 612L1600 911H1800V708L1418 326L1301 612Z" fill="url(#steel)"/>
+    <path d="M1396 299L1800 703V758L1368 326L1396 299Z" fill="url(#steel-edge)"/>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M-90 279L307 -118" stroke="#63E6DE" stroke-opacity="0.55" stroke-width="3"/>
+    <path d="M-30 312L345 -63" stroke="#E4FFFF" stroke-opacity="0.14"/>
+    <path d="M1248 -114L1690 328" stroke="#63E6DE" stroke-opacity="0.44" stroke-width="3"/>
+    <path d="M1198 -103L1689 388" stroke="#E4FFFF" stroke-opacity="0.1"/>
+    <path d="M-68 625L294 987" stroke="#63E6DE" stroke-opacity="0.38" stroke-width="2"/>
+    <path d="M1334 579L1674 919" stroke="#63E6DE" stroke-opacity="0.5" stroke-width="3"/>
+  </g>
+  <rect width="1600" height="900" fill="url(#vignette)"/>
+</svg>

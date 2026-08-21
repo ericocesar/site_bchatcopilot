@@ -1,0 +1,36 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <defs>
+    <linearGradient id="panel" x1="590" y1="36" x2="1058" y2="322" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#70EEE6"/>
+      <stop offset="0.28" stop-color="#3BC8C3"/>
+      <stop offset="0.7" stop-color="#188692"/>
+      <stop offset="1" stop-color="#0C5966"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="593" y1="45" x2="1042" y2="313" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E9FFFD"/>
+      <stop offset="0.38" stop-color="#A3FFF8" stop-opacity="0.65"/>
+      <stop offset="0.82" stop-color="#0D6571"/>
+      <stop offset="1" stop-color="#55DCD0"/>
+    </linearGradient>
+    <pattern id="texture" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 2H14" stroke="#FFFFFF" stroke-opacity="0.08"/>
+      <path d="M0 9H14" stroke="#052D36" stroke-opacity="0.055"/>
+    </pattern>
+    <radialGradient id="shine" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(650 75) rotate(28) scale(430 230)">
+      <stop stop-color="#E1FFFC" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-35%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="10" dy="28" stdDeviation="22" flood-color="#000000" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#55DCD0" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <g transform="rotate(42 820 180)" filter="url(#shadow)">
+    <rect x="585" y="38" width="470" height="284" rx="35" fill="url(#panel)" stroke="url(#edge)" stroke-width="4"/>
+    <rect x="595" y="48" width="450" height="264" rx="27" stroke="#E8FFFD" stroke-opacity="0.4" stroke-width="2"/>
+    <rect x="596" y="49" width="448" height="262" rx="26" fill="url(#texture)"/>
+    <rect x="596" y="49" width="448" height="262" rx="26" fill="url(#shine)"/>
+    <path d="M623 56H983C1013 56 1037 80 1037 110" stroke="#FFFFFF" stroke-opacity="0.48" stroke-width="3" stroke-linecap="round"/>
+    <path d="M603 247V270C603 289 618 304 637 304H1009" stroke="#075A65" stroke-opacity="0.42" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

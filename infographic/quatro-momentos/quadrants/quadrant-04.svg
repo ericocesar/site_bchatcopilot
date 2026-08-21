@@ -1,0 +1,30 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <defs>
+    <linearGradient id="panel" x1="905" y1="248" x2="1376" y2="528" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#26303A"/>
+      <stop offset="0.38" stop-color="#171E27"/>
+      <stop offset="1" stop-color="#080D13"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="925" y1="260" x2="1345" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C4FFF9" stop-opacity="0.58"/>
+      <stop offset="0.32" stop-color="#55DCD0" stop-opacity="0.18"/>
+      <stop offset="0.78" stop-color="#188692" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#8AF3EB" stop-opacity="0.9"/>
+    </linearGradient>
+    <pattern id="texture" width="15" height="15" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 2H15" stroke="#D8FFFC" stroke-opacity="0.045"/>
+      <path d="M0 9H15" stroke="#63E6DE" stroke-opacity="0.035"/>
+    </pattern>
+    <filter id="shadow" x="-35%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="10" dy="28" stdDeviation="22" flood-color="#000000" flood-opacity="0.82"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#188692" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <g transform="rotate(42 1140 390)" filter="url(#shadow)">
+    <rect x="905" y="248" width="470" height="284" rx="35" fill="url(#panel)" stroke="url(#edge)" stroke-width="4"/>
+    <rect x="915" y="258" width="450" height="264" rx="27" stroke="#E7FFFD" stroke-opacity="0.1" stroke-width="2"/>
+    <rect x="916" y="259" width="448" height="262" rx="26" fill="url(#texture)"/>
+    <path d="M943 266H1303C1333 266 1357 290 1357 320" stroke="#FFFFFF" stroke-opacity="0.13" stroke-width="3" stroke-linecap="round"/>
+    <path d="M923 457V480C923 499 938 514 957 514H1329" stroke="#188692" stroke-opacity="0.56" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

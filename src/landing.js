@@ -274,58 +274,108 @@ import { clientLogos, contact, fitStatements, testimonials } from "./content/lan
     $$('.faq-item').forEach((item) => item.addEventListener("toggle", () => emit("faq_item_toggle", { faq_id: item.id || "unknown", expanded: item.open })));
   }
 
-  function setupScenarioDialog() {
-    const overlay = $("[data-scenario-dialog]");
-    const panel = $("[data-scenario-dialog-panel]");
-    const closeBtn = $("[data-scenario-dialog-close]", overlay);
-    if (!overlay || !panel) return;
+  function setupInfographicEditor() {
+    if (new URLSearchParams(window.location.search).get("infographic-edit") !== "1") return;
+    const figure = $(".scenarios-infographic-figure");
+    if (!figure) return;
+    const positions = $$(".scenario-info-text-position", figure);
+    if (!positions.length) return;
 
-    let returnFocus = null;
-
-    function openDialog(card) {
-      returnFocus = card;
-      overlay.hidden = false;
-      requestAnimationFrame(() => { overlay.setAttribute("aria-hidden", "false"); closeBtn?.focus({ preventScroll: true }); });
-      document.body.style.overflow = "hidden";
-      document.querySelector("#conteudo")?.setAttribute("inert", "");
-      emit("scenario_dialog_open", { card_index: card.querySelector(".scenario-index")?.textContent?.trim() || "" });
-    }
-
-    function closeDialog() {
-      overlay.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-      document.querySelector("#conteudo")?.removeAttribute("inert");
-      setTimeout(() => { overlay.hidden = true; }, 500);
-      if (returnFocus) { returnFocus.focus(); returnFocus = null; }
-    }
-
-    overlay.addEventListener("keydown", (event) => {
-      if (event.key !== "Tab") return;
-      const focusables = $$('a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])', overlay).filter((element) => !element.hidden && element.getClientRects().length);
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    const baseShifts = {
+      "01": { x: "calc(4.4cqw + 23.5px)", y: "calc(-6.2cqw + 21.5px)" },
+      "02": { x: "calc(-5.9cqw - 23.6px)", y: "calc(-2.4cqw - 26px)" },
+      "03": { x: "calc(-11.75cqw + 19.6px)", y: "calc(1.1cqw - 42.6px)" },
+      "04": { x: "calc(-8.8cqw + 62.5px)", y: "calc(-3.55cqw - 40.1px)" },
+    };
+    const adjustments = new Map();
+    const readTranslation = (element) => {
+      const transform = getComputedStyle(element).transform;
+      if (!transform || transform === "none") return { x: 0, y: 0 };
+      const matrix = new DOMMatrixReadOnly(transform);
+      return { x: matrix.e, y: matrix.f };
+    };
+    positions.forEach((position) => {
+      const scenario = [...(position.closest(".scenario-info")?.classList || [])].find((name) => /^scenario-info-\d+$/.test(name));
+      const key = scenario?.replace("scenario-info-", "");
+      if (!key || !baseShifts[key]) return;
+      const base = readTranslation(position);
+      adjustments.set(key, { position, base, total: { ...base }, drag: null });
     });
 
-    $$("#cenarios .scenario-card").forEach((card) => {
-      card.style.cursor = "pointer";
-      card.setAttribute("tabindex", "0");
-      card.setAttribute("role", "button");
-      card.setAttribute("aria-label", card.querySelector("h3")?.textContent?.trim() || "Abrir detalhes");
-      card.addEventListener("click", (e) => { if (!e.target.closest("a")) openDialog(card); });
-      card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDialog(card); } });
+    const panel = document.createElement("aside");
+    panel.className = "scenario-editor-panel";
+    panel.setAttribute("aria-label", "Ajuste temporário do infográfico");
+    panel.innerHTML = `<strong>Modo de ajuste</strong><span>Arraste os blocos de texto. Os ícones permanecem fixos.</span><pre data-infographic-editor-output></pre><div class="scenario-editor-actions"><button type="button" data-infographic-copy>Copiar CSS</button><button type="button" data-infographic-reset>Resetar</button></div>`;
+    document.body.append(panel);
+    document.body.classList.add("infographic-edit-mode");
+
+    const formatShift = (value) => {
+      if (Math.abs(value) < 0.05) return "0px";
+      return `${value > 0 ? "+" : "-"} ${Math.abs(value).toFixed(1)}px`;
+    };
+    const renderOutput = (message = "") => {
+      const output = $("[data-infographic-editor-output]", panel);
+      output.textContent = message || [...adjustments.entries()].map(([key, item]) => {
+        const base = baseShifts[key];
+        const deltaX = item.total.x - item.base.x;
+        const deltaY = item.total.y - item.base.y;
+        const x = Math.abs(deltaX) < 0.05 ? base.x : `calc(${base.x} ${formatShift(deltaX)})`;
+        const y = Math.abs(deltaY) < 0.05 ? base.y : `calc(${base.y} ${formatShift(deltaY)})`;
+        return `.scenario-info-${key} .scenario-info-text-position {\n  --shift-x: ${x};\n  --shift-y: ${y};\n}`;
+      }).join("\n\n");
+    };
+    renderOutput();
+
+    adjustments.forEach((item) => {
+      const { position } = item;
+      const finish = (event) => {
+        if (!item.drag || item.drag.pointerId !== event.pointerId) return;
+        position.releasePointerCapture?.(event.pointerId);
+        item.drag = null;
+        position.classList.remove("is-dragging");
+      };
+      position.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+        const point = item.total;
+        item.drag = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, startTotal: { ...point } };
+        position.setPointerCapture?.(event.pointerId);
+        position.classList.add("is-dragging");
+      });
+      position.addEventListener("pointermove", (event) => {
+        if (!item.drag || item.drag.pointerId !== event.pointerId) return;
+        item.total = { x: item.drag.startTotal.x + event.clientX - item.drag.startX, y: item.drag.startTotal.y + event.clientY - item.drag.startY };
+        item.position.style.setProperty("--drag-x", `${item.total.x - item.base.x}px`);
+        item.position.style.setProperty("--drag-y", `${item.total.y - item.base.y}px`);
+        renderOutput();
+      });
+      position.addEventListener("pointerup", finish);
+      position.addEventListener("pointercancel", finish);
     });
 
-    closeBtn?.addEventListener("click", closeDialog);
-    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeDialog(); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && overlay.getAttribute("aria-hidden") === "false") closeDialog(); });
+    $("[data-infographic-reset]", panel).addEventListener("click", () => {
+      adjustments.forEach((item) => {
+        item.total = { ...item.base };
+        item.position.style.removeProperty("--drag-x");
+        item.position.style.removeProperty("--drag-y");
+      });
+      renderOutput("Posições restauradas.");
+      window.setTimeout(renderOutput, 900);
+    });
+    $("[data-infographic-copy]", panel).addEventListener("click", async () => {
+      const output = $("[data-infographic-editor-output]", panel).textContent;
+      try {
+        await navigator.clipboard.writeText(output);
+        renderOutput("CSS copiado para a área de transferência.");
+        window.setTimeout(renderOutput, 1200);
+      } catch {
+        renderOutput("Não foi possível copiar automaticamente; selecione o CSS acima.");
+      }
+    });
   }
 
   function init() {
     if (window.location.pathname.replace(/\/$/, "") === "/blog") return;
-    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); setupFaqAnalytics(); setupScenarioDialog(); renderProof(); loadPlans();
+    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); setupFaqAnalytics(); setupInfographicEditor(); renderProof(); loadPlans();
   }
   document.addEventListener("DOMContentLoaded", init);
 })();

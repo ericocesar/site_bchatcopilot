@@ -235,41 +235,97 @@ main#conteudo:focus { outline: none; }.section-intro { position: relative; z-ind
 }
 
 .scenarios-section { padding: 130px 0 160px; background: var(--canvas-soft); }
-.scenarios-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 62px; }
-.scenario-card { padding: 30px 26px 34px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgba(17, 23, 33, .5); transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s cubic-bezier(.23,1,.32,1); }
-.scenario-card:hover { transform: scale(1.2); box-shadow: 0 32px 64px rgba(0, 0, 0, .45); z-index: 10; }
-.scenario-card:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
 .scenario-index { display: block; margin-bottom: 22px; color: var(--blue-bright); font-family: "Manrope", sans-serif; font-size: 12px; font-weight: 800; letter-spacing: .12em; }
-.scenario-card h3 { margin: 0 0 12px; font-size: 18px; line-height: 1.2; }
-.scenario-card p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.65; }
-.scenario-card-hero { position: relative; overflow: hidden; background: url("/ai-auto.png") center/cover no-repeat, rgba(17, 23, 33, .5); }
-.scenario-card-hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8, 11, 16, .88) 0%, rgba(8, 11, 16, .6) 60%, rgba(8, 11, 16, .92) 100%); z-index: 1; transition: background .45s cubic-bezier(.23,1,.32,1); }
-.scenario-card-hero:hover::before { background: linear-gradient(180deg, rgba(8, 11, 16, .6) 0%, rgba(8, 11, 16, .3) 60%, rgba(8, 11, 16, .65) 100%); }
-.scenario-card-hero > * { position: relative; z-index: 2; }
-.scenario-card-hero h3 { font-size: 20px; }
-.scenario-card-hero p { color: var(--muted-2); }
+@media (max-width: 600px) { .scenarios-section { padding: 78px 0; } }
 
-@media (max-width: 1100px) { .scenarios-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .scenarios-section { padding: 78px 0; } .scenarios-grid { grid-template-columns: 1fr; margin-top: 44px; } }
+.scenarios-infographic { margin-top: 62px; }
+.scenarios-infographic-figure { position: relative; aspect-ratio: 16 / 9; container-type: inline-size; margin: 0; overflow: hidden; border: 1px solid rgba(99, 230, 222, .28); border-radius: 24px; background: var(--canvas); box-shadow: 0 30px 80px rgba(0, 0, 0, .38), 0 0 0 8px rgba(99, 230, 222, .025); isolation: isolate; }
+.scenarios-infographic-art { position: absolute; inset: 0; z-index: 0; }
+.scenario-art-layer { position: absolute; display: block; }
+.scenario-art-base, .scenario-art-quadrant, .scenario-art-hub { inset: 0; width: 100%; height: 100%; }
+.scenario-art-base { z-index: 1; }
+.scenario-art-quadrant { z-index: 2; }
+.scenario-art-hub { z-index: 3; }
+.scenario-info-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; color: #F7FFFE; font-family: "Good Timing", "Manrope", sans-serif; }
+.scenario-info { position: absolute; display: flex; align-items: flex-start; width: 31%; min-width: 0; animation: scenario-info-enter .7s cubic-bezier(.2, .8, .2, 1) both; }
+.scenario-info-text-position { width: 100%; flex: 0 0 100%; transform: translate(calc(var(--shift-x, 0px) + var(--drag-x, 0px)), calc(var(--shift-y, 0px) + var(--drag-y, 0px))); }
+.scenario-info-text { display: flex; width: 78%; min-width: 0; align-items: flex-start; transform: rotate(42deg); transform-origin: 0 0; }
+.scenario-info-number { flex: 0 0 auto; font-size: clamp(46px, 5.8cqw, 90px); font-weight: 900; letter-spacing: -.09em; line-height: .8; text-shadow: 0 5px 14px rgba(0, 0, 0, .48); }
+.scenario-info-copy { display: flex; min-width: 0; flex: 1 1 auto; flex-direction: column; gap: clamp(5px, .55cqw, 9px); margin: clamp(8px, 1.15cqw, 18px) 0 0 clamp(9px, 1.2cqw, 19px); overflow-wrap: anywhere; }
+.scenario-info-copy strong { display: block; font-size: clamp(8px, 1.15cqw, 18px); font-weight: 800; letter-spacing: .02em; line-height: 1.08; overflow-wrap: anywhere; }
+.scenario-info-copy span { display: block; max-width: 21ch; font-family: "Manrope", sans-serif; font-size: clamp(7px, .78cqw, 12px); font-weight: 600; letter-spacing: .01em; line-height: 1.35; opacity: .88; }
+.scenario-info-icon { display: grid; width: clamp(38px, 7.2cqw, 112px); height: clamp(38px, 7.2cqw, 112px); flex: 0 0 auto; place-items: center; border: 1px solid rgba(99, 230, 222, .72); border-radius: clamp(10px, 1.45cqw, 22px); background: linear-gradient(145deg, rgba(25, 132, 146, .78), rgba(3, 16, 23, .93)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 8px 20px rgba(0, 0, 0, .38), 0 0 16px rgba(85, 220, 208, .16); }
+.scenario-info-icon img { display: block; width: 62%; height: 62%; object-fit: contain; }
+.scenario-info-01 { top: 40%; left: 17%; animation-delay: .12s; }
+.scenario-info-01 .scenario-info-text-position { --shift-x: calc(4.4cqw + 23.5px); --shift-y: calc(-6.2cqw + 21.5px); }
+.scenario-info-01 .scenario-info-text { width: 78%; }
+.scenario-info-01 .scenario-info-icon { position: absolute; top: -8%; left: -30%; }
+.scenario-info-02 { top: 8%; left: 52%; width: 34%; animation-delay: .2s; color: #031B20; }
+.scenario-info-02 .scenario-info-text-position { --shift-x: calc(-5.9cqw - 23.6px); --shift-y: calc(-2.4cqw - 26px); }
+.scenario-info-02 .scenario-info-text { width: 72%; }
+.scenario-info-02 .scenario-info-icon { position: absolute; top: 7%; left: -50%; background: linear-gradient(145deg, rgba(4, 31, 37, .92), rgba(3, 14, 19, .96)); }
+.scenario-info-02 .scenario-info-number, .scenario-info-03 .scenario-info-number { text-shadow: 0 3px 8px rgba(198, 255, 250, .26); }
+.scenario-info-02 .scenario-info-copy, .scenario-info-03 .scenario-info-copy { text-shadow: 0 1px 0 rgba(220, 255, 251, .22); }
+.scenario-info-03 { top: 69%; left: 50%; width: 35%; animation-delay: .28s; color: #031B20; }
+.scenario-info-03 .scenario-info-text-position { --shift-x: calc(-11.75cqw + 19.6px); --shift-y: calc(1.1cqw - 42.6px); }
+.scenario-info-03 .scenario-info-text { width: 66%; }
+.scenario-info-03 .scenario-info-copy span { max-width: 18ch; font-size: clamp(6px, .68cqw, 10px); }
+.scenario-info-03 .scenario-info-copy { margin-top: clamp(4px, .5cqw, 8px); }
+.scenario-info-03 .scenario-info-icon { position: absolute; top: -3%; left: 57%; background: linear-gradient(145deg, rgba(4, 31, 37, .92), rgba(3, 14, 19, .96)); }
+.scenario-info-04 { top: 34%; left: 68%; width: 30%; animation-delay: .36s; }
+.scenario-info-04 .scenario-info-text-position { --shift-x: calc(-8.8cqw + 62.5px); --shift-y: calc(-3.55cqw - 40.1px); }
+.scenario-info-04 .scenario-info-text { width: 75%; }
+.scenario-info-04 .scenario-info-icon { position: absolute; top: -2%; left: 78%; }
+.scenario-hub-copy { position: absolute; top: 50%; left: 50%; display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -50%); color: var(--text); font-family: "Good Timing", "Manrope", sans-serif; font-size: clamp(10px, 1.45cqw, 23px); font-weight: 900; letter-spacing: .045em; line-height: .92; text-align: center; text-shadow: 0 2px 8px rgba(0, 0, 0, .72); white-space: nowrap; }
+.scenario-hub-copy span:last-child { color: var(--blue-bright); }
+@keyframes scenario-info-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.infographic-edit-mode { user-select: none; }
+.infographic-edit-mode .scenario-info-layer { pointer-events: none; }
+.infographic-edit-mode .scenario-info-text-position { pointer-events: auto; cursor: grab; touch-action: none; outline: 1px dashed rgba(99, 230, 222, .7); outline-offset: 5px; }
+.infographic-edit-mode .scenario-info-text-position:hover { outline-color: #B5FFF9; }
+.infographic-edit-mode .scenario-info-text-position.is-dragging { cursor: grabbing; outline-color: #FFFFFF; }
+.scenario-editor-panel { position: fixed; right: 18px; bottom: 18px; z-index: 10000; display: grid; width: min(430px, calc(100vw - 36px)); gap: 8px; padding: 16px; border: 1px solid rgba(99, 230, 222, .42); border-radius: 14px; background: rgba(5, 11, 17, .96); box-shadow: 0 20px 60px rgba(0, 0, 0, .55), 0 0 30px rgba(24, 134, 146, .16); color: #F2FFFE; font-family: "Manrope", sans-serif; }
+.scenario-editor-panel strong { color: #63E6DE; font-family: "Good Timing", "Manrope", sans-serif; font-size: 13px; letter-spacing: .04em; }
+.scenario-editor-panel > span { color: rgba(242, 255, 254, .72); font-size: 11px; line-height: 1.45; }
+.scenario-editor-panel pre { max-height: 150px; margin: 0; overflow: auto; padding: 10px; border: 1px solid rgba(99, 230, 222, .16); border-radius: 8px; background: rgba(0, 0, 0, .28); color: #C8FFFA; font: 10px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; }
+.scenario-editor-actions { display: flex; gap: 8px; }
+.scenario-editor-actions button { border: 1px solid rgba(99, 230, 222, .45); border-radius: 7px; padding: 7px 10px; background: rgba(24, 134, 146, .16); color: #F2FFFE; cursor: pointer; font: 700 10px/1 "Manrope", sans-serif; }
+.scenario-editor-actions button:hover { border-color: #63E6DE; background: rgba(24, 134, 146, .3); }
+.scenario-details { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; }
+.scenario-detail { min-height: 170px; padding: 21px 20px 22px; border-top: 1px solid rgba(99, 230, 222, .28); border-radius: 0 0 12px 12px; background: linear-gradient(145deg, rgba(21, 29, 41, .72), rgba(12, 17, 24, .82)); }
+.scenario-detail .scenario-index { margin-bottom: 17px; color: var(--blue-bright); font-size: 10px; letter-spacing: .14em; }
+.scenario-detail h3 { margin: 0 0 10px; font-size: 16px; line-height: 1.18; }
+.scenario-detail p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
 
-/* Scenario dialog: card-to-modal transition */
-.scenario-dialog-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; background: rgba(8, 11, 16, 0); backdrop-filter: blur(0px); transition: background .5s cubic-bezier(.23,1,.32,1), backdrop-filter .5s cubic-bezier(.23,1,.32,1); pointer-events: none; }
-.scenario-dialog-overlay[aria-hidden="false"] { background: rgba(8, 11, 16, .7); backdrop-filter: blur(12px); pointer-events: auto; }
-.scenario-dialog { position: relative; width: min(92vw, 820px); max-height: 88vh; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); background: var(--surface); opacity: 0; transform: scale(.85) translateY(24px); transition: opacity .5s cubic-bezier(.23,1,.32,1), transform .55s cubic-bezier(.23,1,.32,1); }
-.scenario-dialog-overlay[aria-hidden="false"] .scenario-dialog { opacity: 1; transform: scale(1) translateY(0); }
-.scenario-dialog-bg { position: absolute; inset: 0; background: url("/ai-auto.png") center/cover no-repeat; opacity: .18; z-index: 0; }
-.scenario-dialog-content { position: relative; z-index: 1; padding: 52px 56px 48px; }
-.scenario-dialog-content .eyebrow { margin-bottom: 10px; }
-.scenario-dialog-content h2 { margin: 0 0 36px; font-size: 32px; line-height: 1.15; }
-.scenario-dialog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 36px; }
-.scenario-dialog-item { padding: 22px 24px; border-radius: var(--radius-sm); background: rgba(17, 23, 33, .65); border: 1px solid var(--border); transition: border-color .3s, background .3s; }
-.scenario-dialog-item:hover { border-color: var(--blue); background: rgba(17, 23, 33, .85); }
-.scenario-dialog-item h4 { margin: 0 0 8px; font-size: 15px; font-weight: 700; color: var(--blue-bright); }
-.scenario-dialog-item p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--muted); }
-.scenario-dialog-cta { display: inline-flex; }
-.scenario-dialog-close { position: absolute; top: 18px; right: 20px; z-index: 10; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: rgba(17, 23, 33, .7); color: var(--muted); font-size: 16px; display: grid; place-items: center; cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
-.scenario-dialog-close:hover { background: rgba(255,255,255,.08); color: var(--text); border-color: var(--border-strong); }
-@media (max-width: 600px) { .scenario-dialog-content { padding: 36px 28px 32px; } .scenario-dialog-grid { grid-template-columns: 1fr; } .scenario-dialog-content h2 { font-size: 24px; } }
+@media (max-width: 1100px) { .scenario-details { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) {
+  .scenarios-infographic { margin-top: 44px; }
+  .scenarios-infographic-figure { border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, .32); }
+  .scenario-info-number { font-size: clamp(22px, 6.2cqw, 38px); letter-spacing: -.08em; }
+  .scenario-info-copy { gap: 2px; margin: 3px 0 0 4px; }
+  .scenario-info-copy strong { max-width: 17ch; font-size: clamp(5px, 1.65cqw, 8px); letter-spacing: 0; line-height: 1.02; }
+  .scenario-info-copy span { display: none; }
+  .scenario-info-icon { width: clamp(24px, 7.4cqw, 38px); height: clamp(24px, 7.4cqw, 38px); border-radius: 7px; }
+  .scenario-info-01 { top: 39%; left: 18%; width: 34%; }
+  .scenario-info-01 .scenario-info-text { width: 82%; }
+  .scenario-info-01 .scenario-info-icon { top: -4%; left: -23%; }
+  .scenario-info-02 { top: 7%; left: 53%; width: 37%; }
+  .scenario-info-02 .scenario-info-text { width: 78%; }
+  .scenario-info-02 .scenario-info-icon { top: 0; left: -40%; }
+  .scenario-info-03 { top: 69%; left: 51%; width: 36%; }
+  .scenario-info-03 .scenario-info-text { width: 72%; }
+  .scenario-info-03 .scenario-info-icon { top: -4%; left: 58%; }
+  .scenario-info-04 { top: 33%; left: 68%; width: 30%; }
+  .scenario-info-04 .scenario-info-text { width: 80%; }
+  .scenario-info-04 .scenario-info-icon { top: -2%; left: 74%; }
+  .scenario-hub-copy { font-size: clamp(7px, 2.6cqw, 12px); }
+  .scenario-details { grid-template-columns: 1fr; margin-top: 16px; }
+  .scenario-detail { min-height: 0; padding: 19px 18px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scenario-info { animation: none; }
+}
 
 /* Hero product motion: a restrained light/dark interface choreography. */
 .hero-visual {
