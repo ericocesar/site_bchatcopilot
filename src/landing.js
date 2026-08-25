@@ -168,6 +168,8 @@ import { contact, fitStatements } from "./content/landing-content.js";
       const ctaInfo = planCardCtaLabel(plan, state.billingCycle);
       const featured = plan.featured ? `<span class="featured-label">Em destaque</span>` : "";
       const indexLabel = String(index + 1).padStart(2, "0");
+      const slugVariant = plan.slug?.replace(/^bchat-/, "");
+      const cardVariant = ["essencial", "profissional", "enterprise"].includes(slugVariant) ? slugVariant : "default";
       const limitsMarkup = limits.length
         ? `<dl class="pricing-card-limits">${limits.map((limit) => `<div><dt>${escapeHtml(limit.label)}</dt><dd>${new Intl.NumberFormat("pt-BR").format(limit.value)}</dd></div>`).join("")}</dl>`
         : "";
@@ -182,8 +184,9 @@ import { contact, fitStatements } from "./content/landing-content.js";
       const ctaIcon = ctaInfo.kind === "trial" ? "✦" : ctaInfo.kind === "checkout" ? "↗" : "→";
       const cta = `<button class="button ${ctaClass} pricing-card-cta" type="button" data-cta-kind="${ctaInfo.kind}" data-plan-slug="${escapeHtml(plan.slug)}" data-cycle="${escapeHtml(state.billingCycle || "")}" data-analytics="pricing_card_cta_click" data-placement="pricing_card">${escapeHtml(ctaInfo.label)} <span aria-hidden="true">${ctaIcon}</span></button>`;
 
-      return `<article class="pricing-card ${plan.featured ? "is-featured" : ""}" data-plan-slug="${escapeHtml(plan.slug)}">
+      return `<article class="pricing-card pricing-card-${cardVariant} ${plan.featured ? "is-featured" : ""}" data-plan-slug="${escapeHtml(plan.slug)}">
         ${featured}
+        <div class="pricing-card-atmosphere" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
         <div class="pricing-card-rail" aria-hidden="true"></div>
         <header class="pricing-card-head">
           <span class="card-index">${indexLabel}</span>
@@ -272,7 +275,33 @@ import { contact, fitStatements } from "./content/landing-content.js";
     }
   }
 
-  function setupHeader() { const header = $("[data-header]"); const toggle = $("[data-menu-toggle]"); const menu = $("[data-mobile-menu]"); if (!header || !toggle || !menu) return; const setMenu = (open) => { toggle.classList.toggle("is-open", open); toggle.setAttribute("aria-expanded", String(open)); menu.hidden = !open; }; toggle.addEventListener("click", () => setMenu(menu.hidden)); $$('[data-menu-close], .mobile-menu a', menu).forEach((link) => link.addEventListener("click", () => setMenu(false))); document.addEventListener("keydown", (event) => { if (event.key === "Escape") setMenu(false); }); const onScroll = () => header.classList.toggle("is-stuck", window.scrollY > 20); onScroll(); window.addEventListener("scroll", onScroll, { passive: true }); }
+  function trialOfferFor(plans) {
+    return (Array.isArray(plans) ? plans : []).map((plan) => {
+      const activePrice = resolveCardPrice(plan, state.billingCycle);
+      const trialPrice = activePrice?.trial_days > 0 ? activePrice : plan.prices?.find((price) => price.trial_days > 0);
+      return trialPrice ? { plan, price: trialPrice } : null;
+    }).find(Boolean) || null;
+  }
+
+  function openHeaderTrial() {
+    const offer = trialOfferFor(state.plans) || trialOfferFor(demoPlans);
+    if (!offer) {
+      window.location.hash = "#decisao";
+      updatePricingStatus("error", "Nenhum teste gratuito disponível");
+      return;
+    }
+    openTrialDialog(offer.plan, offer.price);
+  }
+
+  function setupHeader() {
+    const header = $("[data-header]"); const toggle = $("[data-menu-toggle]"); const menu = $("[data-mobile-menu]"); if (!header || !toggle || !menu) return;
+    const setMenu = (open) => { toggle.classList.toggle("is-open", open); toggle.setAttribute("aria-expanded", String(open)); menu.hidden = !open; };
+    toggle.addEventListener("click", () => setMenu(menu.hidden));
+    $$('[data-menu-close], .mobile-menu a', menu).forEach((link) => link.addEventListener("click", () => setMenu(false)));
+    $$('[data-header-trial-trigger]', header).forEach((trigger) => trigger.addEventListener("click", () => { setMenu(false); openHeaderTrial(); }));
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") setMenu(false); });
+    const onScroll = () => header.classList.toggle("is-stuck", window.scrollY > 20); onScroll(); window.addEventListener("scroll", onScroll, { passive: true });
+  }
 
   function setupFeatureTabs() {
     const tabs = $$('[data-feature]'); const panels = $$('[data-panel]');
@@ -562,6 +591,7 @@ import { contact, fitStatements } from "./content/landing-content.js";
   function setTrialStep(step) {
     const dialog = $("[data-trial-dialog]"); if (!dialog) return;
     trialState.step = step;
+    dialog.dataset.trialActiveStep = String(step);
     $$('[data-step-panel]', dialog).forEach((panel) => { const active = Number(panel.dataset.stepPanel) === step; panel.hidden = !active; panel.classList.toggle("is-active", active); });
     $$('[data-trial-step]', dialog).forEach((item) => {
       const itemStep = Number(item.dataset.trialStep);

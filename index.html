@@ -44,7 +44,7 @@
             <a href="#duvidas">Dúvidas</a>
           </nav>
 
-          <a class="button button-small button-ghost header-cta" href="#contato" data-analytics="landing_primary_cta_click" data-placement="header">Solicitar demonstração <span aria-hidden="true">↗</span></a>
+          <button class="button button-small button-ghost header-cta" type="button" data-header-trial-trigger data-analytics="trial_header_cta_click" data-placement="header">Comece grátis <span aria-hidden="true">✦</span></button>
           <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
             <span class="sr-only">Abrir menu</span>
             <span></span><span></span>
@@ -58,7 +58,7 @@
             <a href="#decisao" data-menu-close>Decisão</a>
             <a href="#duvidas" data-menu-close>Dúvidas</a>
           </nav>
-          <a class="button button-primary" href="#contato" data-menu-close data-analytics="landing_primary_cta_click" data-placement="mobile_menu">Solicitar demonstração <span aria-hidden="true">↗</span></a>
+          <button class="button button-primary" type="button" data-menu-close data-header-trial-trigger data-analytics="trial_header_cta_click" data-placement="mobile_menu">Comece grátis <span aria-hidden="true">✦</span></button>
         </div>
       </header>
 
@@ -223,29 +223,41 @@
 
         <section class="document-chapter pricing-chapter" id="decisao" aria-labelledby="decisao-title">
           <div class="container">
-            <div class="chapter-divider"><span class="chapter-divider-number">04</span><span>Decisão</span></div>
-            <div class="section-intro split-intro">
-              <div>
-                <h2 id="decisao-title">Escolha o espaço<br /><em>para evoluir.</em></h2>
-              </div>
-              <div>
-                <p>Compare os planos publicados do BChat. Catálogo sincronizado com a tabela comercial vigente e atualizado em tempo real.</p>
-                <div class="pricing-status" aria-live="polite" data-pricing-status>
-                  <span class="status-dot"></span>
-                  <span class="pricing-status-text">Catálogo atualizado</span>
-                  <span class="pricing-status-meta" data-pricing-status-meta></span>
+            <div class="pricing-layout">
+              <aside class="pricing-context">
+                <div class="pricing-context-lines" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                  <i></i>
+                </div>
+                <div class="pricing-context-kicker"><span class="status-dot"></span> Planos / 2026</div>
+                <div class="pricing-context-copy">
+                  <div class="chapter-divider"><span class="chapter-divider-number">04</span><span>Decisão</span></div>
+                  <h2 id="decisao-title">Escolha o espaço<br /><em>para evoluir.</em></h2>
+                  <p>Comece pequeno, cresça com clareza e mantenha cada conversa no lugar certo.</p>
+                  <div class="pricing-status" aria-live="polite" data-pricing-status>
+                    <span class="status-dot"></span>
+                    <span class="pricing-status-text">Catálogo atualizado</span>
+                    <span class="pricing-status-meta" data-pricing-status-meta></span>
+                  </div>
+                </div>
+                <div class="pricing-rail" data-pricing-rail hidden aria-label="Recursos comuns a todos os planos"></div>
+              </aside>
+
+              <div class="pricing-market">
+                <div class="pricing-toolbar">
+                  <div class="pricing-toolbar-caption">
+                    <p>Compare e escolha</p>
+                    <span>Planos publicados para sua operação</span>
+                  </div>
+                  <div class="pricing-toolbar-controls">
+                    <button class="comparison-toggle" type="button" data-comparison-toggle aria-expanded="false">Ver comparação completa <span>↓</span></button>
+                    <div class="billing-control" role="group" aria-label="Ciclo de cobrança" data-billing-control></div>
+                  </div>
+                </div>
+                <div class="pricing-grid" data-pricing-grid>
+                  <div class="pricing-loading" aria-label="Carregando planos"><span></span><span></span><span></span></div>
                 </div>
               </div>
-            </div>
-            <div class="pricing-toolbar">
-              <div class="billing-control" role="group" aria-label="Ciclo de cobrança" data-billing-control></div>
-              <button class="comparison-toggle" type="button" data-comparison-toggle aria-expanded="false">Ver comparação completa <span>↓</span></button>
-            </div>
-            <div class="pricing-layout">
-              <div class="pricing-grid" data-pricing-grid>
-                <div class="pricing-loading" aria-label="Carregando planos"><span></span><span></span><span></span></div>
-              </div>
-              <aside class="pricing-rail" data-pricing-rail hidden aria-label="Recursos comuns a todos os planos"></aside>
             </div>
             <div class="pricing-comparison" data-pricing-comparison hidden></div>
             <div class="pricing-footnote"><span>✦</span> Os valores e recursos apresentados podem variar conforme a publicação comercial vigente. <a href="#contato">Solicite uma demonstração para entender o plano ideal.</a></div>
