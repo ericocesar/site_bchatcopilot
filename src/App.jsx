@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 
-import { CinematicFooter } from "./components/ui/motion-footer.jsx";
 import "./react-shell.css";
+
+const CinematicFooter = lazy(() => import("./components/ui/motion-footer.jsx").then((module) => ({ default: module.CinematicFooter })));
 
 function BlogPlaceholder() {
   return (
@@ -31,5 +32,11 @@ export default function App() {
     return undefined;
   }, [isBlogRoute]);
 
-  return isBlogRoute ? <BlogPlaceholder /> : <CinematicFooter />;
+  return isBlogRoute ? (
+    <BlogPlaceholder />
+  ) : (
+    <Suspense fallback={<div className="cinematic-footer-skeleton" aria-hidden="true" />}>
+      <CinematicFooter />
+    </Suspense>
+  );
 }

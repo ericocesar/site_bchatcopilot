@@ -1,0 +1,130 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <defs>
+    <linearGradient id="bg" x1="800" y1="0" x2="800" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#060B13"/>
+      <stop offset="0.52" stop-color="#0B1420"/>
+      <stop offset="1" stop-color="#071019"/>
+    </linearGradient>
+    <linearGradient id="panel-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#172435" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#0C141F" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="panel-accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#188692" stop-opacity="0.82"/>
+      <stop offset="0.52" stop-color="#146C7A" stop-opacity="0.64"/>
+      <stop offset="1" stop-color="#0C2835" stop-opacity="0.94"/>
+    </linearGradient>
+    <radialGradient id="hub" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 450) rotate(90) scale(138)">
+      <stop stop-color="#1B3443"/>
+      <stop offset="0.62" stop-color="#0B1826"/>
+      <stop offset="1" stop-color="#050B13"/>
+    </radialGradient>
+    <radialGradient id="hub-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 450) rotate(90) scale(210)">
+      <stop stop-color="#55DCD0" stop-opacity="0.2"/>
+      <stop offset="0.56" stop-color="#188692" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#188692" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.8" fill="#63E6DE" fill-opacity="0.18"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#000000" flood-opacity="0.46"/>
+    </filter>
+    <filter id="soft-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="13"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="800" cy="450" r="210" fill="url(#hub-glow)"/>
+
+  <g opacity="0.58" stroke-linecap="round">
+    <path d="M-80 210L220 -90" stroke="#188692" stroke-width="3"/>
+    <path d="M-20 300L290 -10" stroke="#5DA3FF" stroke-opacity="0.22" stroke-width="1.5"/>
+    <path d="M1380 -70L1680 230" stroke="#63E6DE" stroke-width="3"/>
+    <path d="M1290 -30L1660 340" stroke="#5DA3FF" stroke-opacity="0.2" stroke-width="1.5"/>
+    <path d="M-70 720L180 970" stroke="#63E6DE" stroke-opacity="0.6" stroke-width="2"/>
+    <path d="M1400 660L1660 920" stroke="#188692" stroke-opacity="0.66" stroke-width="3"/>
+    <path d="M90 0L0 90V270" stroke="#5DA3FF" stroke-opacity="0.26" stroke-width="1"/>
+    <path d="M1510 900L1600 810V610" stroke="#5DA3FF" stroke-opacity="0.24" stroke-width="1"/>
+  </g>
+
+  <g opacity="0.9">
+    <rect x="0" y="0" width="250" height="180" fill="url(#dots)" opacity="0.42"/>
+    <rect x="1350" y="0" width="250" height="190" fill="url(#dots)" opacity="0.5"/>
+    <rect x="0" y="715" width="250" height="185" fill="url(#dots)" opacity="0.38"/>
+    <rect x="1350" y="710" width="250" height="190" fill="url(#dots)" opacity="0.4"/>
+  </g>
+
+  <g stroke="#63E6DE" stroke-opacity="0.22" stroke-width="1">
+    <path d="M94 236H1506" stroke-dasharray="2 15"/>
+    <path d="M94 664H1506" stroke-dasharray="2 15"/>
+    <path d="M800 174V726" stroke-dasharray="2 15"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="105" y="236" width="675" height="250" rx="34" fill="url(#panel-accent)" stroke="#63E6DE" stroke-width="2"/>
+    <rect x="820" y="236" width="675" height="250" rx="34" fill="url(#panel-dark)" stroke="#63E6DE" stroke-opacity="0.72" stroke-width="2"/>
+    <rect x="105" y="514" width="675" height="250" rx="34" fill="url(#panel-accent)" stroke="#63E6DE" stroke-width="2"/>
+    <rect x="820" y="514" width="675" height="250" rx="34" fill="url(#panel-dark)" stroke="#63E6DE" stroke-opacity="0.72" stroke-width="2"/>
+  </g>
+
+  <g opacity="0.46">
+    <path d="M490 237H780V486H410L490 237Z" fill="url(#dots)"/>
+    <path d="M1210 237H1495V486H1130L1210 237Z" fill="url(#dots)"/>
+    <path d="M490 515H780V764H410L490 515Z" fill="url(#dots)"/>
+    <path d="M1210 515H1495V764H1130L1210 515Z" fill="url(#dots)"/>
+  </g>
+
+  <g stroke="#55DCD0" stroke-opacity="0.55" stroke-width="2">
+    <path d="M650 450H735"/>
+    <path d="M865 450H950"/>
+    <path d="M800 390V325"/>
+    <path d="M800 510V575"/>
+  </g>
+
+  <g filter="url(#soft-glow)" opacity="0.7" stroke="#63E6DE" stroke-width="8">
+    <circle cx="800" cy="450" r="137"/>
+  </g>
+  <circle cx="800" cy="450" r="137" fill="url(#hub)" stroke="#63E6DE" stroke-width="3"/>
+  <circle cx="800" cy="450" r="119" stroke="#188692" stroke-opacity="0.54" stroke-width="1" stroke-dasharray="4 10"/>
+  <circle cx="800" cy="313" r="8" fill="#63E6DE"/>
+  <circle cx="800" cy="587" r="8" fill="#63E6DE"/>
+  <circle cx="663" cy="450" r="8" fill="#63E6DE"/>
+  <circle cx="937" cy="450" r="8" fill="#63E6DE"/>
+
+  <!-- 01 lucide users icon -->
+  <g transform="translate(515 316) scale(4.6)" fill="none" stroke="#63E6DE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+    <path d="M16 3.128a4 4 0 0 1 0 7.744"/>
+    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+    <circle cx="9" cy="7" r="4"/>
+  </g>
+
+  <!-- 02 return clock icon -->
+  <g transform="translate(1330 358)" stroke="#63E6DE" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="0" cy="0" r="60"/>
+    <path d="M0 -34V0L24 16"/>
+    <path d="M-73 10C-70 53-32 82 10 78C46 75 70 50 76 20"/>
+    <path d="M76 20L74 -8M76 20L49 15"/>
+  </g>
+
+  <!-- 03 bars and people icon -->
+  <g transform="translate(548 632)" stroke="#63E6DE" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-70 28V-5H-40V28M-27 28V-40H3V28M16 28V-78H46V28"/>
+    <path d="M-76 42H52"/>
+    <circle cx="-48" cy="74" r="16"/>
+    <circle cx="0" cy="74" r="16"/>
+    <circle cx="48" cy="74" r="16"/>
+    <path d="M-76 118C-75 94-63 86-48 86C-33 86-21 94-20 118M-28 118C-27 94-15 86 0 86C15 86 27 94 28 118M20 118C21 94 33 86 48 86C63 86 75 94 76 118"/>
+  </g>
+
+  <!-- 04 human handoff icon -->
+  <g transform="translate(1330 646)" stroke="#63E6DE" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="-62" cy="-22" r="22"/>
+    <path d="M-96 62V33C-96 9-82 2-62 2C-42 2-28 9-28 33V62"/>
+    <circle cx="62" cy="-22" r="22"/>
+    <path d="M28 62V33C28 9 42 2 62 2C82 2 96 9 96 33V62"/>
+    <path d="M-20 18H20M8 4L24 18L8 32"/>
+  </g>
+</svg>

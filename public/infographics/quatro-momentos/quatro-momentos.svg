@@ -1,0 +1,261 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="quatro-momentos-title quatro-momentos-desc" font-family="Manrope, ui-sans-serif, system-ui, sans-serif">
+  <title id="quatro-momentos-title">Os quatro momentos em que o BChat Copilot muda o atendimento</title>
+  <desc id="quatro-momentos-desc">Quatro cartões numerados dispostos em torno do círculo central BCHAT COPILOT: 01 Departamento pessoal, 02 Retomada de conversa, 03 Padronização entre turnos, 04 Transferência para uma pessoa.</desc>
+
+  <defs>
+    <!-- ─── Backdrop ───────────────────────────────────────────────────── -->
+    <radialGradient id="bgGlow" cx="800" cy="450" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#14202B"/>
+      <stop offset="0.5" stop-color="#090E15"/>
+      <stop offset="1" stop-color="#030609"/>
+    </radialGradient>
+    <pattern id="carbon" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="12" height="12" fill="#080D13"/>
+      <path d="M0 2H12M0 8H12" stroke="#9BC2C5" stroke-opacity="0.035" stroke-width="2"/>
+    </pattern>
+    <pattern id="pinStripe" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 1H10" stroke="#63E6DE" stroke-opacity="0.045"/>
+    </pattern>
+    <radialGradient id="vignette" cx="800" cy="450" r="700" gradientUnits="userSpaceOnUse">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.78"/>
+    </radialGradient>
+
+    <!-- ─── Steel corner triangles (kept from previous base.svg) ────────── -->
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#05090E"/>
+      <stop offset="0.34" stop-color="#55606A"/>
+      <stop offset="0.49" stop-color="#131B24"/>
+      <stop offset="0.72" stop-color="#060A0F"/>
+      <stop offset="1" stop-color="#28333D"/>
+    </linearGradient>
+    <linearGradient id="steelEdge" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#A7B6C1" stop-opacity="0.55"/>
+      <stop offset="0.45" stop-color="#27343E" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#020406" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- ─── Panel surfaces (dark + cyan variants) ─────────────────────── -->
+    <linearGradient id="panelDark" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#26303A"/>
+      <stop offset="0.38" stop-color="#171E27"/>
+      <stop offset="1" stop-color="#080D13"/>
+    </linearGradient>
+    <linearGradient id="panelDarkEdge" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#C4FFF9" stop-opacity="0.58"/>
+      <stop offset="0.32" stop-color="#55DCD0" stop-opacity="0.18"/>
+      <stop offset="0.78" stop-color="#188692" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#8AF3EB" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="panelCyan" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#70EEE6"/>
+      <stop offset="0.28" stop-color="#3BC8C3"/>
+      <stop offset="0.7" stop-color="#188692"/>
+      <stop offset="1" stop-color="#0C5966"/>
+    </linearGradient>
+    <linearGradient id="panelCyanEdge" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#E9FFFD"/>
+      <stop offset="0.38" stop-color="#A3FFF8" stop-opacity="0.65"/>
+      <stop offset="0.82" stop-color="#0D6571"/>
+      <stop offset="1" stop-color="#55DCD0"/>
+    </linearGradient>
+    <pattern id="panelTexture" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 2H14" stroke="#FFFFFF" stroke-opacity="0.08"/>
+      <path d="M0 9H14" stroke="#052D36" stroke-opacity="0.055"/>
+    </pattern>
+    <radialGradient id="panelShine" cx="0.3" cy="0.15" r="0.7">
+      <stop offset="0" stop-color="#E1FFFC" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- ─── Hub ───────────────────────────────────────────────────────── -->
+    <radialGradient id="hubGlow" cx="800" cy="450" r="230" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#63E6DE" stop-opacity="0.32"/>
+      <stop offset="0.56" stop-color="#188692" stop-opacity="0.11"/>
+      <stop offset="1" stop-color="#188692" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="hubOuterRing" cx="745" cy="380" r="250" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B6FFF9"/>
+      <stop offset="0.22" stop-color="#55DCD0"/>
+      <stop offset="0.65" stop-color="#188692"/>
+      <stop offset="1" stop-color="#073B46"/>
+    </radialGradient>
+    <linearGradient id="hubRingBevel" x1="690" y1="312" x2="909" y2="594" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E3FFFC"/>
+      <stop offset="0.28" stop-color="#51D9D1"/>
+      <stop offset="0.7" stop-color="#0B616D"/>
+      <stop offset="1" stop-color="#63E6DE"/>
+    </linearGradient>
+    <radialGradient id="hubDisc" cx="756" cy="397" r="193" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#293640"/>
+      <stop offset="0.33" stop-color="#111923"/>
+      <stop offset="0.82" stop-color="#05090D"/>
+      <stop offset="1" stop-color="#020406"/>
+    </radialGradient>
+    <linearGradient id="hubDiscSheen" x1="710" y1="328" x2="868" y2="533" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.2"/>
+      <stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.015"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- ─── Filters ────────────────────────────────────────────────────── -->
+    <filter id="cardShadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="10" dy="28" stdDeviation="22" flood-color="#000000" flood-opacity="0.82"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#188692" flood-opacity="0.2"/>
+    </filter>
+    <filter id="hubShadow" x="-55%" y="-55%" width="220%" height="235%">
+      <feDropShadow dx="13" dy="28" stdDeviation="22" flood-color="#000000" flood-opacity="0.88"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="13" flood-color="#55DCD0" flood-opacity="0.3"/>
+    </filter>
+    <clipPath id="hubDiscClip">
+      <circle cx="800" cy="450" r="132"/>
+    </clipPath>
+
+    <!-- ─── Symbol: panel-number (a small index card icon) ─────────────── -->
+  </defs>
+
+  <!-- ═══ Backdrop ═══════════════════════════════════════════════════════ -->
+  <rect width="1600" height="900" fill="url(#bgGlow)"/>
+  <rect width="1600" height="900" fill="url(#carbon)"/>
+  <rect width="1600" height="900" fill="url(#pinStripe)" opacity="0.72"/>
+
+  <!-- Steel corner triangles -->
+  <g opacity="0.95">
+    <path d="M-230 48L38 -220H316L-112 208L-230 208Z" fill="url(#steel)"/>
+    <path d="M-115 214L329 -230H382L-89 241L-115 214Z" fill="url(#steelEdge)"/>
+    <path d="M1164 -220H1357L1735 158V351L1164 -220Z" fill="url(#steel)"/>
+    <path d="M1112 -220H1167L1735 348V403L1112 -220Z" fill="url(#steelEdge)"/>
+    <path d="M-236 658L18 912H313L-86 513L-236 658Z" fill="url(#steel)"/>
+    <path d="M-96 497L319 912H373L-69 470L-96 497Z" fill="url(#steelEdge)"/>
+    <path d="M1301 612L1600 911H1800V708L1418 326L1301 612Z" fill="url(#steel)"/>
+    <path d="M1396 299L1800 703V758L1368 326L1396 299Z" fill="url(#steelEdge)"/>
+  </g>
+
+  <!-- Connector lines from each panel to the hub -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M-90 279L307 -118" stroke="#63E6DE" stroke-opacity="0.55" stroke-width="3"/>
+    <path d="M-30 312L345 -63" stroke="#E4FFFF" stroke-opacity="0.14"/>
+    <path d="M1248 -114L1690 328" stroke="#63E6DE" stroke-opacity="0.44" stroke-width="3"/>
+    <path d="M1198 -103L1689 388" stroke="#E4FFFF" stroke-opacity="0.1"/>
+    <path d="M-68 625L294 987" stroke="#63E6DE" stroke-opacity="0.38" stroke-width="2"/>
+    <path d="M1334 579L1674 919" stroke="#63E6DE" stroke-opacity="0.5" stroke-width="3"/>
+  </g>
+
+  <rect width="1600" height="900" fill="url(#vignette)"/>
+
+  <!-- ═══ Hub ═══════════════════════════════════════════════════════════ -->
+  <circle cx="800" cy="450" r="230" fill="url(#hubGlow)"/>
+  <g filter="url(#hubShadow)">
+    <circle cx="800" cy="450" r="174" fill="#051117" stroke="#082F37" stroke-width="3"/>
+    <circle cx="800" cy="450" r="166" fill="url(#hubOuterRing)" stroke="url(#hubRingBevel)" stroke-width="5"/>
+    <circle cx="800" cy="450" r="143" fill="#071015" stroke="#B5FFF9" stroke-opacity="0.42" stroke-width="2"/>
+    <circle cx="800" cy="450" r="132" fill="url(#hubDisc)" stroke="#020609" stroke-width="5"/>
+    <g clip-path="url(#hubDiscClip)">
+      <ellipse cx="758" cy="374" rx="148" ry="92" transform="rotate(-13 758 374)" fill="url(#hubDiscSheen)"/>
+      <path d="M687 385C724 323 812 299 881 339" stroke="#FFFFFF" stroke-opacity="0.17" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <path d="M680 354C711 307 768 282 824 286" stroke="#FFFFFF" stroke-opacity="0.48" stroke-width="5" stroke-linecap="round"/>
+    <path d="M917 541C889 580 842 604 792 615" stroke="#073C46" stroke-opacity="0.72" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <text x="800" y="430" text-anchor="middle" font-size="40" font-weight="900" letter-spacing="0.06em" fill="#F2F6FB" style="text-shadow:0 2px 8px rgba(0,0,0,.72)">BCHAT</text>
+  <text x="800" y="480" text-anchor="middle" font-size="40" font-weight="900" letter-spacing="0.06em" fill="#63E6DE" style="text-shadow:0 2px 8px rgba(0,0,0,.72)">COPILOT</text>
+  <text x="800" y="510" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="0.32em" fill="#9BC2C5" opacity="0.7">CONTEXTO · AÇÃO · CONTROLE HUMANO</text>
+
+  <!-- ═══ PANEL 01 — Departamento pessoal (dark, left) ═══════════════════ -->
+  <g transform="rotate(42 460 510)" filter="url(#cardShadow)">
+    <rect x="225" y="368" width="470" height="284" rx="35" fill="url(#panelDark)" stroke="url(#panelDarkEdge)" stroke-width="4"/>
+    <rect x="235" y="378" width="450" height="264" rx="27" stroke="#E7FFFD" stroke-opacity="0.1" stroke-width="2"/>
+    <rect x="236" y="379" width="448" height="262" rx="26" fill="url(#panelTexture)"/>
+    <path d="M263 386H623C653 386 677 410 677 440" stroke="#FFFFFF" stroke-opacity="0.13" stroke-width="3" stroke-linecap="round"/>
+    <path d="M243 577V600C243 619 258 634 277 634H649" stroke="#188692" stroke-opacity="0.56" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <!-- Panel 01 text + icon -->
+  <g transform="rotate(42 460 510)" font-family="Manrope, ui-sans-serif, sans-serif">
+    <text x="265" y="468" font-size="86" font-weight="900" letter-spacing="-0.04em" fill="#55DCD0" style="text-shadow:0 4px 12px rgba(0,0,0,.55)">01</text>
+    <text x="265" y="525" font-size="22" font-weight="900" letter-spacing="0.02em" fill="#F2F6FB" style="text-shadow:0 1px 0 rgba(255,255,255,.18)">SEU TIME DE</text>
+    <text x="265" y="552" font-size="22" font-weight="900" letter-spacing="0.02em" fill="#F2F6FB">DEPARTAMENTO PESSOAL</text>
+    <text x="265" y="582" font-size="12" font-weight="600" letter-spacing="0.01em" fill="#93A0B3" opacity="0.92">O Copilot resume cada demanda, recupera o histórico do</text>
+    <text x="265" y="600" font-size="12" font-weight="600" letter-spacing="0.01em" fill="#93A0B3" opacity="0.92">colaborador e sugere o próximo passo, sem repetir contexto.</text>
+    <!-- users icon, right side of panel -->
+    <g transform="translate(620 425) scale(.36)" stroke="#63E6DE" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M-70 28V-5H-40V28M-27 28V-40H3V28M16 28V-78H46V28"/>
+      <path d="M-76 42H52"/>
+      <circle cx="-48" cy="74" r="16"/>
+      <circle cx="0" cy="74" r="16"/>
+      <circle cx="48" cy="74" r="16"/>
+      <path d="M-76 118C-75 94-63 86-48 86C-33 86-21 94-20 118M-28 118C-27 94-15 86 0 86C15 86 27 94 28 118M20 118C21 94 33 86 48 86C63 86 75 94 76 118"/>
+    </g>
+  </g>
+
+  <!-- ═══ PANEL 02 — Retomada de conversa (cyan, bottom) ═══════════════ -->
+  <g transform="rotate(42 780 720)" filter="url(#cardShadow)">
+    <rect x="545" y="578" width="470" height="284" rx="35" fill="url(#panelCyan)" stroke="url(#panelCyanEdge)" stroke-width="4"/>
+    <rect x="555" y="588" width="450" height="264" rx="27" stroke="#E8FFFD" stroke-opacity="0.4" stroke-width="2"/>
+    <rect x="556" y="589" width="448" height="262" rx="26" fill="url(#panelTexture)"/>
+    <rect x="556" y="589" width="448" height="262" rx="26" fill="url(#panelShine)"/>
+    <path d="M583 596H943C973 596 997 620 997 650" stroke="#FFFFFF" stroke-opacity="0.48" stroke-width="3" stroke-linecap="round"/>
+    <path d="M563 787V810C563 829 578 844 597 844H969" stroke="#075A65" stroke-opacity="0.42" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g transform="rotate(42 780 720)" font-family="Manrope, ui-sans-serif, sans-serif">
+    <text x="585" y="678" font-size="86" font-weight="900" letter-spacing="-0.04em" fill="#031B20" style="text-shadow:0 3px 8px rgba(198,255,250,.26)">02</text>
+    <text x="585" y="735" font-size="22" font-weight="900" letter-spacing="0.02em" fill="#031B20">RETOMADA DE</text>
+    <text x="585" y="762" font-size="22" font-weight="900" letter-spacing="0.02em" fill="#031B20">CONVERSA</text>
+    <text x="585" y="792" font-size="12" font-weight="600" letter-spacing="0.01em" fill="#082F37" opacity="0.92">Conversas que voltam depois de dias chegam com o histórico</text>
+    <text x="585" y="810" font-size="12" font-weight="600" letter-spacing="0.01em" fill="#082F37" opacity="0.92">já sintetizado para quem vai atender.</text>
+    <!-- clock-return icon -->
+    <g transform="translate(940 635) scale(.40)" stroke="#031B20" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <circle cx="-62" cy="-22" r="22"/>
+      <path d="M-96 62V33C-96 9-82 2-62 2C-42 2-28 9-28 33V62"/>
+      <circle cx="62" cy="-22" r="22"/>
+      <path d="M28 62V33C28 9 42 2 62 2C82 2 96 9 96 33V62"/>
+      <path d="M-20 18H20M8 4L24 18L8 32"/>
+    </g>
+  </g>
+
+  <!-- ═══ PANEL 03 — Padronização entre turnos (cyan, top) ═════════════ -->
+  <g transform="rotate(42 820 180)" filter="url(#cardShadow)">
+    <rect x="585" y="38" width="470" height="284" rx="35" fill="url(#panelCyan)" stroke="url(#panelCyanEdge)" stroke-width="4"/>
+    <rect x="595" y="48" width="450" height="264" rx="27" stroke="#E8FFFD" stroke-opacity="0.4" stroke-width="2"/>
+    <rect x="596" y="49" width="448" height="262" rx="26" fill="url(#panelTexture)"/>
+    <rect x="596" y="49" width="448" height="262" rx="26" fill="url(#panelShine)"/>
+    <path d="M623 56H983C1013 56 1037 80 1037 110" stroke="#FFFFFF" stroke-opacity="0.48" stroke-width="3" stroke-linecap="round"/>
+    <path d="M603 247V270C603 289 618 304 637 304H1009" stroke="#075A65" stroke-opacity="0.42" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g transform="rotate(42 820 180)" font-family="Manrope, ui-sans-serif, sans-serif">
+    <text x="625" y="138" font-size="86" font-weight="900" letter-spacing="-0.04em" fill="#031B20" style="text-shadow:0 3px 8px rgba(198,255,250,.26)">03</text>
+    <text x="625" y="195" font-size="22" font-weight="900" letter-spacing="0.02em" fill="#031B20">PADRONIZAÇÃO</text>
+    <text x="625" y="222" font-size="22" font-weight="900" letter-spacing="0.02em" fill="#031B20">ENTRE TURNOS</text>
+    <text x="625" y="252" font-size="12" font-weight="600" letter-spacing="0.01em" fill="#082F37" opacity="0.92">Times diferentes respondem a partir das mesmas fontes</text>
+    <text x="625" y="270" font-size="12" font-weight="600" letter-spacing="0.01em" fill="#082F37" opacity="0.92">aprovadas, sem repassar contexto de cabeça.</text>
+    <!-- team-shifts icon: clock with three hands -->
+    <g transform="translate(980 95) scale(.34)" stroke="#031B20" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <circle cx="0" cy="0" r="60"/>
+      <path d="M0 -34V0L24 16"/>
+      <path d="M-73 10C-70 53-32 82 10 78C46 75 70 50 76 20"/>
+      <path d="M76 20L74 -8M76 20L49 15"/>
+    </g>
+  </g>
+
+  <!-- ═══ PANEL 04 — Transferência para uma pessoa (dark, right) ═══════ -->
+  <g transform="rotate(42 1140 390)" filter="url(#cardShadow)">
+    <rect x="905" y="248" width="470" height="284" rx="35" fill="url(#panelDark)" stroke="url(#panelDarkEdge)" stroke-width="4"/>
+    <rect x="915" y="258" width="450" height="264" rx="27" stroke="#E7FFFD" stroke-opacity="0.1" stroke-width="2"/>
+    <rect x="916" y="259" width="448" height="262" rx="26" fill="url(#panelTexture)"/>
+    <path d="M943 266H1303C1333 266 1357 290 1357 320" stroke="#FFFFFF" stroke-opacity="0.13" stroke-width="3" stroke-linecap="round"/>
+    <path d="M923 457V480C923 499 938 514 957 514H1329" stroke="#188692" stroke-opacity="0.56" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g transform="rotate(42 1140 390)" font-family="Manrope, ui-sans-serif, sans-serif">
+    <text x="945" y="348" font-size="86" font-weight="900" letter-spacing="-0.04em" fill="#55DCD0" style="text-shadow:0 4px 12px rgba(0,0,0,.55)">04</text>
+    <text x="945" y="405" font-size="22" font-weight="900" letter-spacing="0.02em" fill="#F2F6FB" style="text-shadow:0 1px 0 rgba(255,255,255,.18)">TRANSFERÊNCIA</text>
+    <text x="945" y="432" font-size="22" font-weight="900" letter-spacing="0.02em" fill="#F2F6FB">PARA UMA PESSOA</text>
+    <text x="945" y="462" font-size="12" font-weight="600" letter-spacing="0.01em" fill="#93A0B3" opacity="0.92">A automação entrega o caso com contexto, em vez de</text>
+    <text x="945" y="480" font-size="12" font-weight="600" letter-spacing="0.01em" fill="#93A0B3" opacity="0.92">recomeçar o atendimento do zero.</text>
+    <!-- handoff icon -->
+    <g transform="translate(1300 305) scale(1.6)" stroke="#63E6DE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <path d="M16 3.128a4 4 0 0 1 0 7.744"/>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+      <circle cx="9" cy="7" r="4"/>
+    </g>
+  </g>
+</svg>

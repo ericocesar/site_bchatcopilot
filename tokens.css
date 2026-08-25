@@ -1,0 +1,106 @@
+/* Hallmark · macrostructure: Long Document · genre: atmospheric · tone: editorial
+ * Hub: tokens.css.  All colour, font, space, radius, duration and easing
+ * decisions live here.  Every other stylesheet in the project MUST consume
+ * these tokens by name (var(--token-name)) — no inline hex / rgb / font
+ * declarations are allowed downstream.
+ */
+
+:root {
+  /* ── Colour · paper / surface scale ───────────────────────────────────── */
+  --paper-1: oklch(14% 0.018 250);   /* #080b10 — deepest canvas, hero base */
+  --paper-2: oklch(16% 0.018 250);   /* #0c131c — final-cta base */
+  --paper-3: oklch(18% 0.018 250);   /* #0d121a — canvas-soft / sections */
+  --surface-1: oklch(22% 0.020 250); /* #111721 — primary surface */
+  --surface-2: oklch(25% 0.022 250); /* #151d29 — raised surface */
+  --surface-3: oklch(26% 0.025 250); /* #151e2b — glass panel base */
+
+  /* ── Colour · ink ─────────────────────────────────────────────────────── */
+  --ink-1: oklch(96% 0.010 235);     /* #f2f6fb — primary text */
+  --ink-2: oklch(66% 0.025 245);     /* #93a0b3 — muted text */
+  --ink-3: oklch(60% 0.025 245);     /* #8595a6 — secondary muted */
+  --ink-on-light: oklch(13% 0.018 220);  /* #031B20 — dark ink on light hero plate */
+  --ink-on-light-soft: oklch(98% 0.010 195); /* #F7FFFE — light ink on dark plate */
+
+  /* ── Colour · border + line ──────────────────────────────────────────── */
+  --border-soft: oklch(80% 0.030 230 / 0.13);   /* rgba(174,205,235,.13) */
+  --border-strong: oklch(80% 0.030 230 / 0.45); /* rgba(174,205,235,.45) */
+  --rule-hairline: oklch(80% 0.030 230 / 0.06);
+
+  /* ── Colour · accents (chromatic) ───────────────────────────────────────── */
+  --teal-1: oklch(46% 0.100 200);    /* #188692 — deep teal, signal dot */
+  --teal-2: oklch(58% 0.100 195);    /* #2ca9a7 — deep lime / source confidence */
+  --cyan-1: oklch(85% 0.130 190);    /* #63e6de — bright cyan / brand mark */
+  --cyan-2: oklch(94% 0.070 190);    /* #B5FFF9 — drag-hover highlight */
+  --cyan-3: oklch(95% 0.030 188);    /* #C8FFFA — editor mono text */
+  --cyan-4: oklch(98% 0.010 190);    /* #F2FFFE — editor body text */
+  --blue-soft: oklch(72% 0.140 245); /* #5da3ff — soft sky blue */
+  --lime-1: oklch(80% 0.130 188);    /* #55dcd0 — primary lime (CTA) */
+  --lime-2: oklch(94% 0.180 115);    /* #d6ff87 — lime hover */
+  --warm-stale: oklch(78% 0.130 80);  /* #f2ba69 — pricing status stale */
+  --danger: oklch(75% 0.130 35);     /* #ff9b7e — error / soft coral */
+
+  /* ── Colour · rgb triplet helpers (for `rgb(var(--rgb-x) / .X)`) ──────── */
+  --rgb-blue: 39 129 246;
+  --rgb-blue-soft: 93 163 255;
+  --rgb-teal: 24 134 146;
+  --rgb-limebright: 85 220 208;
+  --rgb-limelight: 196 245 103;
+
+  /* ── Typography ──────────────────────────────────────────────────────── */
+  --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Manrope", var(--font-body);
+  --font-accent: "Good Timing", var(--font-display);
+
+  /* ── Spacing (4-pt scale, semantic) ───────────────────────────────────── */
+  --space-3xs: 4px;
+  --space-2xs: 8px;
+  --space-xs: 12px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-2xl: 72px;
+  --space-3xl: 110px;
+
+  /* ── Radius ──────────────────────────────────────────────────────────── */
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+
+  /* ── Layout ──────────────────────────────────────────────────────────── */
+  --container: 1240px;
+  --container-narrow: 780px;
+
+  /* ── Elevation ───────────────────────────────────────────────────────── */
+  --shadow-soft: 0 24px 80px oklch(0% 0 0 / 0.32);
+  --shadow-deep: 0 30px 80px oklch(0% 0 0 / 0.38);
+
+  /* ── Motion ──────────────────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.22, 0.75, 0.20, 1);
+  --ease-in: cubic-bezier(0.50, 0, 0.75, 0);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.22, 1);
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-quick: 0.18s;
+  --dur-base: 0.30s;
+  --dur-slow: 0.60s;
+  --dur-stage: 0.85s;
+
+  /* ── Hero · Vanguard mesh gradient orbs (fixed, behind content) ─────── */
+  --hero-mesh-1: oklch(58% 0.150 260 / 0.55);  /* sapphire halo, top-left */
+  --hero-mesh-2: oklch(70% 0.160 175 / 0.42);  /* teal halo, bottom-right */
+  --hero-mesh-3: oklch(78% 0.180 115 / 0.32);  /* lime halo, mid-right */
+
+  /* ── Hero · nested architecture radii (double-bezel) ─────────────────── */
+  --hero-shell-radius: 32px;
+  --hero-core-radius: calc(var(--hero-shell-radius) - 8px);
+  --hero-pill-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-quick: 0.01s;
+    --dur-base: 0.01s;
+    --dur-slow: 0.01s;
+  }
+}

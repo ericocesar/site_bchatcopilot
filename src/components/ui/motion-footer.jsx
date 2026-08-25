@@ -102,66 +102,86 @@ export function CinematicFooter() {
   const linksRef = useRef(null);
 
   useEffect(() => {
-    if (!wrapperRef.current) return undefined;
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return undefined;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const context = gsap.context(() => {
-      if (reducedMotion) {
-        gsap.set([giantTextRef.current, headingRef.current, linksRef.current], { opacity: 1, y: 0, scale: 1 });
-        return;
-      }
+    if (reducedMotion) {
+      gsap.set([giantTextRef.current, headingRef.current, linksRef.current], { opacity: 1, y: 0, scale: 1 });
+      return undefined;
+    }
 
-      gsap.fromTo(
-        giantTextRef.current,
-        { y: "18vh", scale: 0.75, opacity: 0 },
-        {
-          y: "-9vh",
-          scale: 1.6,
-          opacity: 1,
-          ease: "power1.out",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 100%",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        },
-      );
+    let context = null;
 
-      gsap.fromTo(
-        [headingRef.current, linksRef.current],
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 72%",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        },
-      );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting || context) return;
+        context = gsap.context(() => {
+          gsap.fromTo(
+            giantTextRef.current,
+            { y: "18vh", scale: 0.75, opacity: 0 },
+            {
+              y: "-9vh",
+              scale: 1.6,
+              opacity: 1,
+              ease: "power1.out",
+              scrollTrigger: {
+                trigger: wrapper,
+                start: "top 100%",
+                end: "bottom bottom",
+                scrub: 1,
+              },
+            },
+          );
 
-      gsap.fromTo(
-        document.querySelector(".cinematic-footer-primary"),
-        { y: -6 },
-        {
-          y: 0,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 72%",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        },
-      );
-    }, wrapperRef);
+          gsap.fromTo(
+            [headingRef.current, linksRef.current],
+            { y: 50, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              stagger: 0.15,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: wrapper,
+                start: "top 72%",
+                end: "bottom bottom",
+                scrub: 1,
+              },
+            },
+          );
 
-    return () => context.revert();
+          const primary = wrapper.querySelector(".cinematic-footer-primary");
+          if (primary) {
+            gsap.fromTo(
+              primary,
+              { y: -6 },
+              {
+                y: 0,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: wrapper,
+                  start: "top 72%",
+                  end: "bottom bottom",
+                  scrub: 1,
+                },
+              },
+            );
+          }
+        }, wrapper);
+
+        observer.disconnect();
+      },
+      { rootMargin: "200px 0px" },
+    );
+
+    observer.observe(wrapper);
+
+    return () => {
+      observer.disconnect();
+      context?.revert();
+    };
   }, []);
 
   const scrollToTop = () => {
