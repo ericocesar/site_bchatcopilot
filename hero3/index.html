@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BChat Copilot · Hero 3 — Command Center</title>
+    <meta name="theme-color" content="#080b10" />
+    <meta name="description" content="BChat Copilot: uma nova camada de inteligência para sua operação. Contexto, decisão e automação conduzidos por IA." />
+    <link rel="icon" href="/docs/logobchat.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/tokens.css" />
+    <link rel="stylesheet" href="./hero3.css" />
+  </head>
+  <body class="h3-body">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="h3-topbar" aria-label="Navegação das variações">
+      <a class="h3-brand" href="/" aria-label="BChat Copilot, voltar para a home">
+        <img class="h3-brand-mark" src="/docs/logobchat.png" alt="" width="28" height="28" />
+        <span class="h3-brand-wordmark">bchat<span>copilot</span></span>
+      </a>
+      <nav class="h3-nav" aria-label="Variações da Hero">
+        <a href="/hero1/">Hero 1 · Robô + Kanban</a>
+        <a href="/hero2/">Hero 2 · Conversa → IA</a>
+        <a href="/hero3/" aria-current="page">Hero 3 · Command Center</a>
+        <a class="h3-nav-back" href="/">Voltar <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="conteudo" tabindex="-1">
+      <section class="h3-hero" id="topo" aria-labelledby="h3-title">
+        <div class="h3-grid" aria-hidden="true"></div>
+        <div class="h3-mesh" aria-hidden="true">
+          <span class="h3-mesh__glow"></span>
+          <span class="h3-mesh__ring h3-mesh__ring--a"></span>
+          <span class="h3-mesh__ring h3-mesh__ring--b"></span>
+          <span class="h3-mesh__ring h3-mesh__ring--c"></span>
+        </div>
+        <div class="h3-grain" aria-hidden="true"></div>
+
+        <div class="h3-split">
+          <div class="h3-copy">
+            <span class="h3-eyebrow">
+              <span class="h3-eyebrow-dot" aria-hidden="true">✦</span>
+              AI Operations Command Center
+            </span>
+
+            <h1 id="h3-title" class="h3-title">
+              Uma nova camada de<br />
+              <em>inteligência</em> para<br />
+              sua operação.
+            </h1>
+
+            <p class="h3-sub">
+              Centralize contexto, decisão e automação em uma experiência única, com
+              agentes de IA capazes de sugerir, coordenar e executar fluxos
+              empresariais.
+            </p>
+
+            <div class="h3-cta-row">
+              <a class="h3-cta" href="#contato">
+                <span class="h3-cta__inner">
+                  Solicitar demonstração
+                  <span class="h3-cta__icon" aria-hidden="true">↗</span>
+                </span>
+              </a>
+              <a class="h3-cta-ghost" href="#processo">
+                Explorar como funciona <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+
+            <p class="h3-proof">
+              <span class="h3-proof__dot" aria-hidden="true"></span>
+              Núcleo de IA ativo · 7 capacidades em produção
+            </p>
+
+            <!-- System status widget (unique to hero3) -->
+            <div class="h3-statusboard" aria-label="Status do sistema">
+              <header>
+                <span class="h3-statusboard__dot" aria-hidden="true"></span>
+                <strong>Sistema</strong>
+                <em>status operacional</em>
+              </header>
+              <ul>
+                <li>
+                  <span class="h3-statusboard__metric">7</span>
+                  <span class="h3-statusboard__bar"><span></span></span>
+                  <span class="h3-statusboard__lbl">capacidades ativas</span>
+                </li>
+                <li>
+                  <span class="h3-statusboard__metric">99.97%</span>
+                  <span class="h3-statusboard__bar"><span></span></span>
+                  <span class="h3-statusboard__lbl">uptime</span>
+                </li>
+                <li>
+                  <span class="h3-statusboard__metric">~120ms</span>
+                  <span class="h3-statusboard__bar"><span></span></span>
+                  <span class="h3-statusboard__lbl">latência média</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="h3-cc" role="group" aria-label="Command Center do BChat Copilot: núcleo de IA, contexto, decisão e automação">
+            <!-- SVG connections layer -->
+            <svg class="h3-cc__wires" viewBox="0 0 1000 1050" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="h3-wire" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0%" stop-color="var(--cyan-1)" stop-opacity="0" />
+                  <stop offset="50%" stop-color="var(--cyan-1)" stop-opacity="0.75" />
+                  <stop offset="100%" stop-color="var(--cyan-1)" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+
+              <!-- Conversation chip → core -->
+              <path d="M 130 130 C 240 200, 340 320, 470 470" class="h3-wire h3-wire--1" />
+              <!-- Knowledge chip → core -->
+              <path d="M 130 540 C 260 520, 360 520, 460 510" class="h3-wire h3-wire--2" />
+              <!-- Core → Decision panel -->
+              <path d="M 540 470 C 680 420, 780 360, 880 280" class="h3-wire h3-wire--3" />
+              <!-- Decision panel → Automation panel -->
+              <path d="M 870 380 C 880 540, 820 720, 720 850" class="h3-wire h3-wire--4" />
+
+              <!-- traveling pulse lines -->
+              <path d="M 130 130 C 240 200, 340 320, 470 470" class="h3-pulse" />
+              <path d="M 540 470 C 680 420, 780 360, 880 280" class="h3-pulse h3-pulse--2" />
+              <path d="M 870 380 C 880 540, 820 720, 720 850" class="h3-pulse h3-pulse--3" />
+            </svg>
+
+            <!-- Peripheral chips (positioned in clear corridors around the orb and panels) -->
+            <span class="h3-chip h3-chip--conv">
+              <span class="h3-chip__dot"></span> Conversas
+            </span>
+            <span class="h3-chip h3-chip--know">
+              <span class="h3-chip__dot"></span> Conhecimento
+            </span>
+            <span class="h3-chip h3-chip--res">
+              <span class="h3-chip__dot"></span> Resultado
+            </span>
+            <span class="h3-chip h3-chip--kb">
+              <span class="h3-chip__dot"></span> Kanban
+            </span>
+            <span class="h3-chip h3-chip--hist">
+              <span class="h3-chip__dot"></span> Histórico
+            </span>
+
+            <!-- Central AI core orb -->
+            <div class="h3-core" aria-label="Núcleo de IA do BChat Copilot">
+              <span class="h3-core__halo"></span>
+              <span class="h3-core__halo h3-core__halo--b"></span>
+              <span class="h3-core__ring h3-core__ring--a"></span>
+              <span class="h3-core__ring h3-core__ring--b"></span>
+              <span class="h3-core__dot"></span>
+              <span class="h3-core__cap" aria-hidden="true">Núcleo · IA</span>
+            </div>
+
+            <!-- Panel 1 · Contexto -->
+            <article class="h3-panel h3-panel--ctx">
+              <header>
+                <span class="h3-panel__icon" aria-hidden="true">◔</span>
+                <div>
+                  <strong>Contexto</strong>
+                  <em>entrada do agente</em>
+                </div>
+              </header>
+              <dl>
+                <div><dt>Cliente</dt><dd>Empresa ACME</dd></div>
+                <div><dt>Solicitação</dt><dd>Atualização cadastral</dd></div>
+              </dl>
+              <p class="h3-panel__hint">
+                <span class="h3-panel__pulse"></span>
+                Histórico encontrado · 3 interações
+              </p>
+            </article>
+
+            <!-- Panel 2 · Decisão -->
+            <article class="h3-panel h3-panel--dec">
+              <header>
+                <span class="h3-panel__icon" aria-hidden="true">✦</span>
+                <div>
+                  <strong>Decisão</strong>
+                  <em>próxima ação sugerida</em>
+                </div>
+                <span class="h3-confidence">
+                  <span class="h3-confidence__bar"><span></span></span>
+                  92% confiança
+                </span>
+              </header>
+              <p class="h3-decision__line">
+                <span>Tarefa</span>
+                <strong>Atualizar cadastro</strong>
+              </p>
+              <p class="h3-decision__reason">
+                Baseado no histórico e na política vigente.
+              </p>
+              <div class="h3-actions" role="group" aria-label="Aprovar ou revisar">
+                <button class="h3-btn h3-btn--primary" type="button" tabindex="-1" aria-hidden="true">
+                  <span aria-hidden="true">▶</span> Executar
+                </button>
+                <button class="h3-btn" type="button" tabindex="-1" aria-hidden="true">
+                  <span aria-hidden="true">↺</span> Revisar
+                </button>
+              </div>
+            </article>
+
+            <!-- Panel 3 · Automação (mini kanban) -->
+            <article class="h3-panel h3-panel--auto">
+              <header>
+                <span class="h3-panel__icon" aria-hidden="true">↻</span>
+                <div>
+                  <strong>Automação</strong>
+                  <em>fluxo em execução</em>
+                </div>
+                <span class="h3-status">
+                  <span class="h3-status__dot"></span> rodando
+                </span>
+              </header>
+              <div class="h3-kanban">
+                <div class="h3-kanban__col">
+                  <header><span>Entrada</span><em>2</em></header>
+                  <div class="h3-kanban__cell"><strong>Atualizar dados</strong><small>cadastro</small></div>
+                </div>
+                <div class="h3-kanban__col h3-kanban__col--mid">
+                  <header><span>Executando</span><em>1</em></header>
+                  <div class="h3-kanban__cell h3-kanban__cell--ghost" aria-hidden="true"></div>
+                </div>
+                <div class="h3-kanban__col">
+                  <header><span>Concluído</span><em>5</em></header>
+                  <div class="h3-kanban__cell h3-kanban__cell--done"><strong>Endereço novo</strong><small>ok</small></div>
+                </div>
+                <div class="h3-flow-card" aria-hidden="true">
+                  <span class="h3-flow-card__dot"></span>
+                  <strong>Atualizar dados</strong>
+                  <small>cadastro</small>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

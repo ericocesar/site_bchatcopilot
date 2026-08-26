@@ -1,0 +1,599 @@
+/* hero1 · Robô + Kanban
+ * Reuses tokens.css (paper-1 canvas, cyan-1 accent, Manrope).
+ * Composition: editorial split · right stage holds the kanban asset,
+ * the robot accent, 4 glass cards and SVG connection lines.
+ * Animations use transform + opacity only. Reduced-motion respected.
+ */
+
+.h1-body {
+  margin: 0;
+  background: var(--paper-1);
+  color: var(--ink-1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  padding: 10px 16px;
+  background: var(--ink-1);
+  color: var(--paper-1);
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { left: 16px; top: 16px; outline: 2px solid var(--cyan-1); }
+
+/* ── Topbar (preview chrome, not a section) ───────────────────────────── */
+.h1-topbar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px clamp(16px, 4vw, 56px);
+  border-bottom: 1px solid var(--rule-hairline);
+  background: oklch(14% 0.018 250 / 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.h1-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink-1);
+}
+.h1-brand-mark { width: 28px; height: 28px; border-radius: 7px; }
+.h1-brand-wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  color: var(--ink-1);
+}
+.h1-brand-wordmark span { color: var(--cyan-1); font-weight: 600; }
+
+.h1-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+.h1-nav a {
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--dur-quick) var(--ease-spring), background var(--dur-quick) var(--ease-spring);
+}
+.h1-nav a:hover { color: var(--ink-1); background: oklch(100% 0 0 / 0.05); }
+.h1-nav a[aria-current="page"] {
+  color: var(--paper-1);
+  background: var(--ink-1);
+}
+.h1-nav-back { color: var(--ink-1) !important; }
+@media (max-width: 720px) {
+  .h1-topbar { flex-direction: column; align-items: flex-start; }
+  .h1-nav { font-size: 11px; }
+}
+
+/* ── Hero canvas ──────────────────────────────────────────────────────── */
+.h1-hero {
+  position: relative;
+  min-height: calc(100dvh - 64px);
+  padding: clamp(48px, 7vw, 96px) clamp(16px, 4vw, 56px) clamp(56px, 8vw, 120px);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* grid lines */
+.h1-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, oklch(80% 0.030 230 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(80% 0.030 230 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 80%);
+}
+
+/* radial glow orbs */
+.h1-mesh { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.h1-mesh__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  will-change: transform;
+}
+.h1-mesh__orb--a {
+  width: 55vw; height: 55vw; top: -18vw; right: -10vw;
+  background: radial-gradient(circle, var(--hero-mesh-1), transparent 70%);
+  animation: h1-drift-a 24s var(--ease-spring) infinite alternate;
+}
+.h1-mesh__orb--b {
+  width: 48vw; height: 48vw; bottom: -20vw; left: -8vw;
+  background: radial-gradient(circle, var(--hero-mesh-2), transparent 70%);
+  animation: h1-drift-b 30s var(--ease-spring) infinite alternate;
+}
+@keyframes h1-drift-a { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(-6vw, 4vw, 0) scale(1.08); } }
+@keyframes h1-drift-b { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(5vw, -3vw, 0) scale(1.06); } }
+
+/* grain */
+.h1-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+}
+
+/* ── Split layout ─────────────────────────────────────────────────────── */
+.h1-split {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  max-width: 1320px;
+  margin: 0 auto;
+  align-items: center;
+  min-height: calc(100dvh - 220px);
+}
+
+/* ── Left · copy ──────────────────────────────────────────────────────── */
+.h1-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: h1-reveal var(--dur-stage) var(--ease-spring) 80ms forwards;
+}
+@keyframes h1-reveal { to { opacity: 1; transform: translateY(0); } }
+
+.h1-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  align-self: flex-start;
+  padding: 6px 14px 6px 8px;
+  border-radius: 999px;
+  background: oklch(20% 0.020 250 / 0.6);
+  border: 1px solid var(--border-soft);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.h1-eyebrow-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--lime-1); color: var(--paper-1);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 9px;
+  box-shadow: 0 0 12px oklch(80% 0.130 188 / 0.45);
+}
+
+.h1-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(40px, 6.6vw, 84px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  color: var(--ink-1);
+}
+.h1-title em {
+  font-style: normal;
+  background: linear-gradient(96deg, var(--cyan-1) 0%, var(--cyan-2) 50%, var(--cyan-1) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: h1-shimmer 10s var(--ease-spring) infinite alternate;
+}
+@keyframes h1-shimmer { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+
+.h1-sub {
+  max-width: 520px;
+  margin: 0;
+  font-size: clamp(15px, 1.35vw, 18px);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+/* CTA primary · double bezel */
+.h1-cta-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.h1-cta {
+  display: inline-flex;
+  padding: 5px;
+  border-radius: 999px;
+  background: oklch(100% 0 0 / 0.06);
+  border: 1px solid oklch(80% 0.030 230 / 0.12);
+  text-decoration: none;
+  transition: transform var(--dur-base) var(--ease-spring), background var(--dur-base) var(--ease-spring);
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.08);
+}
+.h1-cta:hover { transform: scale(0.985); }
+.h1-cta:focus-visible { outline: 2px solid var(--cyan-1); outline-offset: 4px; }
+.h1-cta__inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 8px 12px 22px;
+  border-radius: 999px;
+  background: var(--ink-1);
+  color: var(--paper-1);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  box-shadow: 0 8px 24px oklch(0% 0 0 / 0.3);
+}
+.h1-cta__icon {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: oklch(0% 0 0 / 0.08);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+.h1-cta:hover .h1-cta__icon { transform: translate(3px, -1px) scale(1.05); }
+
+.h1-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-radius: 999px;
+  transition: color var(--dur-quick) var(--ease-spring), gap var(--dur-base) var(--ease-spring);
+}
+.h1-cta-ghost:hover { color: var(--ink-1); gap: 14px; }
+.h1-cta-ghost:focus-visible { outline: 2px solid var(--cyan-1); outline-offset: 4px; }
+
+.h1-sources {
+  display: flex; flex-direction: column; gap: 8px;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: oklch(20% 0.020 250 / 0.5);
+  border: 1px solid var(--border-soft);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-display);
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.04);
+  max-width: 420px;
+}
+.h1-sources header {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.h1-sources__dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--lime-1);
+  box-shadow: 0 0 10px var(--lime-1);
+  animation: h1-pulse 2.6s var(--ease-spring) infinite;
+}
+.h1-sources header strong { color: var(--ink-1); font-weight: 600; }
+.h1-sources header em {
+  margin-left: auto; font-style: normal;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px; letter-spacing: 0.04em; color: var(--cyan-1);
+}
+.h1-sources ul {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.h1-sources li {
+  display: grid; grid-template-columns: 16px 1fr auto;
+  align-items: center; gap: 8px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px; color: var(--ink-2);
+}
+.h1-sources li:nth-child(odd) {
+  background: oklch(25% 0.022 250 / 0.25);
+}
+.h1-sources li em {
+  font-style: normal;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  color: var(--ink-3);
+}
+.h1-sources__check {
+  width: 16px; height: 16px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: oklch(80% 0.130 188 / 0.18);
+  color: var(--lime-1);
+  font-size: 10px; font-weight: 700;
+}
+@keyframes h1-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.8); }
+}
+
+/* ── Right · stage ────────────────────────────────────────────────────── */
+.h1-stage {
+  position: relative;
+  aspect-ratio: 1000 / 760;
+  width: 100%;
+  max-width: 620px;
+  justify-self: end;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: h1-reveal var(--dur-stage) var(--ease-spring) 260ms forwards;
+}
+
+/* SVG connections sit on top of the kanban but below cards */
+.h1-connections {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+.h1-conn {
+  fill: none;
+  stroke: var(--cyan-1);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: 4 6;
+  opacity: 0;
+  animation: h1-draw 1.2s var(--ease-spring) forwards;
+}
+.h1-conn--1 { stroke: url(#h1-line-soft); animation-delay: 600ms; }
+.h1-conn--2 { stroke: url(#h1-line-soft); animation-delay: 800ms; }
+.h1-conn--3 { stroke: url(#h1-line-soft); animation-delay: 1000ms; }
+.h1-conn--4 { stroke: url(#h1-line-soft); animation-delay: 1200ms; }
+@keyframes h1-draw {
+  to { opacity: 0.9; }
+}
+
+/* traveling data line: short dash that flows along the path */
+.h1-data {
+  fill: none;
+  stroke: var(--cyan-1);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 22 520;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px var(--cyan-1));
+  animation: h1-data-flow 5.5s var(--ease-in-out) 1400ms infinite;
+}
+@keyframes h1-data-flow {
+  0% { stroke-dashoffset: 540; opacity: 0; }
+  10% { opacity: 0.95; }
+  90% { opacity: 0.95; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+/* Kanban asset — main visual */
+.h1-kanban {
+  position: absolute;
+  left: 18%;
+  top: 12%;
+  width: 64%;
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: oklch(13% 0.018 250);
+  box-shadow:
+    0 30px 80px oklch(0% 0 0 / 0.45),
+    0 0 0 1px oklch(100% 0 0 / 0.02) inset;
+  z-index: 1;
+  transform: perspective(1400px) rotateY(-6deg) rotateX(2deg);
+  transform-origin: center;
+}
+.h1-kanban__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+}
+.h1-kanban-cap {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: oklch(14% 0.018 250 / 0.7);
+  border: 1px solid var(--border-soft);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.h1-kanban-cap span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lime-1); box-shadow: 0 0 8px var(--lime-1);
+}
+
+/* ghost card animating across kanban columns */
+.h1-kanban-card {
+  position: absolute;
+  top: 26%;
+  left: 6%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: oklch(85% 0.130 190 / 0.18);
+  border: 1px solid oklch(85% 0.130 190 / 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cyan-3);
+  white-space: nowrap;
+  z-index: 3;
+  animation: h1-card-move 7.5s var(--ease-in-out) 1500ms infinite;
+}
+.h1-kanban-card__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--cyan-1); box-shadow: 0 0 8px var(--cyan-1);
+}
+@keyframes h1-card-move {
+  0%   { transform: translate(0, 0);     opacity: 0; }
+  10%  { opacity: 1; }
+  45%  { transform: translate(180px, 6px); opacity: 1; }
+  55%  { transform: translate(180px, 6px); opacity: 1; }
+  78%  { transform: translate(360px, -4px); opacity: 0.85; }
+  90%  { transform: translate(360px, -4px); opacity: 0; }
+  100% { transform: translate(360px, -4px); opacity: 0; }
+}
+
+/* robot hand accent */
+.h1-robot {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 32%;
+  height: auto;
+  opacity: 0.9;
+  filter: drop-shadow(0 12px 24px oklch(0% 0 0 / 0.4))
+          drop-shadow(0 0 22px oklch(85% 0.130 190 / 0.18));
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* glass cards */
+.h1-card {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: oklch(22% 0.020 250 / 0.55);
+  border: 1px solid var(--border-soft);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.06),
+    0 14px 40px oklch(0% 0 0 / 0.32),
+    0 0 0 1px oklch(85% 0.130 190 / 0.05);
+  font-family: var(--font-display);
+  color: var(--ink-1);
+  animation: h1-float 6s var(--ease-in-out) infinite;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: transform var(--dur-slow) var(--ease-spring);
+}
+.h1-card[data-card="contexto"] { animation-delay: 0ms, 600ms; }
+.h1-card[data-card="sugestao"] { animation-delay: 800ms, 800ms; }
+.h1-card[data-card="automacao"] { animation-delay: 1100ms, 1000ms; }
+.h1-card[data-card="status"]    { animation-delay: 1400ms, 1200ms; }
+
+.h1-card { animation: h1-card-in 0.6s var(--ease-spring) forwards, h1-float 6s var(--ease-in-out) infinite; }
+.h1-card[data-card="contexto"] { animation-delay: 600ms, 1800ms; }
+.h1-card[data-card="sugestao"] { animation-delay: 800ms, 2000ms; }
+.h1-card[data-card="automacao"] { animation-delay: 1000ms, 2200ms; }
+.h1-card[data-card="status"]    { animation-delay: 1200ms, 2400ms; }
+
+@keyframes h1-card-in { to { opacity: 1; transform: translateY(0); } }
+@keyframes h1-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+.h1-card:hover { transform: translateY(-6px); }
+
+.h1-card__kicker {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cyan-1);
+  font-weight: 600;
+}
+.h1-card__body {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink-1);
+}
+.h1-card__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  font-family: var(--font-body);
+}
+.h1-card__pulse {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--cyan-1);
+  box-shadow: 0 0 8px var(--cyan-1);
+  animation: h1-pulse 2.2s var(--ease-spring) infinite;
+}
+.h1-card__pulse--cyan { background: var(--cyan-1); box-shadow: 0 0 8px var(--cyan-1); }
+.h1-card__pulse--lime { background: var(--lime-1); box-shadow: 0 0 8px var(--lime-1); }
+.h1-card__pulse--blue { background: var(--blue-soft); box-shadow: 0 0 8px var(--blue-soft); }
+
+/* card positions (in % of stage) */
+.h1-card--1 { left: 1%;  top: 4%;   width: 30%; }
+.h1-card--2 { right: 1%; top: 2%;   width: 30%; }
+.h1-card--3 { left: 3%;  bottom: 8%; width: 30%; }
+.h1-card--4 { right: 3%; bottom: 6%; width: 28%; }
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .h1-split { grid-template-columns: 1fr; gap: 40px; min-height: auto; }
+  .h1-stage { justify-self: stretch; max-width: 100%; }
+  .h1-robot { display: none; }
+  .h1-connections { display: none; }
+  .h1-kanban-card { display: none; }
+  .h1-card--1 { width: 56%; left: 0; top: 2%; }
+  .h1-card--2 { width: 56%; right: 0; top: 0; }
+  .h1-card--3, .h1-card--4 { display: none; }
+}
+@media (max-width: 520px) {
+  .h1-title { font-size: clamp(36px, 11vw, 48px); }
+  .h1-sub { font-size: 14px; }
+  .h1-cta__inner { font-size: 14px; padding: 11px 6px 11px 18px; }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .h1-copy, .h1-stage, .h1-card { opacity: 1; transform: none; animation: none; }
+  .h1-mesh__orb, .h1-conn, .h1-data, .h1-kanban-card, .h1-title em, .h1-sources__dot, .h1-card__pulse {
+    animation: none;
+  }
+  .h1-conn { opacity: 0.7; stroke-dasharray: none; }
+  .h1-data { display: none; }
+  .h1-grain { opacity: 0.02; }
+}
