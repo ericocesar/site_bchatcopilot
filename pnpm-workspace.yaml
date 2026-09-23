@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: false
+  # Runtime do wrangler (pacote oficial Cloudflare): o postinstall baixa o
+  # binário pré-compilado. Sem isso, `pnpm install/exec/run` falha com
+  # ERR_PNPM_IGNORED_BUILDS e o deploy-cloudflare.sh não roda.
+  workerd: true

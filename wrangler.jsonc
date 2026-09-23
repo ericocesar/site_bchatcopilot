@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "bchat-copilot-landing",
+  // Manter sincronizado com a data atual; >= 2025-04-01 ativa
+  // assets_navigation_prefers_asset_serving (navegação serve assets sem invocar Worker).
+  "compatibility_date": "2026-09-23",
+  // Site 100% estático (Vite multi-page, sem Worker code): serve dist/ direto.
+  // - not_found_handling single-page-application: /blog e rotas desconhecidas caem no
+  //   /index.html, onde App.jsx renderiza o placeholder do blog ou o 404 client-side.
+  // - html_handling auto-trailing-slash (padrão): /hero1 -> 307 /hero1/ servindo
+  //   dist/hero1/index.html, igual ao middleware de dev em vite.config.js.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+    "html_handling": "auto-trailing-slash"
+  },
+  // Envs exigidos por scripts/deploy-cloudflare.sh (--env production/develop).
+  // Herdam assets do top-level; só o nome varia por ambiente.
+  "env": {
+    "production": {
+      "name": "bchat-copilot-landing",
+      // Rota do apex: sem ela o Worker não recebe o tráfego do domínio,
+      // mesmo com o DNS apontado. Exige que o registro do apex esteja
+      // proxied (nuvem laranja) para disparar.
+      "routes": ["bchat.com.br/*"]
+    },
+    "develop": {}
+  }
+}
