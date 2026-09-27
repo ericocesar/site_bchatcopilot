@@ -5,6 +5,11 @@ import VanguardHero from "./components/ui/vanguard-hero.jsx";
 import "../tokens.css";
 import "./landing.css";
 import "./landing.js";
+import { initRobotHero } from "./robot-hero.js";
+import "./robot-hero.css";
+
+const disposeRobotHero = initRobotHero();
+if (import.meta.hot) import.meta.hot.dispose(disposeRobotHero);
 
 const heroEl = document.getElementById("hero-root");
 if (heroEl) {
