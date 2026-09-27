@@ -34,8 +34,8 @@
   --cyan-3: oklch(95% 0.030 188);    /* #C8FFFA — editor mono text */
   --cyan-4: oklch(98% 0.010 190);    /* #F2FFFE — editor body text */
   --blue-soft: oklch(72% 0.140 245); /* #5da3ff — soft sky blue */
-  --lime-1: oklch(80% 0.130 188);    /* #55dcd0 — primary lime (CTA) */
-  --lime-2: oklch(94% 0.180 115);    /* #d6ff87 — lime hover */
+  --lime-1: #12a594;                 /* dark-flow teal 9 — primary green (CTA) */
+  --lime-2: #0eb39e;                 /* dark-flow teal 10 — hover */
   --warm-stale: oklch(78% 0.130 80);  /* #f2ba69 — pricing status stale */
   --danger: oklch(75% 0.130 35);     /* #ff9b7e — error / soft coral */
 
@@ -43,8 +43,8 @@
   --rgb-blue: 39 129 246;
   --rgb-blue-soft: 93 163 255;
   --rgb-teal: 24 134 146;
-  --rgb-limebright: 85 220 208;
-  --rgb-limelight: 196 245 103;
+  --rgb-limebright: 18 165 148;
+  --rgb-limelight: 173 240 221;
 
   /* ── Typography ──────────────────────────────────────────────────────── */
   --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;

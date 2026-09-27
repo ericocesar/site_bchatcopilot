@@ -7,9 +7,15 @@ import "./landing.css";
 import "./landing.js";
 import { initRobotHero } from "./robot-hero.js";
 import "./robot-hero.css";
+import { initCopilotIntro } from "./copilot-intro.js";
+import "./copilot-intro.css";
 
+const disposeCopilotIntro = initCopilotIntro();
 const disposeRobotHero = initRobotHero();
-if (import.meta.hot) import.meta.hot.dispose(disposeRobotHero);
+if (import.meta.hot) import.meta.hot.dispose(() => {
+  disposeCopilotIntro();
+  disposeRobotHero();
+});
 
 const heroEl = document.getElementById("hero-root");
 if (heroEl) {
