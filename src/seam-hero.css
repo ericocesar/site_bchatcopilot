@@ -542,8 +542,8 @@ html { scrollbar-color: var(--surface-2) var(--paper-1); }
 .video-teaser__cta {
   position: absolute;
   z-index: 1;
-  left: 16px;
-  bottom: 14px;
+  left: 20px;
+  bottom: 20px;
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -562,7 +562,38 @@ html { scrollbar-color: var(--surface-2) var(--paper-1); }
   color: var(--paper-1);
   transition: background var(--dur-quick) var(--ease-out), transform var(--dur-quick) var(--ease-out);
 }
-.video-teaser__play .seam-icon { width: 18px; height: 18px; margin-left: 2px; fill: currentColor; stroke: none; }
+.video-teaser__play .seam-icon { position: relative; z-index: 1; width: 18px; height: 18px; margin-left: 2px; fill: currentColor; stroke: none; }
+/* Attention: a breathing glow plus two rings that ripple out from the button. */
+.video-teaser__play {
+  position: relative;
+  isolation: isolate;
+  animation: video-play-glow 2.4s var(--ease-in-out) infinite;
+}
+.video-teaser__play::before,
+.video-teaser__play::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 1.5px solid var(--lime-2);
+  border-radius: 50%;
+  opacity: 0;
+  animation: video-play-ripple 2.4s var(--ease-out) infinite;
+  pointer-events: none;
+}
+.video-teaser__play::after { animation-delay: 1.2s; }
+@keyframes video-play-ripple {
+  0% { opacity: .75; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+@keyframes video-play-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(var(--rgb-limebright) / .45), 0 0 14px 2px rgb(var(--rgb-limebright) / .35); }
+  50% { box-shadow: 0 0 0 6px rgb(var(--rgb-limebright) / .12), 0 0 26px 8px rgb(var(--rgb-limebright) / .55); }
+}
+.video-teaser:hover .video-teaser__play,
+.video-teaser:focus-visible .video-teaser__play { animation-duration: 1.2s; }
+.video-teaser:hover .video-teaser__play::before,
+.video-teaser:hover .video-teaser__play::after { animation-duration: 1.2s; }
 .video-teaser:hover img { opacity: .92; transform: scale(1.03); }
 .video-teaser:hover .video-teaser__play { background: var(--lime-2); transform: scale(1.06); }
 .video-teaser:focus-visible { outline: 2px solid var(--lime-1); outline-offset: 4px; }
@@ -611,4 +642,6 @@ html:has(.video-dialog[open]) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .video-dialog[open] { animation: none; }
   .video-teaser img, .video-teaser__play { transition: none; }
+  .video-teaser__play { animation: none; box-shadow: 0 0 18px 4px rgb(var(--rgb-limebright) / .45); }
+  .video-teaser__play::before, .video-teaser__play::after { animation: none; }
 }
