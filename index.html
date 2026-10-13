@@ -14,7 +14,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/tokens.css" />
-    <link rel="preload" as="image" href="/hero/robot-notebook.webp" fetchpriority="high" />
+    <script>
+      // Hide the choreographed hero only when the entrance will play (src/seam-hero.js).
+      // src/seam-hero.css carries a failsafe that reveals everything if the module never runs.
+      try {
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var seen = sessionStorage.getItem("bchat-seam-entrance") === "1";
+        if (!reduce && !seen) document.documentElement.classList.add("seam-js-intro");
+      } catch (error) {}
+    </script>
     <script type="application/ld+json" id="structured-data">
       {
         "@context": "https://schema.org",
@@ -27,52 +35,43 @@
     </script>
   </head>
   <body data-plans-endpoint="/public/api/v1/bchat/plans">
+    <svg class="seam-icons" aria-hidden="true" focusable="false">
+      <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M9.94 15.5a2 2 0 0 0-1.44-1.44l-6.13-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.13a.5.5 0 0 1 .96 0l1.58 6.13a2 2 0 0 0 1.44 1.44l6.13 1.58a.5.5 0 0 1 0 .96l-6.13 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.13a.5.5 0 0 1-.96 0z" /></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M16 13H8" /><path d="M16 17H8" /><path d="M10 9H8" /></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol>
+      <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.17 6.81a1 1 0 0 0-3.98-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.36-1.32a2 2 0 0 0 .83-.5z" /><path d="m15 5 4 4" /></symbol>
+      <symbol id="i-route" viewBox="0 0 24 24"><path d="M16 3h5v5" /><path d="M8 3H3v5" /><path d="M12 22v-8.3a4 4 0 0 0-1.17-2.87L3 3" /><path d="m15 9 6-6" /></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.52.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z" /></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol>
+      <symbol id="i-message" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.59 2.59A2 2 0 0 0 11.17 2H4a2 2 0 0 0-2 2v7.17a2 2 0 0 0 .59 1.42l8.7 8.7a2.43 2.43 0 0 0 3.42 0l6.58-6.58a2.43 2.43 0 0 0 0-3.42z" /><circle cx="7.5" cy="7.5" r=".5" /></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5v14a9 3 0 0 0 18 0V5" /><path d="M3 12a9 3 0 0 0 18 0" /></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z" /><path d="m21.85 2.15-10.94 10.94" /></symbol>
+    </svg>
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
     <div class="page-shell">
-      <section class="copilot-intro" aria-label="BChat Copilot, abertura" data-copilot-intro>
-        <div class="copilot-intro__stage" data-intro-stage>
-          <div class="copilot-intro__scene" data-intro-scene>
-            <div class="copilot-intro__art" aria-hidden="true">
-              <div class="copilot-intro__planet"></div>
-              <div class="copilot-intro__atmosphere"></div>
-              <div class="copilot-intro__light" data-intro-light>
-                <div class="copilot-intro__beam"></div>
-                <div class="copilot-intro__flare"></div>
-                <div class="copilot-intro__core"></div>
-              </div>
-              <div class="copilot-intro__grain"></div>
-            </div>
-            <div class="copilot-intro__title" data-intro-title>
-              <p class="copilot-intro__wordmark" data-intro-wordmark><span class="copilot-intro__brand">BCHAT</span> <span class="copilot-intro__copilot">COPILOT</span></p>
-            </div>
-          </div>
-          <div class="copilot-intro__controls" data-intro-controls>
-            <button class="copilot-intro__sound" type="button" aria-pressed="false" data-intro-sound hidden>
-              <span class="copilot-intro__equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-              <span data-intro-sound-label>Ativar som</span>
-            </button>
-            <a class="copilot-intro__enter" href="#topo" data-intro-enter>Role para entrar <span aria-hidden="true">↓</span></a>
-            <a class="copilot-intro__skip" href="#topo" data-intro-enter>Pular abertura <span aria-hidden="true">↗</span></a>
-          </div>
-        </div>
-      </section>
       <header class="site-header" data-header aria-label="Navegação principal">
         <div class="container header-inner">
           <a class="brand" href="#topo" aria-label="BChat Copilot, início">
-            <img class="brand-mark" src="docs/logobchat.png" alt="BChat Copilot" />
+            <img class="brand-mark" src="docs/logobchat.png" alt="" />
             <span class="brand-wordmark">bchat<span>copilot</span></span>
           </a>
 
           <nav class="desktop-nav" aria-label="Navegação principal">
-            <a href="#processo">Processo</a>
-            <a href="#momentos">Momentos</a>
-            <a href="#camadas">Camadas</a>
-            <a href="#decisao">Decisão</a>
+            <a href="#processo">Como funciona</a>
+            <a href="#momentos">Casos de uso</a>
+            <a href="#camadas">Recursos</a>
+            <a href="#decisao">Planos</a>
             <a href="#duvidas">Dúvidas</a>
           </nav>
 
-          <button class="button button-small button-ghost header-cta" type="button" data-header-trial-trigger data-analytics="trial_header_cta_click" data-placement="header">Comece grátis <span aria-hidden="true">✦</span></button>
+          <a class="button button-small button-ghost header-cta" href="#contato" data-analytics="landing_primary_cta_click" data-placement="header">Solicitar demonstração</a>
           <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
             <span class="sr-only">Abrir menu</span>
             <span></span><span></span>
@@ -80,46 +79,63 @@
         </div>
         <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
           <nav aria-label="Navegação mobile">
-            <a href="#processo" data-menu-close>Processo</a>
-            <a href="#momentos" data-menu-close>Momentos</a>
-            <a href="#camadas" data-menu-close>Camadas</a>
-            <a href="#decisao" data-menu-close>Decisão</a>
+            <a href="#processo" data-menu-close>Como funciona</a>
+            <a href="#momentos" data-menu-close>Casos de uso</a>
+            <a href="#camadas" data-menu-close>Recursos</a>
+            <a href="#decisao" data-menu-close>Planos</a>
             <a href="#duvidas" data-menu-close>Dúvidas</a>
           </nav>
-          <button class="button button-primary" type="button" data-menu-close data-header-trial-trigger data-analytics="trial_header_cta_click" data-placement="mobile_menu">Comece grátis <span aria-hidden="true">✦</span></button>
+          <a class="button button-primary" href="#contato" data-menu-close data-analytics="landing_primary_cta_click" data-placement="mobile_menu">Solicitar demonstração</a>
         </div>
       </header>
 
       <main id="conteudo" tabindex="-1">
-        <section class="hero hero--robot" id="topo" aria-labelledby="hero-title" data-robot-hero>
-          <div class="container hero-content">
-            <div class="hero-copy">
-              <p class="eyebrow reveal">Copiloto de IA + automação agêntica</p>
-              <h1 id="hero-title" class="hero-title reveal reveal-delay-1">Sua equipe conversa.<br /><em>Seus agentes de IA fazem acontecer.</em></h1>
-              <p class="hero-description reveal reveal-delay-2">O BChat Copilot entende o contexto, consulta conhecimento, sugere respostas e aciona automações para conduzir as próximas etapas de cada conversa.</p>
-              <div class="hero-actions reveal reveal-delay-3">
-                <a class="button button-primary" href="#contato" data-analytics="landing_primary_cta_click" data-placement="hero">Solicitar demonstração <span aria-hidden="true">↗</span></a>
-                <a class="text-link" href="#processo" data-analytics="landing_secondary_cta_click" data-placement="hero">Ver como funciona <span aria-hidden="true">↓</span></a>
-              </div>
+        <section class="seam-hero" id="topo" aria-labelledby="hero-title" data-seam-hero>
+          <div class="seam-axis seam-hero__axis" aria-hidden="true" data-seam-axis>
+            <span class="seam-line" data-seam-line></span>
+            <span class="seam-core" data-seam-core></span>
+          </div>
+
+          <p class="seam-hero__wordmark" aria-hidden="true" data-seam-wordmark>
+            <span>BCHAT</span><span>COPILOT</span>
+          </p>
+
+          <h1 id="hero-title" class="seam-hero__title">
+            <span class="seam-hero__title-side seam-hero__title-side--left" data-seam-title="left">Mais contexto<br /> para atender.</span>
+            <span class="seam-hero__title-side seam-hero__title-side--right" data-seam-title="right">Mais confiança<br /> para responder.</span>
+          </h1>
+
+          <div class="seam-hero__lead" data-seam-reveal>
+            <p class="seam-hero__description">Um copiloto de IA dentro de cada conversa: resume, consulta sua base e sugere a resposta. <strong>Quem atende decide.</strong></p>
+            <p class="seam-hero__fit">Para suporte, vendas e pós-venda no WhatsApp, Instagram, web chat e e-mail.</p>
+          </div>
+
+          <div class="seam-hero__actions" data-seam-reveal>
+            <a class="button button-primary button-large seam-cta" href="#contato" data-analytics="landing_primary_cta_click" data-placement="hero">
+              Solicitar demonstração
+              <svg class="seam-icon" aria-hidden="true"><use href="#i-arrow-up-right" /></svg>
+            </a>
+            <a class="text-link seam-text-link" href="#processo" data-analytics="landing_secondary_cta_click" data-placement="hero">
+              Ver como funciona
+              <svg class="seam-icon" aria-hidden="true"><use href="#i-arrow-down" /></svg>
+            </a>
+          </div>
+
+          <figure class="seam-flow" aria-labelledby="seam-flow-caption" data-seam-flow data-seam-reveal>
+            <svg class="seam-flow__edges" aria-hidden="true" data-flow-edges></svg>
+            <div class="seam-flow__grid" aria-hidden="true">
+              <div class="seam-flow__node" data-flow-node="message"><svg class="seam-icon"><use href="#i-message" /></svg><span><small>Gatilho</small>Mensagem no WhatsApp</span></div>
+              <div class="seam-flow__node" data-flow-node="intent"><svg class="seam-icon"><use href="#i-route" /></svg><span><small>Condição</small>Intenção: cadastro</span></div>
+              <div class="seam-flow__copilot" data-flow-node="copilot"></div>
+              <div class="seam-flow__node" data-flow-node="search"><svg class="seam-icon"><use href="#i-search" /></svg><span><small>Copilot</small>Buscar na base</span></div>
+              <div class="seam-flow__node" data-flow-node="suggest"><svg class="seam-icon"><use href="#i-pencil" /></svg><span><small>Copilot</small>Sugerir resposta</span></div>
+              <div class="seam-flow__node" data-flow-node="tag"><svg class="seam-icon"><use href="#i-tag" /></svg><span><small>Ação</small>Etiqueta Cadastro</span></div>
+              <div class="seam-flow__node" data-flow-node="assign"><svg class="seam-icon"><use href="#i-users" /></svg><span><small>Ação</small>Atribuir à Ana</span></div>
+              <div class="seam-flow__node" data-flow-node="crm"><svg class="seam-icon"><use href="#i-database" /></svg><span><small>Integração</small>Atualizar CRM</span></div>
+              <div class="seam-flow__node seam-flow__node--result" data-flow-node="sent"><svg class="seam-icon"><use href="#i-send" /></svg><span><small>Resultado</small>Resposta enviada</span></div>
             </div>
-
-            <figure class="robot-visual">
-              <div class="robot-camera" data-robot-camera>
-                <img class="robot-image" data-robot-image src="/hero/robot-notebook.webp" width="1536" height="1024" fetchpriority="high" alt="Robô metálico digitando em um notebook, iluminado em verde, com painéis de conhecimento ao fundo." />
-                <canvas class="robot-canvas" data-robot-canvas aria-hidden="true"></canvas>
-              </div>
-              <figcaption class="robot-caption">
-                <span class="robot-caption-dot" aria-hidden="true"></span>
-                Inteligência em ação.
-                <span class="robot-caption-detail">Sua equipe no controle.</span>
-              </figcaption>
-            </figure>
-
-          </div>
-          <div class="robot-footer container">
-            <div class="robot-scroll" aria-hidden="true"><span class="robot-scroll-line"><i data-robot-progress></i></span> Role para explorar <span>↓</span></div>
-            <button class="robot-motion-toggle" type="button" data-robot-motion hidden>Pausar animação <span aria-hidden="true">Ⅱ</span></button>
-          </div>
+            <figcaption class="sr-only" id="seam-flow-caption">Exemplo de automação: uma mensagem no WhatsApp passa pelo Copilot, que busca na base e sugere a resposta, enquanto a conversa é etiquetada, atribuída à pessoa certa e o CRM é atualizado.</figcaption>
+          </figure>
         </section>
 
         <section class="signal-strip" aria-label="Capacidades do BChat Copilot">
@@ -137,23 +153,76 @@
 
         <section class="document-chapter" id="processo" aria-labelledby="processo-title">
           <div class="container">
-            <div class="chapter-divider"><span class="chapter-divider-number">01</span><span>Processo</span></div>
+            <div class="chapter-divider"><span class="chapter-divider-number">01</span><span>Como funciona</span></div>
             <div class="section-intro split-intro">
               <div><h2 id="processo-title">Do contexto<br /><em>à ação.</em></h2></div>
-              <p>Uma experiência pensada para entrar no fluxo existente da sua equipe, com clareza em cada etapa. Quatro movimentos, nenhum atalho inventado.</p>
+              <div>
+                <p>Uma conversa como as da sua equipe: a mensagem chega, o Copilot resume e consulta o que vocês já documentaram, sugere a resposta, e quem atende decide.</p>
+                <button class="video-teaser" type="button" data-video-open="HSiB8D3GVIw" data-video-title="Bchat Copilot - Publicidade" data-analytics="video_cta_click" data-placement="como_funciona">
+                  <img src="https://i.ytimg.com/vi/HSiB8D3GVIw/maxresdefault.jpg" width="1280" height="720" loading="lazy" decoding="async" alt="" />
+                  <span class="video-teaser__cta">
+                    <span class="video-teaser__play" aria-hidden="true"><svg class="seam-icon"><use href="#i-play" /></svg></span>
+                    Veja em ação
+                  </span>
+                </button>
+              </div>
             </div>
-            <div class="process-list">
-              <article class="process-step"><div class="process-number">01</div><div class="process-marker"><span></span></div><div><h3>Conecte o conhecimento</h3><p>Reúna documentos, páginas e referências que sua equipe já usa no dia a dia.</p></div><span class="process-arrow" aria-hidden="true">↗</span></article>
-              <article class="process-step"><div class="process-number">02</div><div class="process-marker"><span></span></div><div><h3>Converse como sempre</h3><p>O Copilot acompanha as conversas e organiza os sinais que ajudam no atendimento.</p></div><span class="process-arrow" aria-hidden="true">↗</span></article>
-              <article class="process-step"><div class="process-number">03</div><div class="process-marker"><span></span></div><div><h3>Receba uma sugestão</h3><p>Resumos e recomendações aparecem como apoio, com as fontes à vista para sua equipe.</p></div><span class="process-arrow" aria-hidden="true">↗</span></article>
-              <article class="process-step"><div class="process-number">04</div><div class="process-marker"><span></span></div><div><h3>Decida o próximo passo</h3><p>Use, edite ou siga outro caminho. O controle continua com quem atende.</p></div><span class="process-arrow" aria-hidden="true">↗</span></article>
+            <div class="seam-demo" data-seam-demo>
+              <div class="seam-axis" aria-hidden="true" data-seam-axis>
+                <span class="seam-line"></span>
+                <span class="seam-core" data-seam-core></span>
+              </div>
+            <figure class="seam-thread" aria-labelledby="seam-thread-caption" data-seam-thread>
+              <ol class="seam-thread__rows">
+                <li class="seam-row is-lit" data-seam-row>
+                  <div class="seam-msg seam-msg--in" data-seam-msg>
+                    <p class="seam-msg__meta"><span>Marina Alves</span> · WhatsApp · 09:12</p>
+                    <p>Oi! Mandei meus documentos do cadastro semana passada e ninguém me retornou. O que está faltando?</p>
+                  </div>
+                  <span class="seam-node" aria-hidden="true"></span>
+                  <aside class="seam-note" aria-label="Resumo do Copilot" data-seam-note>
+                    <p class="seam-note__label"><svg class="seam-icon" aria-hidden="true"><use href="#i-sparkle" /></svg> Resumo</p>
+                    <p>Documentos recebidos em 06/10. Falta o comprovante de endereço, e a cliente ainda não foi avisada.</p>
+                  </aside>
+                </li>
+
+                <li class="seam-row is-lit" data-seam-row>
+                  <div class="seam-msg seam-msg--event" data-seam-msg>
+                    <p><svg class="seam-icon" aria-hidden="true"><use href="#i-clock" /></svg> Retomada após 6 dias · 2 atendimentos anteriores</p>
+                  </div>
+                  <span class="seam-node" aria-hidden="true"></span>
+                  <aside class="seam-note" aria-label="Fonte consultada pelo Copilot" data-seam-note>
+                    <p class="seam-note__label"><svg class="seam-icon" aria-hidden="true"><use href="#i-file" /></svg> Fonte consultada</p>
+                    <p><strong>Política de cadastro.pdf</strong> · seção 3.2, documentos obrigatórios</p>
+                  </aside>
+                </li>
+
+                <li class="seam-row seam-row--decision is-lit" data-seam-row>
+                  <div class="seam-msg seam-msg--out" data-seam-msg data-seam-reply aria-live="polite">
+                    <p class="seam-msg__meta"><span>Ana</span> · <span data-seam-reply-meta>editou a sugestão</span> · 09:14</p>
+                    <p data-seam-reply-text>Oi, Marina! Recebemos seus documentos, obrigada pela paciência. Para concluir, só falta o comprovante de endereço dos últimos 90 dias. Pode enviar por aqui mesmo.</p>
+                  </div>
+                  <span class="seam-node" aria-hidden="true"></span>
+                  <aside class="seam-note seam-note--suggestion" aria-label="Sugestão de resposta do Copilot" data-seam-note>
+                    <p class="seam-note__label"><svg class="seam-icon" aria-hidden="true"><use href="#i-sparkle" /></svg> Sugestão de resposta</p>
+                    <p class="seam-note__quote">Oi, Marina! Recebemos seus documentos. Para concluir, falta o comprovante de endereço (até 90 dias). Pode enviar por aqui?</p>
+                    <div class="seam-choices" role="group" aria-label="Escolha como a Ana responde" data-seam-choices>
+                      <button class="seam-choice" type="button" aria-pressed="false" data-seam-choice="usar"><svg class="seam-icon" aria-hidden="true"><use href="#i-check" /></svg> Usar</button>
+                      <button class="seam-choice" type="button" aria-pressed="true" data-seam-choice="editar"><svg class="seam-icon" aria-hidden="true"><use href="#i-pencil" /></svg> Editar</button>
+                      <button class="seam-choice" type="button" aria-pressed="false" data-seam-choice="outro"><svg class="seam-icon" aria-hidden="true"><use href="#i-route" /></svg> Outro caminho</button>
+                    </div>
+                  </aside>
+                </li>
+              </ol>
+              <figcaption class="seam-thread__caption" id="seam-thread-caption">Conversa ilustrativa. O Copilot anota à margem; quem atende escreve a resposta. Experimente as três escolhas.</figcaption>
+            </figure>
             </div>
           </div>
         </section>
 
         <section class="document-chapter" id="momentos" aria-labelledby="momentos-title">
           <div class="container">
-            <div class="chapter-divider"><span class="chapter-divider-number">02</span><span>Momentos</span></div>
+            <div class="chapter-divider"><span class="chapter-divider-number">02</span><span>Casos de uso</span></div>
             <div class="section-intro split-intro">
               <div><h2 id="momentos-title">Quatro momentos<br /><em>que mudam de fato.</em></h2></div>
               <p>O ganho aparece nos pontos em que a operação hoje perde tempo recompondo contexto.</p>
@@ -176,7 +245,7 @@
 
         <section class="document-chapter" id="camadas" aria-labelledby="camadas-title">
           <div class="container">
-            <div class="chapter-divider"><span class="chapter-divider-number">03</span><span>Camadas</span></div>
+            <div class="chapter-divider"><span class="chapter-divider-number">03</span><span>Recursos</span></div>
             <div class="section-intro">
               <h2 id="camadas-title">Uma camada de inteligência<br /><em>no fluxo do atendimento.</em></h2>
               <p>Do primeiro contexto ao próximo passo, o BChat Copilot trabalha ao lado da sua equipe.</p>
@@ -201,12 +270,11 @@
             <div class="pricing-layout">
               <aside class="pricing-context">
                 <div class="pricing-context-lines" aria-hidden="true">
-                  <span></span><span></span><span></span>
                   <i></i>
                 </div>
                 <div class="pricing-context-kicker"><span class="status-dot"></span> Planos / 2026</div>
                 <div class="pricing-context-copy">
-                  <div class="chapter-divider"><span class="chapter-divider-number">04</span><span>Decisão</span></div>
+                  <div class="chapter-divider"><span class="chapter-divider-number">04</span><span>Planos</span></div>
                   <h2 id="decisao-title">Escolha o espaço<br /><em>para evoluir.</em></h2>
                   <p>Comece pequeno, cresça com clareza e mantenha cada conversa no lugar certo.</p>
                   <div class="pricing-status" aria-live="polite" data-pricing-status>
@@ -266,7 +334,6 @@
           <div class="final-cta-grid" aria-hidden="true"></div>
           <div class="container final-cta-inner">
             <div class="final-cta-copy">
-              <p class="eyebrow">Próximo passo <span class="eyebrow-line"></span></p>
               <h2 id="final-cta-title">Veja o Copilot<br /><em>na sua operação.</em></h2>
               <p class="final-cta-lead">Uma demonstração guiada por um especialista: mostramos o Copilot dentro do fluxo real de atendimento e indicamos qual plano faz sentido para o seu volume.</p>
               <ul class="final-cta-expectations">
@@ -335,6 +402,11 @@
       </main>
 
     </div>
+
+    <dialog class="video-dialog" aria-label="Vídeo: BChat Copilot em ação" data-video-dialog>
+      <div class="video-dialog__frame" data-video-frame></div>
+      <button class="video-dialog__close" type="button" data-video-close aria-label="Fechar vídeo" autofocus><svg class="seam-icon" aria-hidden="true"><use href="#i-x" /></svg></button>
+    </dialog>
 
     <div class="trial-dialog" data-trial-dialog hidden aria-hidden="true">
       <div class="trial-dialog-backdrop" data-trial-dialog-dismiss></div>

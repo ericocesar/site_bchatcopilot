@@ -186,7 +186,7 @@ import { contact, fitStatements } from "./content/landing-content.js";
 
       return `<article class="pricing-card pricing-card-${cardVariant} ${plan.featured ? "is-featured" : ""}" data-plan-slug="${escapeHtml(plan.slug)}">
         ${featured}
-        <div class="pricing-card-atmosphere" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+        <div class="pricing-card-atmosphere" aria-hidden="true"><i></i></div>
         <div class="pricing-card-rail" aria-hidden="true"></div>
         <header class="pricing-card-head">
           <span class="card-index">${indexLabel}</span>
@@ -225,7 +225,7 @@ import { contact, fitStatements } from "./content/landing-content.js";
         <p class="pricing-rail-lede">Recursos que você encontra em qualquer plano publicado do BChat Copilot. A franquia de créditos e os limites específicos variam por plano.</p>
         ${groups.map((group) => `
           <section class="pricing-rail-group">
-            <h4>${escapeHtml(group.label)}</h4>
+            <h3>${escapeHtml(group.label)}</h3>
             <ul>${group.items.map((feature) => `<li><span class="feature-dot" aria-hidden="true"></span>${escapeHtml(feature.name)}</li>`).join("")}</ul>
           </section>
         `).join("")}

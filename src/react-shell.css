@@ -64,7 +64,7 @@
 .blog-kicker {
   margin: 0 0 20px;
   color: var(--cyan-1);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: .2em;
 }
@@ -74,7 +74,7 @@
   font-family: var(--font-display);
   font-size: clamp(48px, 8vw, 92px);
   line-height: .96;
-  letter-spacing: -.08em;
+  letter-spacing: -.04em;
 }
 .blog-placeholder > p:not(.blog-kicker) {
   margin: 28px 0 0;
