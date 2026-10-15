@@ -3,6 +3,7 @@
  */
 #react-root:empty { display: contents; }
 .is-blog-route .page-shell,
+.is-legal-route .page-shell,
 .is-not-found .page-shell { display: none; }
 
 .not-found code {

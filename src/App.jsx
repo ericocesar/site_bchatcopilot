@@ -1,10 +1,11 @@
 import { lazy, Suspense, useEffect } from "react";
 
 import "./react-shell.css";
+import LegalPage from "./LegalPage.jsx";
 
 const CinematicFooter = lazy(() => import("./components/ui/motion-footer.jsx").then((module) => ({ default: module.CinematicFooter })));
 
-const KNOWN_ROUTES = new Set(["/", "/blog", "/hero1", "/hero1/", "/hero2", "/hero2/", "/hero3", "/hero3/"]);
+const KNOWN_ROUTES = new Set(["/", "/blog", "/privacidade", "/termos", "/hero1", "/hero1/", "/hero2", "/hero2/", "/hero3", "/hero3/"]);
 
 function normalize(path) {
   return path.replace(/\/$/, "") || "/";
@@ -54,15 +55,19 @@ function NotFound() {
 export default function App() {
   const path = normalize(window.location.pathname);
   const isBlogRoute = path === "/blog";
+  const legalType = path === "/privacidade" ? "privacy" : path === "/termos" ? "terms" : null;
+  const isLegalRoute = legalType !== null;
   const isUnknownRoute = !KNOWN_ROUTES.has(path) && !KNOWN_ROUTES.has(window.location.pathname);
 
   useEffect(() => {
     document.body.classList.toggle("is-blog-route", isBlogRoute);
+    document.body.classList.toggle("is-legal-route", isLegalRoute);
     document.body.classList.toggle("is-not-found", isUnknownRoute);
     return undefined;
-  }, [isBlogRoute, isUnknownRoute]);
+  }, [isBlogRoute, isLegalRoute, isUnknownRoute]);
 
   if (isBlogRoute) return <BlogPlaceholder />;
+  if (isLegalRoute) return <LegalPage type={legalType} />;
   if (isUnknownRoute) return <NotFound />;
 
   return (

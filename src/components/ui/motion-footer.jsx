@@ -235,6 +235,8 @@ export function CinematicFooter() {
               <MagneticButton href="#como-funciona">Como funciona</MagneticButton>
               <MagneticButton href="#planos">Planos</MagneticButton>
               <MagneticButton href="#faq">FAQ</MagneticButton>
+              <MagneticButton href="/privacidade">Privacidade</MagneticButton>
+              <MagneticButton href="/termos">Termos de serviço</MagneticButton>
             </nav>
           </div>
         </div>
