@@ -28,41 +28,49 @@
 }
 
 .legal-page__topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 24px clamp(20px, 5vw, 64px);
+  padding: 16px clamp(20px, 5vw, 64px);
   border-bottom: 1px solid var(--border-soft);
+  background: color-mix(in oklch, var(--paper-1) 88%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .legal-page__brand {
   display: inline-flex;
-  gap: var(--space-2xs);
+  gap: 10px;
   align-items: center;
   color: var(--ink-1);
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
   text-decoration: none;
 }
 
-.legal-page__brand > span:last-child > span {
-  color: var(--cyan-1);
+.legal-page__brand-logo {
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  object-fit: contain;
 }
 
-.legal-page__brand-mark {
-  display: grid;
-  width: var(--space-lg);
-  height: var(--space-lg);
-  place-items: center;
-  border: 1px solid color-mix(in oklch, var(--cyan-1) 40%, transparent);
-  border-radius: var(--radius-sm);
+.legal-page__brand-wordmark {
+  color: var(--ink-1);
+  font-family: var(--font-accent);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.legal-page__brand-wordmark > span {
   color: var(--cyan-1);
-  background: color-mix(in oklch, var(--cyan-1) 8%, transparent);
-  font-size: 17px;
 }
 
 .legal-page__top-links {
@@ -142,7 +150,7 @@
 
 .legal-page__contents {
   position: sticky;
-  top: var(--space-md);
+  top: calc(80px + var(--space-md));
   max-height: calc(100vh - var(--space-xl));
   overflow: auto;
   padding: var(--space-sm);
@@ -289,6 +297,14 @@
   }
 }
 
+@media (prefers-reduced-transparency: reduce) {
+  .legal-page__topbar {
+    background: var(--paper-1);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
 @media (max-width: 520px) {
   .legal-page__topbar {
     align-items: flex-start;
@@ -298,6 +314,16 @@
 
   .legal-page__top-links {
     margin-left: -8px;
+  }
+
+  .legal-page__brand-logo {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .legal-page__brand-wordmark {
+    font-size: 19px;
   }
 
   .legal-page__contents ol {

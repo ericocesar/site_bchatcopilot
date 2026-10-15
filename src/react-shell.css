@@ -1,5 +1,5 @@
 /* Hallmark · macrostructure: Long Document · genre: atmospheric · tone: editorial
- * React-shell: blog placeholder + cinematic footer skeleton. Token-driven.
+ * React-shell: route placeholders and company footer skeleton.
  */
 #react-root:empty { display: contents; }
 .is-blog-route .page-shell,
@@ -107,7 +107,8 @@
   transform: translateY(-50%);
 }
 
-.cinematic-footer-skeleton {
-  min-height: 100vh;
-  background: var(--paper-1);
+.site-footer-skeleton {
+  min-height: 330px;
+  border-top: 1px solid var(--border-soft);
+  background: oklch(11% 0.008 245);
 }

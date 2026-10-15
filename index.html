@@ -71,7 +71,7 @@
             <a href="#duvidas">Dúvidas</a>
           </nav>
 
-          <a class="button button-small button-ghost header-cta" href="#contato" data-analytics="landing_primary_cta_click" data-placement="header">Solicitar demonstração</a>
+          <a class="button button-small button-ghost header-cta" href="#contato" aria-haspopup="dialog" data-demo-dialog-trigger data-analytics="landing_primary_cta_click" data-placement="header">Solicitar demonstração</a>
           <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
             <span class="sr-only">Abrir menu</span>
             <span></span><span></span>
@@ -85,7 +85,7 @@
             <a href="#decisao" data-menu-close>Planos</a>
             <a href="#duvidas" data-menu-close>Dúvidas</a>
           </nav>
-          <a class="button button-primary" href="#contato" data-menu-close data-analytics="landing_primary_cta_click" data-placement="mobile_menu">Solicitar demonstração</a>
+          <a class="button button-primary" href="#contato" aria-haspopup="dialog" data-demo-dialog-trigger data-menu-close data-analytics="landing_primary_cta_click" data-placement="mobile_menu">Solicitar demonstração</a>
         </div>
       </header>
 
@@ -111,7 +111,7 @@
           </div>
 
           <div class="seam-hero__actions" data-seam-reveal>
-            <a class="button button-primary button-large seam-cta" href="#contato" data-analytics="landing_primary_cta_click" data-placement="hero">
+            <a class="button button-primary button-large seam-cta" href="#contato" aria-haspopup="dialog" data-demo-dialog-trigger data-analytics="landing_primary_cta_click" data-placement="hero">
               Solicitar demonstração
               <svg class="seam-icon" aria-hidden="true"><use href="#i-arrow-up-right" /></svg>
             </a>
@@ -252,9 +252,9 @@
             </div>
             <div class="feature-explorer" data-feature-explorer>
               <div class="feature-tabs" role="tablist" aria-label="Categorias de funcionalidades">
-                <button class="feature-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="feature-panel-contexto" id="feature-tab-contexto" data-feature="contexto">Contexto</button>
-                <button class="feature-tab" type="button" role="tab" aria-selected="false" aria-controls="feature-panel-conhecimento" id="feature-tab-conhecimento" data-feature="conhecimento">Conhecimento</button>
-                <button class="feature-tab" type="button" role="tab" aria-selected="false" aria-controls="feature-panel-automacao" id="feature-tab-automacao" data-feature="automacao">Automação</button>
+                <button class="feature-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="feature-panel-contexto" id="feature-tab-contexto" data-feature="contexto"><span class="feature-tab__label">Contexto</span></button>
+                <button class="feature-tab" type="button" role="tab" aria-selected="false" aria-controls="feature-panel-conhecimento" id="feature-tab-conhecimento" data-feature="conhecimento"><span class="feature-tab__label">Conhecimento</span></button>
+                <button class="feature-tab" type="button" role="tab" aria-selected="false" aria-controls="feature-panel-automacao" id="feature-tab-automacao" data-feature="automacao"><span class="feature-tab__label">Automação</span></button>
               </div>
               <div class="feature-panel-wrap">
                 <article class="feature-panel is-active" id="feature-panel-contexto" role="tabpanel" aria-labelledby="feature-tab-contexto" data-panel="contexto"><div class="feature-panel-copy"><h3>Chegue na conversa<br /><em>já entendendo.</em></h3><p>Resuma conversas, destaque prioridades e encontre contatos sem interromper o ritmo da operação.</p><ul class="feature-list"><li><span>✓</span> Resumos de conversas</li><li><span>✓</span> Sugestões durante o atendimento</li><li><span>✓</span> Busca por conversas e contatos</li></ul></div><div class="feature-illustration feature-illustration-context" aria-hidden="true"><div class="context-orb"></div><div class="context-lines"><span></span><span></span><span></span></div><div class="mini-summary"><small>RESUMO DA CONVERSA</small><strong>Cliente busca atualização<br />sobre seu cadastro.</strong><span class="summary-line"></span><span class="summary-line short"></span></div><div class="mini-priority">◉ prioridade alta</div></div></article>
@@ -303,7 +303,7 @@
               </div>
             </div>
             <div class="pricing-comparison" data-pricing-comparison hidden></div>
-            <div class="pricing-footnote"><span>✦</span> Os valores e recursos apresentados podem variar conforme a publicação comercial vigente. <a href="#contato">Solicite uma demonstração para entender o plano ideal.</a></div>
+            <div class="pricing-footnote"><span>✦</span> Os valores e recursos apresentados podem variar conforme a publicação comercial vigente. <a href="#contato" aria-haspopup="dialog" data-demo-dialog-trigger>Solicite uma demonstração para entender o plano ideal.</a></div>
           </div>
         </section>
 
@@ -313,7 +313,7 @@
               <div class="chapter-divider"><span class="chapter-divider-number">05</span><span>Dúvidas</span></div>
               <h2 id="duvidas-title">Perguntas que<br /><em>fazem sentido.</em></h2>
               <p>O que ele faz, o que muda entre os planos, como é a implantação e quem continua no comando da conversa.</p>
-              <a class="text-link" href="#contato">Solicitar demonstração <span aria-hidden="true">↗</span></a>
+              <a class="text-link" href="#contato" aria-haspopup="dialog" data-demo-dialog-trigger>Solicitar demonstração <span aria-hidden="true">↗</span></a>
             </div>
             <div class="faq-list">
               <details class="faq-item" id="faq-o-que-faz" open><summary>O que o BChat Copilot faz exatamente?<span aria-hidden="true"></span></summary><div class="faq-answer"><p>O Copilot acompanha a conversa e oferece <strong>resumos</strong>, <strong>sugestões contextuais</strong> e <strong>conhecimento conectado</strong> à sua base de fontes. O time vê o contexto junto da mensagem, sem precisar procurar em outro lugar.</p></div></details>
@@ -325,83 +325,90 @@
               <details class="faq-item" id="faq-fontes"><summary>De onde vêm as sugestões?<span aria-hidden="true"></span></summary><div class="faq-answer"><p>Da conversa atual e das fontes que você conecta: <strong>documentos PDF e Markdown</strong>, conteúdo da web e a base de conhecimento da operação. As fontes ficam visíveis junto da sugestão para o time conferir a origem antes de enviar.</p></div></details>
               <details class="faq-item" id="faq-dados"><summary>Como funcionam privacidade, retenção e governança?<span aria-hidden="true"></span></summary><div class="faq-answer"><p>As conversas são usadas como contexto para as sugestões da sua própria operação, seguindo as configurações de privacidade e <strong>etiquetas</strong> definidas no BChat. As opções de armazenamento e retenção disponíveis variam por plano; o time comercial detalha isso na demonstração.</p></div></details>
               <details class="faq-item" id="faq-ja-uso-bchat"><summary>O que muda para quem já usa o BChat?<span aria-hidden="true"></span></summary><div class="faq-answer"><p>O Copilot entra <strong>ao lado</strong> do atendimento atual, sem substituir o fluxo. Contexto, resumos e sugestões aparecem como apoio, e o controle do próximo passo continua com quem atende.</p></div></details>
-              <details class="faq-item" id="faq-falar-antes"><summary>Posso falar com alguém antes de contratar?<span aria-hidden="true"></span></summary><div class="faq-answer"><p>Sim, e é o caminho recomendado. <a href="#contato">Solicite uma demonstração</a>: um especialista mostra o Copilot no fluxo real de atendimento e indica qual plano faz sentido para o seu volume, sem compromisso de contratação.</p></div></details>
+              <details class="faq-item" id="faq-falar-antes"><summary>Posso falar com alguém antes de contratar?<span aria-hidden="true"></span></summary><div class="faq-answer"><p>Sim, e é o caminho recomendado. <a href="#contato" aria-haspopup="dialog" data-demo-dialog-trigger>Solicite uma demonstração</a>: um especialista mostra o Copilot no fluxo real de atendimento e indica qual plano faz sentido para o seu volume, sem compromisso de contratação.</p></div></details>
             </div>
           </div>
         </section>
 
-        <section class="final-cta" id="contato" aria-labelledby="final-cta-title">
-          <div class="final-cta-grid" aria-hidden="true"></div>
-          <div class="container final-cta-inner">
-            <div class="final-cta-copy">
-              <h2 id="final-cta-title">Veja o Copilot<br /><em>na sua operação.</em></h2>
-              <p class="final-cta-lead">Uma demonstração guiada por um especialista: mostramos o Copilot dentro do fluxo real de atendimento e indicamos qual plano faz sentido para o seu volume.</p>
-              <ul class="final-cta-expectations">
-                <li><span aria-hidden="true">✓</span> Demonstração conduzida por um especialista</li>
-                <li><span aria-hidden="true">✓</span> Sem compromisso de contratação</li>
-                <li><span aria-hidden="true">✓</span> Indicamos o plano adequado ao seu volume</li>
-              </ul>
-              <div class="final-cta-channels">
-                <span class="channels-label">Canais integrados</span>
-                <div class="channels-list">
-                  <span class="channel-tag">WhatsApp</span>
-                  <span class="channel-tag">Instagram</span>
-                  <span class="channel-tag">Web chat</span>
-                  <span class="channel-tag">E-mail</span>
-                </div>
-              </div>
-              <div class="final-cta-proof" data-final-proof hidden></div>
-            </div>
-
-            <div class="final-cta-action">
-              <form class="demo-form" data-demo-form novalidate>
-                <p class="demo-form-title">Solicitar demonstração</p>
-
-                <div class="demo-field">
-                  <label for="demo-name">Nome</label>
-                  <input id="demo-name" name="name" type="text" autocomplete="name" aria-describedby="demo-name-error" required />
-                  <p class="demo-error" id="demo-name-error" data-error-for="name" hidden></p>
-                </div>
-
-                <div class="demo-field">
-                  <label for="demo-email">E-mail</label>
-                  <input id="demo-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="demo-email-error" required />
-                  <p class="demo-error" id="demo-email-error" data-error-for="email" hidden></p>
-                </div>
-
-                <div class="demo-field">
-                  <label for="demo-company">Empresa</label>
-                  <input id="demo-company" name="company" type="text" autocomplete="organization" aria-describedby="demo-company-error" required />
-                  <p class="demo-error" id="demo-company-error" data-error-for="company" hidden></p>
-                </div>
-
-                <div class="demo-field">
-                  <label for="demo-team-size">Pessoas no atendimento <span>(opcional)</span></label>
-                  <select id="demo-team-size" name="team_size">
-                    <option value="">Prefiro não informar</option>
-                    <option value="1-10">1 a 10</option>
-                    <option value="11-50">11 a 50</option>
-                    <option value="51-200">51 a 200</option>
-                    <option value="200+">Mais de 200</option>
-                  </select>
-                </div>
-
-                <button class="button button-primary button-large" type="submit" data-demo-submit>Solicitar demonstração <span aria-hidden="true">↗</span></button>
-                <p class="demo-form-privacy">Usamos seus dados para entrar em contato sobre esta demonstração. Consulte a <a href="/privacidade">Política de Privacidade</a>. Os dados de conversa seguem as configurações de privacidade e governança da sua operação.</p>
-                <p class="demo-form-status" data-demo-status role="alert" hidden></p>
-              </form>
-
-              <div class="demo-success glass-panel" data-demo-success hidden tabindex="-1">
-                <span class="demo-success-mark" aria-hidden="true">✓</span>
-                <h3>Solicitação recebida.</h3>
-                <p>Um especialista vai entrar em contato pelo e-mail informado para combinar a demonstração. Enquanto isso, você pode continuar explorando a página.</p>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
     </div>
+
+    <dialog class="demo-dialog" aria-labelledby="final-cta-title" data-demo-dialog>
+      <button class="demo-dialog__close" type="button" data-demo-dialog-close aria-label="Fechar solicitação de demonstração">
+        <svg class="seam-icon" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+      <section class="final-cta" id="contato" aria-labelledby="final-cta-title">
+        <div class="final-cta-grid" aria-hidden="true"></div>
+        <div class="container final-cta-inner">
+          <div class="final-cta-copy">
+            <p class="demo-dialog__eyebrow">BCHAT COPILOT · DEMONSTRAÇÃO</p>
+            <h2 id="final-cta-title">Veja o Copilot<br /><em>na sua operação.</em></h2>
+            <p class="final-cta-lead">Uma demonstração guiada por um especialista: mostramos o Copilot dentro do fluxo real de atendimento e indicamos qual plano faz sentido para o seu volume.</p>
+            <ul class="final-cta-expectations">
+              <li><span aria-hidden="true">✓</span> Demonstração conduzida por um especialista</li>
+              <li><span aria-hidden="true">✓</span> Sem compromisso de contratação</li>
+              <li><span aria-hidden="true">✓</span> Indicamos o plano adequado ao seu volume</li>
+            </ul>
+            <div class="final-cta-channels">
+              <span class="channels-label">Canais integrados</span>
+              <div class="channels-list">
+                <span class="channel-tag">WhatsApp</span>
+                <span class="channel-tag">Instagram</span>
+                <span class="channel-tag">Web chat</span>
+                <span class="channel-tag">E-mail</span>
+              </div>
+            </div>
+            <div class="final-cta-proof" data-final-proof hidden></div>
+          </div>
+
+          <div class="final-cta-action">
+            <form class="demo-form" data-demo-form novalidate>
+              <p class="demo-form-title">Solicitar demonstração</p>
+
+              <div class="demo-field">
+                <label for="demo-name">Nome</label>
+                <input id="demo-name" name="name" type="text" autocomplete="name" aria-describedby="demo-name-error" required />
+                <p class="demo-error" id="demo-name-error" data-error-for="name" hidden></p>
+              </div>
+
+              <div class="demo-field">
+                <label for="demo-email">E-mail</label>
+                <input id="demo-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="demo-email-error" required />
+                <p class="demo-error" id="demo-email-error" data-error-for="email" hidden></p>
+              </div>
+
+              <div class="demo-field">
+                <label for="demo-company">Empresa</label>
+                <input id="demo-company" name="company" type="text" autocomplete="organization" aria-describedby="demo-company-error" required />
+                <p class="demo-error" id="demo-company-error" data-error-for="company" hidden></p>
+              </div>
+
+              <div class="demo-field">
+                <label for="demo-team-size">Pessoas no atendimento <span>(opcional)</span></label>
+                <select id="demo-team-size" name="team_size">
+                  <option value="">Prefiro não informar</option>
+                  <option value="1-10">1 a 10</option>
+                  <option value="11-50">11 a 50</option>
+                  <option value="51-200">51 a 200</option>
+                  <option value="200+">Mais de 200</option>
+                </select>
+              </div>
+
+              <button class="button button-primary button-large" type="submit" data-demo-submit>Solicitar demonstração <span aria-hidden="true">↗</span></button>
+              <p class="demo-form-privacy">Usamos seus dados para entrar em contato sobre esta demonstração. Consulte a <a href="/privacidade">Política de Privacidade</a>.</p>
+              <p class="demo-form-status" data-demo-status role="alert" hidden></p>
+            </form>
+
+            <div class="demo-success glass-panel" data-demo-success hidden tabindex="-1">
+              <span class="demo-success-mark" aria-hidden="true">✓</span>
+              <h3>Solicitação recebida.</h3>
+              <p>Um especialista vai entrar em contato pelo e-mail informado para combinar a demonstração. Enquanto isso, você pode continuar explorando a página.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </dialog>
 
     <dialog class="video-dialog" aria-label="Vídeo: BChat Copilot em ação" data-video-dialog>
       <div class="video-dialog__frame" data-video-frame></div>

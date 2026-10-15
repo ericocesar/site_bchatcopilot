@@ -158,7 +158,7 @@ import { contact, fitStatements } from "./content/landing-content.js";
   function renderPricing() {
     const grid = $("[data-pricing-grid]"); if (!grid) return;
     if (!state.plans.length) {
-      grid.innerHTML = `<div class="pricing-empty"><strong>Nenhum plano publicado no momento.</strong><p>O catálogo está sendo atualizado. Fale com o time para encontrar o melhor próximo passo.</p><a class="button button-primary" href="#contato">Solicitar demonstração <span aria-hidden="true">↗</span></a></div>`;
+      grid.innerHTML = `<div class="pricing-empty"><strong>Nenhum plano publicado no momento.</strong><p>O catálogo está sendo atualizado. Fale com o time para encontrar o melhor próximo passo.</p><a class="button button-primary" href="#contato" aria-haspopup="dialog" data-demo-dialog-trigger>Solicitar demonstração <span aria-hidden="true">↗</span></a></div>`;
       return;
     }
     const cards = state.plans.map((plan, index) => {
@@ -398,19 +398,6 @@ import { contact, fitStatements } from "./content/landing-content.js";
       submit.innerHTML = 'Solicitar demonstração <span aria-hidden="true">↗</span>';
       if (result.reason === "invalid" && Object.keys(result.errors || {}).length) { showDemoErrors(form, result.errors); return; }
       showDemoStatus(form, `${escapeHtml(result.message)}${result.reason === "unavailable" ? fallbackContactHtml() : ""}`);
-    });
-  }
-
-  function setupCtaFocus() {
-    const field = $("#demo-name");
-    if (!field) return;
-    document.addEventListener("click", (event) => {
-      if (event.detail !== 0) return;
-      const link = event.target.closest('a[href="#contato"]');
-      if (!link) return;
-      const form = $("[data-demo-form]");
-      if (!form || form.hidden) return;
-      window.setTimeout(() => field.focus({ preventScroll: true }), 400);
     });
   }
 
@@ -854,7 +841,7 @@ import { contact, fitStatements } from "./content/landing-content.js";
 
   function init() {
     if (window.location.pathname.replace(/\/$/, "") === "/blog") return;
-    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupCtaFocus(); setupFaqAnalytics(); setupTrialDialog(); loadPlans();
+    setupHeader(); setupFeatureTabs(); setupComparison(); setupAnalytics(); setupDemoForm(); setupFaqAnalytics(); setupTrialDialog(); loadPlans();
   }
   document.addEventListener("DOMContentLoaded", init);
 })();

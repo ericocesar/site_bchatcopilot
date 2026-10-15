@@ -3,7 +3,7 @@ import { lazy, Suspense, useEffect } from "react";
 import "./react-shell.css";
 import LegalPage from "./LegalPage.jsx";
 
-const CinematicFooter = lazy(() => import("./components/ui/motion-footer.jsx").then((module) => ({ default: module.CinematicFooter })));
+const SiteFooter = lazy(() => import("./components/ui/motion-footer.jsx").then((module) => ({ default: module.SiteFooter })));
 
 const KNOWN_ROUTES = new Set(["/", "/blog", "/privacidade", "/termos", "/hero1", "/hero1/", "/hero2", "/hero2/", "/hero3", "/hero3/"]);
 
@@ -71,8 +71,8 @@ export default function App() {
   if (isUnknownRoute) return <NotFound />;
 
   return (
-    <Suspense fallback={<div className="cinematic-footer-skeleton" aria-hidden="true" />}>
-      <CinematicFooter />
+    <Suspense fallback={<div className="site-footer-skeleton" aria-hidden="true" />}>
+      <SiteFooter />
     </Suspense>
   );
 }

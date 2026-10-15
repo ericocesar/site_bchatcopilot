@@ -8,6 +8,7 @@ import { initSeamFlow } from "./seam-flow.js";
 import { initSeamHero } from "./seam-hero.js";
 import { initSeamDemo } from "./seam-demo.js";
 import { initVideoDialog } from "./video-dialog.js";
+import { initDemoDialog } from "./demo-dialog.js";
 import "./seam-hero.css";
 
 // The flow layer listens for "seam:ready", so it must be set up before the hero starts.
@@ -15,7 +16,9 @@ const disposeSeamFlow = initSeamFlow();
 const disposeSeamHero = initSeamHero();
 const disposeSeamDemo = initSeamDemo();
 const disposeVideoDialog = initVideoDialog();
+const disposeDemoDialog = initDemoDialog();
 if (import.meta.hot) import.meta.hot.dispose(() => {
+  disposeDemoDialog();
   disposeVideoDialog();
   disposeSeamDemo();
   disposeSeamHero();

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import logoBchat from "../docs/logobchat.png";
 import "./legal-pages.css";
 
 const updatedAt = "15 de outubro de 2026";
@@ -564,8 +565,8 @@ function LegalPage({ type }) {
     <main className="legal-page">
       <header className="legal-page__topbar">
         <a href="/" className="legal-page__brand" aria-label="BChat Copilot, página inicial">
-          <span className="legal-page__brand-mark" aria-hidden="true">B</span>
-          <span>bchat<span>copilot</span></span>
+          <img className="legal-page__brand-logo" src={logoBchat} alt="" />
+          <span className="legal-page__brand-wordmark">bchat<span>copilot</span></span>
         </a>
         <nav aria-label="Documentos legais" className="legal-page__top-links">
           <a href="/privacidade" aria-current={isPrivacy ? "page" : undefined}>Privacidade</a>

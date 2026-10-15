@@ -1,263 +1,59 @@
-import * as React from "react";
-import { useEffect, useRef } from "react";
-import { ArrowRight, ArrowUp, ArrowUpRight, Heart, ShieldCheck, Sparkles } from "lucide-react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowUp } from "lucide-react";
 
 import "./motion-footer.css";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-const MagneticButton = React.forwardRef(function MagneticButton(
-  { as: Component = "a", className = "", children, ...props },
-  forwardedRef,
-) {
-  const localRef = useRef(null);
-
-  useEffect(() => {
-    const element = localRef.current;
-    if (!element || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-
-    const context = gsap.context(() => {
-      const handleMouseMove = (event) => {
-        const rect = element.getBoundingClientRect();
-        const x = event.clientX - rect.left - rect.width / 2;
-        const y = event.clientY - rect.top - rect.height / 2;
-
-        gsap.to(element, {
-          x: x * 0.18,
-          y: y * 0.18,
-          rotationX: -y * 0.05,
-          rotationY: x * 0.05,
-          scale: 1.03,
-          duration: 0.35,
-          ease: "power2.out",
-          overwrite: true,
-        });
-      };
-
-      const handleMouseLeave = () => {
-        gsap.to(element, {
-          x: 0,
-          y: 0,
-          rotationX: 0,
-          rotationY: 0,
-          scale: 1,
-          duration: 0.8,
-          ease: "elastic.out(1, 0.35)",
-          overwrite: true,
-        });
-      };
-
-      element.addEventListener("mousemove", handleMouseMove);
-      element.addEventListener("mouseleave", handleMouseLeave);
-
-      return () => {
-        element.removeEventListener("mousemove", handleMouseMove);
-        element.removeEventListener("mouseleave", handleMouseLeave);
-      };
-    }, element);
-
-    return () => context.revert();
-  }, []);
-
-  const setRef = (node) => {
-    localRef.current = node;
-    if (typeof forwardedRef === "function") forwardedRef(node);
-    else if (forwardedRef) forwardedRef.current = node;
-  };
+export function SiteFooter() {
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <Component ref={setRef} className={`cinematic-footer-pill ${className}`.trim()} {...props}>
-      {children}
-    </Component>
-  );
-});
-
-MagneticButton.displayName = "MagneticButton";
-
-function MarqueeItem() {
-  return (
-    <span className="cinematic-footer-marquee-item">
-      <span>Contexto conectado</span>
-      <Sparkles aria-hidden="true" />
-      <span>Respostas com fonte</span>
-      <Sparkles aria-hidden="true" />
-      <span>Humano no controle</span>
-      <Sparkles aria-hidden="true" />
-      <span>Atendimento que evolui</span>
-      <Sparkles aria-hidden="true" />
-      <span>Privacidade por padrão</span>
-      <Sparkles aria-hidden="true" />
-    </span>
-  );
-}
-
-export function CinematicFooter() {
-  const wrapperRef = useRef(null);
-  const giantTextRef = useRef(null);
-  const headingRef = useRef(null);
-  const linksRef = useRef(null);
-
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper) return undefined;
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) {
-      gsap.set([giantTextRef.current, headingRef.current, linksRef.current], { opacity: 1, y: 0, scale: 1 });
-      return undefined;
-    }
-
-    let context = null;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (!entry?.isIntersecting || context) return;
-        context = gsap.context(() => {
-          gsap.fromTo(
-            giantTextRef.current,
-            { y: "18vh", scale: 0.75, opacity: 0 },
-            {
-              y: "-9vh",
-              scale: 1.6,
-              opacity: 1,
-              ease: "power1.out",
-              scrollTrigger: {
-                trigger: wrapper,
-                start: "top 100%",
-                end: "bottom bottom",
-                scrub: 1,
-              },
-            },
-          );
-
-          gsap.fromTo(
-            [headingRef.current, linksRef.current],
-            { y: 50, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              stagger: 0.15,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: wrapper,
-                start: "top 72%",
-                end: "bottom bottom",
-                scrub: 1,
-              },
-            },
-          );
-
-          const primary = wrapper.querySelector(".cinematic-footer-primary");
-          if (primary) {
-            gsap.fromTo(
-              primary,
-              { y: -6 },
-              {
-                y: 0,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: wrapper,
-                  start: "top 72%",
-                  end: "bottom bottom",
-                  scrub: 1,
-                },
-              },
-            );
-          }
-        }, wrapper);
-
-        observer.disconnect();
-      },
-      { rootMargin: "200px 0px" },
-    );
-
-    observer.observe(wrapper);
-
-    return () => {
-      observer.disconnect();
-      context?.revert();
-    };
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  return (
-    <div ref={wrapperRef} className="cinematic-footer-wrapper">
-      <footer className="cinematic-footer" aria-labelledby="cinematic-footer-title">
-        <div className="cinematic-footer-grid" aria-hidden="true" />
-        <div className="cinematic-footer-giant-text" ref={giantTextRef} aria-hidden="true">
-          BCHAT
-        </div>
-
-        <div className="cinematic-footer-marquee" aria-hidden="true">
-          <div className="cinematic-footer-marquee-track">
-            <MarqueeItem />
-            <MarqueeItem />
-          </div>
-        </div>
-
-        <div className="cinematic-footer-content">
-          <p className="cinematic-footer-kicker">
-            <span /> O próximo passo
-          </p>
-          <h2 id="cinematic-footer-title" ref={headingRef}>
-            Responda com mais <em>contexto.</em>
-          </h2>
-
-          <div className="cinematic-footer-links" ref={linksRef}>
-            <div className="cinematic-footer-primary-links">
-              <MagneticButton
-                href="#contato"
-                className="cinematic-footer-primary"
-                data-analytics="landing_primary_cta_click"
-                data-placement="footer"
-              >
-                <ShieldCheck aria-hidden="true" />
-                Solicitar demonstração
-                <ArrowUpRight aria-hidden="true" />
-              </MagneticButton>
-              <MagneticButton href="#funcionalidades" className="cinematic-footer-primary cinematic-footer-secondary">
-                <Sparkles aria-hidden="true" />
-                Conhecer o Copilot
-                <ArrowRight aria-hidden="true" />
-              </MagneticButton>
-            </div>
-
-            <nav className="cinematic-footer-secondary-links" aria-label="Links do rodapé">
-              <MagneticButton href="#beneficios">Benefícios</MagneticButton>
-              <MagneticButton href="#como-funciona">Como funciona</MagneticButton>
-              <MagneticButton href="#planos">Planos</MagneticButton>
-              <MagneticButton href="#faq">FAQ</MagneticButton>
-              <MagneticButton href="/privacidade">Privacidade</MagneticButton>
-              <MagneticButton href="/termos">Termos de serviço</MagneticButton>
+    <footer className="site-footer" aria-label="Rodapé do BChat Copilot">
+      <div className="site-footer__inner">
+        <div className="site-footer__grid">
+          <section className="site-footer__brand" aria-label="Sobre o BChat Copilot">
+            <a className="site-footer__logo" href="/" aria-label="BChat Copilot, página inicial">
+              <img src="/docs/logobchat.png" alt="BChat Copilot" width="76" height="76" loading="lazy" decoding="async" />
+            </a>
+            <p className="site-footer__subtitle">O BChat Copilot é um produto da Bolt 360 Assessoria e Consultoria.</p>
+            <nav className="site-footer__social" aria-label="Redes sociais">
+              <a href="https://www.instagram.com/bchat.ia/" target="_blank" rel="noreferrer" aria-label="Instagram do BChat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none" />
+                </svg>
+              </a>
+              <a href="https://www.linkedin.com/company/bolt-360/" target="_blank" rel="noreferrer" aria-label="LinkedIn da Bolt 360">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M7 9v10M7 5.5v.01M11 19v-6a4 4 0 0 1 8 0v6M11 9v10" />
+                </svg>
+              </a>
             </nav>
-          </div>
+          </section>
+
+          <nav className="site-footer__explore" aria-label="Explore os serviços da Bolt 360">
+            <p className="site-footer__label">Explore</p>
+            <a href="https://bolt360.com.br/assessoria">Assessoria empresarial</a>
+            <a href="https://bolt360.com.br/automacao">Automação e IA</a>
+            <a href="https://bolt360.com.br/resultados">Resultados e dados</a>
+          </nav>
+
+          <section className="site-footer__contact" aria-labelledby="site-footer-contact-title">
+            <p className="site-footer__label" id="site-footer-contact-title">Vamos conversar</p>
+            <a href="mailto:contato@bchat.com.br">contato@bchat.com.br <span aria-hidden="true">↗</span></a>
+            <a href="tel:+558431901700">+55 (84) 3190-1700</a>
+            <address>Rua Tereza Bezerra Salustiano, 1902<br />Lagoa Nova, Natal — RN · 59075-225</address>
+          </section>
         </div>
 
-        <div className="cinematic-footer-bottom">
-          <p>© 2026 BChat. Todos os direitos reservados.</p>
-          <p className="cinematic-footer-made-with">
-            Feito para conversas que importam <Heart aria-hidden="true" />
-          </p>
-          <MagneticButton
-            as="button"
-            type="button"
-            onClick={scrollToTop}
-            className="cinematic-footer-top"
-            aria-label="Voltar ao topo"
-            title="Voltar ao topo"
-          >
-            <ArrowUp aria-hidden="true" />
-          </MagneticButton>
+        <div className="site-footer__bottom">
+          <p>Bolt 360 Assessoria · CNPJ 21.453.885/0001-54</p>
+          <nav aria-label="Links legais e navegação">
+            <a href="/privacidade">Privacidade</a>
+            <a href="/termos">Termos de uso</a>
+            <button type="button" onClick={scrollToTop}>Voltar ao topo <ArrowUp aria-hidden="true" /></button>
+          </nav>
         </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   );
 }
