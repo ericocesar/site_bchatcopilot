@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./legal-pages.css";
 
 const updatedAt = "15 de outubro de 2026";
