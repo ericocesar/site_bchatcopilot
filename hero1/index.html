@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" href="/hero/robot.png" />
     <link rel="stylesheet" href="/tokens.css" />
     <link rel="stylesheet" href="./hero1.css" />
   </head>
@@ -91,89 +92,366 @@
             </div>
           </div>
 
-          <div class="h1-stage" aria-label="Composição: robô, kanban e cartões de contexto">
-            <!-- Connection lines (SVG) sit behind cards & asset -->
-            <svg class="h1-connections" viewBox="0 0 1000 760" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <linearGradient id="h1-line" x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="0%" stop-color="var(--cyan-1)" stop-opacity="0" />
-                  <stop offset="50%" stop-color="var(--cyan-1)" stop-opacity="0.85" />
-                  <stop offset="100%" stop-color="var(--cyan-1)" stop-opacity="0" />
-                </linearGradient>
-                <linearGradient id="h1-line-soft" x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="0%" stop-color="var(--cyan-1)" stop-opacity="0" />
-                  <stop offset="50%" stop-color="var(--cyan-1)" stop-opacity="0.55" />
-                  <stop offset="100%" stop-color="var(--cyan-1)" stop-opacity="0" />
-                </linearGradient>
-              </defs>
-              <!-- Card 1 (top-left) → kanban top-left -->
-              <path d="M 160 120 C 320 120, 380 180, 470 220" class="h1-conn h1-conn--1" />
-              <!-- Card 2 (top-right) → kanban top-right -->
-              <path d="M 840 110 C 760 130, 700 170, 640 215" class="h1-conn h1-conn--2" />
-              <!-- Card 3 (bottom-left) → kanban bottom-right -->
-              <path d="M 150 600 C 320 560, 520 500, 720 470" class="h1-conn h1-conn--3" />
-              <!-- Card 4 (bottom-right) → kanban bottom-center -->
-              <path d="M 855 615 C 800 560, 720 510, 640 480" class="h1-conn h1-conn--4" />
-              <!-- Traveling data line -->
-              <path d="M 160 120 C 320 120, 380 180, 470 220" class="h1-data" />
-            </svg>
+          <!-- ══ Right stage · Kanban BChat Copilot operado pelo agente ══════ -->
+          <div class="h1-stage">
+            <div class="h1-plateglow" aria-hidden="true"></div>
 
-            <!-- Kanban asset (main visual) -->
-            <figure class="h1-kanban" aria-label="Kanban do BChat Copilot com conversas em aberto e resolvidas">
-              <img
-                class="h1-kanban__img"
-                src="/hero/hero_image.png"
-                alt=""
-                width="1000"
-                height="750"
-                decoding="async"
-                fetchpriority="high"
-              />
-              <!-- Ghost kanban card that moves across columns -->
-              <span class="h1-kanban-card" aria-hidden="true">
-                <span class="h1-kanban-card__dot"></span>
-                Atualização cadastral
-              </span>
-              <figcaption class="h1-kanban-cap" aria-hidden="true">
-                <span></span>interface com contexto
-              </figcaption>
-            </figure>
+            <div class="h1-viewport">
+              <div class="h1-pan">
+                <div class="h1-scene">
+                  <svg
+                    class="kb"
+                    viewBox="0 0 1000 720"
+                    preserveAspectRatio="xMidYMid meet"
+                    role="img"
+                    aria-labelledby="kb-title kb-desc"
+                  >
+                    <title id="kb-title">Pipeline de vendas do BChat Copilot</title>
+                    <desc id="kb-desc">
+                      Quadro Kanban com as etapas Novo lead, Qualificado, Negociação e Conclusão.
+                      O card de Erico Cesar — Website institucional — avança automaticamente de
+                      uma etapa para a seguinte, acionado pelo agente de IA.
+                    </desc>
 
-            <!-- Robot hand accent (secondary) -->
-            <img
-              class="h1-robot"
-              src="/ai-auto.png"
-              alt=""
-              width="450"
-              height="375"
-              decoding="async"
-              loading="lazy"
-              aria-hidden="true"
-            />
+                    <defs>
+                      <!-- icon set: one stroke weight, round joins -->
+                      <symbol id="ic-pipe" viewBox="0 0 16 16">
+                        <rect x="2.2" y="4.2" width="3.1" height="7.6" rx="1.1" />
+                        <rect x="6.45" y="2.6" width="3.1" height="10.8" rx="1.1" />
+                        <rect x="10.7" y="5.6" width="3.1" height="4.8" rx="1.1" />
+                      </symbol>
+                      <symbol id="ic-chevron" viewBox="0 0 16 16">
+                        <path d="M4.4 6.6 8 10.2l3.6-3.6" />
+                      </symbol>
+                      <symbol id="ic-calendar" viewBox="0 0 16 16">
+                        <rect x="2.4" y="3.4" width="11.2" height="10.2" rx="2.4" />
+                        <path d="M2.4 6.9h11.2M5.5 2v2.7M10.5 2v2.7" />
+                      </symbol>
+                      <symbol id="ic-search" viewBox="0 0 16 16">
+                        <circle cx="7.2" cy="7.2" r="4.3" />
+                        <path d="m10.5 10.5 3.2 3.2" />
+                      </symbol>
+                      <symbol id="ic-sliders" viewBox="0 0 16 16">
+                        <path d="M2.4 5.4h11.2M2.4 10.6h11.2" />
+                        <circle cx="6.1" cy="5.4" r="1.85" />
+                        <circle cx="10.3" cy="10.6" r="1.85" />
+                      </symbol>
+                      <symbol id="ic-plus" viewBox="0 0 16 16">
+                        <path d="M8 3.4v9.2M3.4 8h9.2" />
+                      </symbol>
+                      <symbol id="ic-chat" viewBox="0 0 16 16">
+                        <path d="M2.3 4.6a2.2 2.2 0 0 1 2.2-2.2h7a2.2 2.2 0 0 1 2.2 2.2v4.6a2.2 2.2 0 0 1-2.2 2.2H6.9L3.7 13.8v-2.4h-.2A1.2 1.2 0 0 1 2.3 10.2z" />
+                      </symbol>
+                      <symbol id="ic-tag" viewBox="0 0 16 16">
+                        <path d="M8.5 2.3H13a.8.8 0 0 1 .8.8v4.5a1 1 0 0 1-.3.7l-5.5 5.5a1 1 0 0 1-1.4 0L2.3 9.9a1 1 0 0 1 0-1.4l5.5-5.5a1 1 0 0 1 .7-.3z" />
+                        <circle cx="10.9" cy="5.2" r="1.05" />
+                      </symbol>
+                      <symbol id="ic-clock" viewBox="0 0 16 16">
+                        <circle cx="8" cy="8" r="5.6" />
+                        <path d="M8 4.9v3.4l2.3 1.4" />
+                      </symbol>
+                      <symbol id="ic-dots" viewBox="0 0 16 16">
+                        <circle cx="3.6" cy="8" r="1.15" />
+                        <circle cx="8" cy="8" r="1.15" />
+                        <circle cx="12.4" cy="8" r="1.15" />
+                      </symbol>
+                      <symbol id="ic-check" viewBox="0 0 16 16">
+                        <path d="m3.6 8.4 3.1 3.1 5.7-6.4" />
+                      </symbol>
 
-            <!-- Glass cards -->
-            <article class="h1-card h1-card--1" data-card="contexto">
-              <span class="h1-card__kicker">Contexto identificado</span>
-              <strong class="h1-card__body">Cliente solicitou atualização cadastral</strong>
-              <span class="h1-card__meta"><span class="h1-card__pulse"></span>Maria Santos · DP</span>
+                      <clipPath id="kb-plate-clip">
+                        <rect x="0" y="96" width="800" height="500" rx="18" />
+                      </clipPath>
+
+                      <linearGradient id="kb-trail" x1="0" x2="1" y1="0" y2="0">
+                        <stop offset="0%" stop-color="var(--kb-signal)" stop-opacity="0" />
+                        <stop offset="100%" stop-color="var(--kb-signal)" stop-opacity="0.30" />
+                      </linearGradient>
+
+                      <linearGradient id="kb-screen" x1="0" x2="0.35" y1="0" y2="1">
+                        <stop offset="0%" stop-color="var(--kb-chrome)" />
+                        <stop offset="100%" stop-color="var(--kb-plate)" />
+                      </linearGradient>
+
+                      <filter id="kb-lift" x="-40%" y="-40%" width="180%" height="180%">
+                        <feDropShadow dx="0" dy="9" stdDeviation="9" flood-color="#0a1622" flood-opacity="0.22" />
+                      </filter>
+                      <filter id="kb-plate-shadow" x="-25%" y="-25%" width="150%" height="160%">
+                        <feDropShadow dx="0" dy="26" stdDeviation="26" flood-color="#000" flood-opacity="0.5" />
+                      </filter>
+                      <filter id="kb-beam-glow" x="-30%" y="-60%" width="160%" height="220%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="3.2" flood-color="var(--cyan-1)" flood-opacity="0.85" />
+                      </filter>
+                    </defs>
+
+                    <!-- ── Plate ─────────────────────────────────────────── -->
+                    <g filter="url(#kb-plate-shadow)">
+                      <rect x="0" y="96" width="800" height="500" rx="18" fill="url(#kb-screen)" />
+                    </g>
+
+                    <g clip-path="url(#kb-plate-clip)">
+                      <!-- top bar -->
+                      <rect x="0" y="96" width="800" height="60" fill="var(--kb-chrome)" />
+                      <path d="M0 156h800" class="kb-hair" />
+
+                      <!-- pipeline selector -->
+                      <g class="kb-chip">
+                        <rect x="18" y="111" width="130" height="30" rx="9" />
+                        <use href="#ic-pipe" x="30" y="118.5" width="15" height="15" class="kb-ic kb-ic--accent" />
+                        <text x="52" y="131" class="kb-t-chip kb-t-strong">VENDAS</text>
+                        <use href="#ic-chevron" x="126" y="119" width="14" height="14" class="kb-ic kb-ic--mute" />
+                      </g>
+
+                      <!-- date filter -->
+                      <g class="kb-chip">
+                        <rect x="160" y="111" width="168" height="30" rx="9" />
+                        <use href="#ic-calendar" x="172" y="118.5" width="15" height="15" class="kb-ic kb-ic--mute" />
+                        <text x="194" y="131" class="kb-t-chip">Últimos 7 dias</text>
+                        <use href="#ic-chevron" x="306" y="119" width="14" height="14" class="kb-ic kb-ic--mute" />
+                      </g>
+
+                      <!-- search -->
+                      <g class="kb-chip kb-chip--field">
+                        <rect x="340" y="111" width="186" height="30" rx="9" />
+                        <use href="#ic-search" x="352" y="118.5" width="15" height="15" class="kb-ic kb-ic--mute" />
+                        <text x="374" y="131" class="kb-t-chip kb-t-mute">Buscar card</text>
+                      </g>
+
+                      <!-- ações -->
+                      <g class="kb-chip">
+                        <rect x="542" y="111" width="94" height="30" rx="9" />
+                        <use href="#ic-sliders" x="554" y="118.5" width="15" height="15" class="kb-ic kb-ic--mute" />
+                        <text x="576" y="131" class="kb-t-chip">Ações</text>
+                      </g>
+
+                      <!-- novo card -->
+                      <g class="kb-btn">
+                        <rect x="648" y="111" width="130" height="30" rx="9" />
+                        <use href="#ic-plus" x="662" y="118.5" width="15" height="15" class="kb-ic kb-ic--invert" />
+                        <text x="684" y="131" class="kb-t-chip kb-t-strong kb-t-invert">Novo Card</text>
+                      </g>
+
+                      <!-- ── Columns ─────────────────────────────────────── -->
+                      <g class="kb-cols">
+                        <rect x="18"  y="172" width="182" height="410" rx="12" class="kb-col" />
+                        <rect x="212" y="172" width="182" height="410" rx="12" class="kb-col" />
+                        <rect x="406" y="172" width="182" height="410" rx="12" class="kb-col" />
+                        <rect x="600" y="172" width="182" height="410" rx="12" class="kb-col" />
+                      </g>
+
+                      <!-- stage lighting (departure / arrival) -->
+                      <g class="kb-lights">
+                        <rect x="18"  y="172" width="182" height="410" rx="12" class="kb-light kb-light--1" />
+                        <rect x="212" y="172" width="182" height="410" rx="12" class="kb-light kb-light--2" />
+                        <rect x="406" y="172" width="182" height="410" rx="12" class="kb-light kb-light--3" />
+                        <rect x="600" y="172" width="182" height="410" rx="12" class="kb-light kb-light--4" />
+                      </g>
+
+                      <!-- column headers -->
+                      <g class="kb-heads">
+                        <circle cx="33"  cy="194" r="4" class="kb-dot kb-dot--1" />
+                        <text x="45"  y="199" class="kb-t-col">NOVO LEAD</text>
+                        <text x="186" y="199" class="kb-t-count" text-anchor="end">6</text>
+
+                        <circle cx="227" cy="194" r="4" class="kb-dot kb-dot--2" />
+                        <text x="239" y="199" class="kb-t-col">QUALIFICADO</text>
+                        <text x="380" y="199" class="kb-t-count" text-anchor="end">4</text>
+
+                        <circle cx="421" cy="194" r="4" class="kb-dot kb-dot--3" />
+                        <text x="433" y="199" class="kb-t-col">NEGOCIAÇÃO</text>
+                        <text x="574" y="199" class="kb-t-count" text-anchor="end">3</text>
+
+                        <circle cx="615" cy="194" r="4" class="kb-dot kb-dot--4" />
+                        <text x="627" y="199" class="kb-t-col">CONCLUSÃO</text>
+                        <text x="768" y="199" class="kb-t-count" text-anchor="end">12</text>
+                      </g>
+
+                      <!-- drop lanes: where the travelling card rests in each stage -->
+                      <g class="kb-lanes">
+                        <rect x="29"  y="280" width="160" height="126" rx="12" />
+                        <rect x="223" y="280" width="160" height="126" rx="12" />
+                        <rect x="417" y="280" width="160" height="126" rx="12" />
+                        <rect x="611" y="280" width="160" height="126" rx="12" />
+                      </g>
+
+                      <!-- ── Static cards ────────────────────────────────── -->
+                      <!-- col 1 · NOVO LEAD -->
+                      <g class="kb-mini">
+                        <rect x="29" y="214" width="160" height="54" rx="11" />
+                        <text x="41" y="237" class="kb-t-mini">Studio Bemviver</text>
+                        <text x="41" y="256" class="kb-t-money">R$ 4.200</text>
+                        <circle cx="171" cy="250" r="8" class="kb-av" />
+                        <text x="171" y="253" class="kb-t-av" text-anchor="middle">SB</text>
+                      </g>
+                      <g class="kb-mini">
+                        <rect x="29" y="418" width="160" height="54" rx="11" />
+                        <text x="41" y="441" class="kb-t-mini">Rede Ponto</text>
+                        <text x="41" y="460" class="kb-t-money">R$ 12.800</text>
+                        <circle cx="171" cy="454" r="8" class="kb-av" />
+                        <text x="171" y="457" class="kb-t-av" text-anchor="middle">RP</text>
+                      </g>
+                      <g class="kb-mini">
+                        <rect x="29" y="484" width="160" height="54" rx="11" />
+                        <text x="41" y="507" class="kb-t-mini">Hoffmann Log.</text>
+                        <text x="41" y="526" class="kb-t-money">R$ 3.500</text>
+                        <circle cx="171" cy="520" r="8" class="kb-av" />
+                        <text x="171" y="523" class="kb-t-av" text-anchor="middle">HL</text>
+                      </g>
+                      <g class="kb-add">
+                        <rect x="29" y="550" width="160" height="22" rx="8" />
+                        <use href="#ic-plus" x="101" y="554" width="14" height="14" class="kb-ic kb-ic--ghost" />
+                      </g>
+
+                      <!-- col 2 · QUALIFICADO -->
+                      <g class="kb-mini">
+                        <rect x="223" y="214" width="160" height="54" rx="11" />
+                        <text x="235" y="237" class="kb-t-mini">Vetta Odonto</text>
+                        <text x="235" y="256" class="kb-t-money">R$ 8.900</text>
+                        <circle cx="365" cy="250" r="8" class="kb-av" />
+                        <text x="365" y="253" class="kb-t-av" text-anchor="middle">VO</text>
+                      </g>
+                      <g class="kb-mini">
+                        <rect x="223" y="418" width="160" height="54" rx="11" />
+                        <text x="235" y="441" class="kb-t-mini">Grupo Marion</text>
+                        <text x="235" y="460" class="kb-t-money">R$ 21.400</text>
+                        <circle cx="365" cy="454" r="8" class="kb-av" />
+                        <text x="365" y="457" class="kb-t-av" text-anchor="middle">GM</text>
+                      </g>
+                      <g class="kb-add">
+                        <rect x="223" y="484" width="160" height="22" rx="8" />
+                        <use href="#ic-plus" x="295" y="488" width="14" height="14" class="kb-ic kb-ic--ghost" />
+                      </g>
+
+                      <!-- col 3 · NEGOCIAÇÃO -->
+                      <g class="kb-mini">
+                        <rect x="417" y="214" width="160" height="54" rx="11" />
+                        <text x="429" y="237" class="kb-t-mini">Nord Alimentos</text>
+                        <text x="429" y="256" class="kb-t-money">R$ 34.000</text>
+                        <circle cx="559" cy="250" r="8" class="kb-av" />
+                        <text x="559" y="253" class="kb-t-av" text-anchor="middle">NA</text>
+                      </g>
+                      <g class="kb-add">
+                        <rect x="417" y="418" width="160" height="22" rx="8" />
+                        <use href="#ic-plus" x="489" y="422" width="14" height="14" class="kb-ic kb-ic--ghost" />
+                      </g>
+
+                      <!-- col 4 · CONCLUSÃO -->
+                      <g class="kb-mini">
+                        <rect x="611" y="214" width="160" height="54" rx="11" />
+                        <text x="623" y="237" class="kb-t-mini">Atma Fitness</text>
+                        <text x="623" y="256" class="kb-t-money">R$ 15.200</text>
+                        <circle cx="753" cy="250" r="8" class="kb-av" />
+                        <text x="753" y="253" class="kb-t-av" text-anchor="middle">AF</text>
+                      </g>
+                      <g class="kb-mini">
+                        <rect x="611" y="418" width="160" height="54" rx="11" />
+                        <text x="623" y="441" class="kb-t-mini">Delta Serviços</text>
+                        <text x="623" y="460" class="kb-t-money">R$ 9.800</text>
+                        <circle cx="753" cy="454" r="8" class="kb-av" />
+                        <text x="753" y="457" class="kb-t-av" text-anchor="middle">DS</text>
+                      </g>
+                      <g class="kb-mini">
+                        <rect x="611" y="484" width="160" height="54" rx="11" />
+                        <text x="623" y="507" class="kb-t-mini">Ítaca Contábil</text>
+                        <text x="623" y="526" class="kb-t-money">R$ 5.400</text>
+                        <circle cx="753" cy="520" r="8" class="kb-av" />
+                        <text x="753" y="523" class="kb-t-av" text-anchor="middle">IC</text>
+                      </g>
+                      <g class="kb-add">
+                        <rect x="611" y="550" width="160" height="22" rx="8" />
+                        <use href="#ic-plus" x="683" y="554" width="14" height="14" class="kb-ic kb-ic--ghost" />
+                      </g>
+
+                      <!-- arrival pulses, drawn under the travelling card -->
+                      <g class="kb-pulses">
+                        <rect x="29"  y="280" width="160" height="126" rx="12" class="kb-pulse kb-pulse--1" />
+                        <rect x="223" y="280" width="160" height="126" rx="12" class="kb-pulse kb-pulse--2" />
+                        <rect x="417" y="280" width="160" height="126" rx="12" class="kb-pulse kb-pulse--3" />
+                        <rect x="611" y="280" width="160" height="126" rx="12" class="kb-pulse kb-pulse--4" />
+                      </g>
+
+                      <!-- ── Travelling card ─────────────────────────────── -->
+                      <g class="kb-fly">
+                        <rect class="kb-streak" x="-165" y="280" width="194" height="126" rx="12" fill="url(#kb-trail)" />
+                        <g class="kb-lift">
+                          <g filter="url(#kb-lift)">
+                            <rect x="29" y="280" width="160" height="126" rx="12" class="kb-card" />
+                          </g>
+                          <circle cx="53" cy="305" r="11" class="kb-av kb-av--lead" />
+                          <text x="53" y="308.5" class="kb-t-av kb-t-av--lead" text-anchor="middle">EC</text>
+                          <text x="71" y="309" class="kb-t-name">ERICO CESAR</text>
+                          <use href="#ic-dots" x="161" y="298" width="14" height="14" class="kb-ic kb-ic--fill kb-ic--ghost" />
+
+                          <text x="41" y="337" class="kb-t-title">WEBSITE</text>
+                          <text x="41" y="355" class="kb-t-title">INSTITUCIONAL</text>
+
+                          <text x="41" y="379" class="kb-t-value">R$ 0,00</text>
+                          <rect x="146" y="366" width="31" height="18" rx="9" class="kb-badge" />
+                          <text x="161.5" y="379" class="kb-t-badge" text-anchor="middle">50</text>
+
+                          <use href="#ic-chat"  x="41" y="384" width="13" height="13" class="kb-ic kb-ic--mute" />
+                          <use href="#ic-tag"   x="60" y="384" width="13" height="13" class="kb-ic kb-ic--mute" />
+                          <use href="#ic-clock" x="79" y="384" width="13" height="13" class="kb-ic kb-ic--mute" />
+                          <rect x="115" y="381" width="62" height="18" rx="9" class="kb-auto" />
+                          <use href="#ic-check" x="120" y="384" width="12" height="12" class="kb-ic kb-ic--accent" />
+                          <text x="136" y="394" class="kb-t-auto">AUTO</text>
+                        </g>
+                      </g>
+                    </g>
+
+                    <!-- ── Beams · finger → active card ──────────────────── -->
+                    <g class="kb-beams" filter="url(#kb-beam-glow)">
+                      <path class="kb-beam kb-beam--1" d="M751.5 410 C 716 375, 520 296, 122 338" />
+                      <path class="kb-beam kb-beam--2" d="M751.5 410 C 718 377, 470 292, 314 337" />
+                      <path class="kb-beam kb-beam--3" d="M751.5 410 C 722 381, 566 298, 506 339" />
+                      <path class="kb-beam kb-beam--4" d="M751.5 410 C 739 397, 710 368, 698 346" />
+                    </g>
+                  </svg>
+
+                  <img
+                    class="h1-robot"
+                    src="/hero/robot.png"
+                    alt="Agente robô do BChat Copilot apontando para o card que avança no pipeline"
+                    width="256"
+                    height="350"
+                    decoding="async"
+                    fetchpriority="high"
+                  />
+                  <span class="h1-ground" aria-hidden="true"></span>
+                  <span class="h1-fingerglow" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+
+            <p class="h1-pill h1-pill--status">
+              <span class="h1-pill__dot" aria-hidden="true"></span>
+              <strong>Em execução</strong> · tempo real
+            </p>
+
+            <p class="h1-pill h1-pill--contexto">
+              <span class="h1-pill__dot h1-pill__dot--cyan" aria-hidden="true"></span>
+              <strong>Contexto identificado</strong> · orçamento aprovado
+            </p>
+
+            <article class="h1-panel h1-panel--sugestao">
+              <h2 class="h1-panel__kicker">Sugestão contextual</h2>
+              <p class="h1-panel__body">Mover para Negociação e enviar a proposta comercial</p>
+              <p class="h1-panel__meter">
+                <span class="h1-panel__track" aria-hidden="true"><span style="--fill: 92%"></span></span>
+                <span class="h1-panel__num">92%</span> de confiança
+              </p>
             </article>
 
-            <article class="h1-card h1-card--2" data-card="sugestao">
-              <span class="h1-card__kicker">Sugestão contextual</span>
-              <strong class="h1-card__body">Atualizar cadastro e encaminhar para validação</strong>
-              <span class="h1-card__meta"><span class="h1-card__pulse h1-card__pulse--cyan"></span>92% confiança</span>
-            </article>
-
-            <article class="h1-card h1-card--3" data-card="automacao">
-              <span class="h1-card__kicker">Automação acionada</span>
-              <strong class="h1-card__body">Fluxo de cadastro iniciado</strong>
-              <span class="h1-card__meta"><span class="h1-card__pulse h1-card__pulse--lime"></span>4 etapas</span>
-            </article>
-
-            <article class="h1-card h1-card--4" data-card="status">
-              <span class="h1-card__kicker">Status</span>
-              <strong class="h1-card__body">Em execução</strong>
-              <span class="h1-card__meta"><span class="h1-card__pulse h1-card__pulse--blue"></span>tempo real</span>
+            <article class="h1-panel h1-panel--automacao">
+              <h2 class="h1-panel__kicker">Automação acionada</h2>
+              <p class="h1-panel__body">Proposta gerada e card movido de etapa</p>
+              <p class="h1-panel__steps">
+                <span class="h1-panel__seg is-done" aria-hidden="true"></span>
+                <span class="h1-panel__seg is-done" aria-hidden="true"></span>
+                <span class="h1-panel__seg is-live" aria-hidden="true"></span>
+                <span class="h1-panel__seg" aria-hidden="true"></span>
+                <span>3 de 4 etapas</span>
+              </p>
             </article>
           </div>
         </div>

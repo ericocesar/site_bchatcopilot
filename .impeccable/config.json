@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/components/ui/motion-footer.css"
+        ],
+        "createdAt": "2026-10-15T14:01:02.410Z",
+        "reason": "The only gradient text here is the aria-hidden oversized BCHAT wordmark used as decorative footer artwork; keep this narrow file-only exception."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-15T14:46:01.605Z",
+        "reason": "Agent: detector scanned markup without imported src/landing.css; headings are 42-70px while body text is 17px"
+      }
+    ]
+  }
+}

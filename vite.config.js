@@ -3,23 +3,25 @@ import { resolve, normalize } from "node:path";
 import { existsSync, readFileSync } from "node:fs";
 import react from "@vitejs/plugin-react";
 
-const HERO_DIRS = ["hero1", "hero2", "hero3"];
+const ROUTE_DIRS = ["hero1", "hero2", "hero3", "page2"];
+const ROUTE_PATTERN = /^\/(hero[123]|page2)(\/)?$/;
 
 /**
- * Custom dev middleware: explicitly resolve /heroN (with or without trailing
- * slash) to heroN/index.html so the multi-page entries win over Vite's SPA
- * fallback. Without this, a request to /hero1 falls through to index.html,
- * which renders the CinematicFooter shell and looks like a redirect.
+ * Custom dev middleware: explicitly resolve /heroN and /page2 (with or
+ * without trailing slash) to <dir>/index.html so the multi-page entries
+ * win over Vite's SPA fallback. Without this, a request to /hero1 falls
+ * through to index.html, which renders the CinematicFooter shell and
+ * looks like a redirect.
  */
-function heroRoutesPlugin() {
+function multiPageRoutesPlugin() {
   return {
-    name: "bchat-hero-routes",
+    name: "bchat-multi-page-routes",
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         if (!req.url) return next();
 
         const url = new URL(req.url, "http://localhost");
-        const match = url.pathname.match(/^\/(hero[123])(\/)?$/);
+        const match = url.pathname.match(ROUTE_PATTERN);
         if (!match) return next();
 
         const file = resolve(process.cwd(), match[1], "index.html");
@@ -46,7 +48,7 @@ function heroRoutesPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), heroRoutesPlugin()],
+  plugins: [react(), multiPageRoutesPlugin()],
   server: { port: 5175 },
   build: {
     sourcemap: false,
@@ -56,6 +58,7 @@ export default defineConfig({
         hero1: resolve(__dirname, "hero1/index.html"),
         hero2: resolve(__dirname, "hero2/index.html"),
         hero3: resolve(__dirname, "hero3/index.html"),
+        page2: resolve(__dirname, "page2/index.html"),
       },
     },
   },

@@ -1,0 +1,508 @@
+/* page2 · Ato contínuo
+ * Three-act landing variation driven by GSAP ScrollTrigger.
+ * Reuses tokens.css (paper-1 canvas, cyan-1 / lime-1 accents, Manrope).
+ * Each act gets a pinned scroll budget; the JS owns all timing and easing.
+ */
+
+.p2-body {
+  margin: 0;
+  background: var(--paper-1);
+  color: var(--ink-1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scrollbar-color: oklch(40% 0.030 245) var(--paper-1);
+  scrollbar-width: thin;
+  overflow-x: hidden;
+}
+
+.p2-body ::selection { background: oklch(85% 0.130 190 / 0.26); color: var(--ink-1); }
+.p2-body ::-webkit-scrollbar { width: 11px; height: 11px; }
+.p2-body ::-webkit-scrollbar-track { background: var(--paper-1); }
+.p2-body ::-webkit-scrollbar-thumb {
+  background: oklch(38% 0.030 245);
+  border: 3px solid var(--paper-1);
+  border-radius: 999px;
+}
+.p2-body ::-webkit-scrollbar-thumb:hover { background: oklch(50% 0.045 240); }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  padding: 10px 16px;
+  background: var(--ink-1);
+  color: var(--paper-1);
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { left: 16px; top: 16px; outline: 2px solid var(--cyan-1); }
+
+/* ── Topbar ───────────────────────────────────────────────────────────── */
+.p2-topbar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 36px;
+  border-bottom: 1px solid var(--rule-hairline);
+  background: oklch(14% 0.018 250 / 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.p2-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-1);
+  text-decoration: none;
+}
+.p2-brand-mark { width: 28px; height: 28px; border-radius: 6px; }
+.p2-brand-wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.p2-brand-wordmark span { color: var(--cyan-1); margin-left: 2px; font-weight: 600; }
+
+.p2-nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+}
+.p2-nav a {
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: color var(--dur-quick), background-color var(--dur-quick);
+}
+.p2-nav a:hover { color: var(--ink-1); background: oklch(80% 0.030 230 / 0.06); }
+.p2-nav a[aria-current="page"] { color: var(--cyan-1); }
+.p2-nav-back { color: var(--ink-1) !important; }
+
+@media (max-width: 720px) {
+  .p2-topbar { padding: 16px 20px; }
+  .p2-nav { display: none; }
+}
+
+/* ── Act shell (shared) ───────────────────────────────────────────────── */
+.p2-act {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   ATO 01 · ATIVAR
+   Pinned 200vh · title scale-up + drift, orb breathes in opposite phase,
+   sub + eyebrow + marquee stagger up.
+   ════════════════════════════════════════════════════════════════════════ */
+.p2-act--ativar {
+  min-height: 100vh;
+}
+
+.p2-act--ativar .p2-act-shell {
+  position: relative;
+  width: min(var(--container), 100% - 64px);
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  gap: var(--space-xl);
+  padding: var(--space-3xl) 0;
+  z-index: 2;
+}
+
+/* Orb — concentric breathing rings behind the title */
+.p2-orb {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+.p2-orb__ring,
+.p2-orb__core {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid oklch(85% 0.130 190 / 0.18);
+}
+.p2-orb__ring--a {
+  width: 56vmin;
+  height: 56vmin;
+  border-color: oklch(85% 0.130 190 / 0.12);
+}
+.p2-orb__ring--b {
+  width: 38vmin;
+  height: 38vmin;
+  border-color: oklch(85% 0.130 190 / 0.20);
+}
+.p2-orb__ring--c {
+  width: 22vmin;
+  height: 22vmin;
+  border-color: oklch(85% 0.130 190 / 0.32);
+}
+.p2-orb__core {
+  width: 6vmin;
+  height: 6vmin;
+  background: radial-gradient(circle, oklch(85% 0.130 190 / 0.55), transparent 70%);
+  border: none;
+  filter: blur(8px);
+}
+
+.p2-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--cyan-1);
+  text-transform: uppercase;
+}
+.p2-eyebrow-dot {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid oklch(85% 0.130 190 / 0.4);
+  font-size: 11px;
+}
+
+.p2-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 7.6vw, 96px);
+  line-height: 1.04;
+  letter-spacing: -0.022em;
+  margin: 0;
+  color: var(--ink-1);
+}
+.p2-title em {
+  font-style: italic;
+  color: var(--cyan-1);
+  font-weight: 700;
+}
+.p2-line { display: block; overflow: hidden; }
+.p2-line > span { display: block; }
+
+.p2-sub {
+  max-width: 56ch;
+  font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.p2-marquee {
+  list-style: none;
+  margin: 0;
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-top: 1px solid var(--rule-hairline);
+  border-bottom: 1px solid var(--rule-hairline);
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink-3);
+  overflow: hidden;
+}
+.p2-marquee li { display: inline-flex; align-items: center; gap: 18px; }
+.p2-marquee i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan-1);
+  opacity: 0.6;
+}
+.p2-marquee span { font-size: 13px; letter-spacing: 0.02em; }
+
+@media (max-width: 720px) {
+  .p2-act--ativar .p2-act-shell { padding: var(--space-2xl) 0; gap: var(--space-lg); }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   ATO 02 · CONECTAR
+   Pinned 200vh · three pillars translate-X from staggered offsets and
+   settle into a horizontal row, lines drawing as they settle.
+   ════════════════════════════════════════════════════════════════════════ */
+.p2-act--conectar { background: var(--paper-3); }
+
+.p2-pillars {
+  position: relative;
+  width: min(var(--container), 100% - 64px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--space-2xl);
+  z-index: 2;
+}
+
+.p2-pillars-head {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: var(--space-xl);
+  align-items: end;
+}
+@media (max-width: 820px) {
+  .p2-pillars-head { grid-template-columns: 1fr; gap: var(--space-md); }
+}
+
+.p2-chapter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.p2-chapter-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--cyan-1);
+  letter-spacing: 0;
+}
+
+.p2-pillars-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 64px);
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+  margin: 0;
+  color: var(--ink-1);
+}
+.p2-pillars-title em {
+  font-style: italic;
+  color: var(--lime-1);
+  font-weight: 700;
+}
+
+.p2-pillars-stage {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+  perspective: 1400px;
+}
+@media (max-width: 820px) {
+  .p2-pillars-stage {
+    grid-template-columns: 1fr;
+    perspective: none;
+  }
+}
+
+.p2-pillar {
+  position: relative;
+  background: var(--surface-1);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  min-height: 280px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--space-md);
+  will-change: transform, opacity;
+}
+.p2-pillar__num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  color: var(--cyan-1);
+}
+.p2-pillar h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.12;
+  letter-spacing: -0.012em;
+  margin: 0;
+  color: var(--ink-1);
+}
+.p2-pillar p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.p2-pillar__line {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--cyan-1);
+  transform-origin: left center;
+  transform: scaleX(0);
+  opacity: 0.7;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   ATO 03 · DECIDIR
+   Pinned 240vh · four steps snap in line by line, rail fills from left,
+   counter ticks 01 → 04.
+   ════════════════════════════════════════════════════════════════════════ */
+.p2-act--decidir {
+  background: linear-gradient(180deg, var(--paper-3) 0%, var(--paper-1) 100%);
+}
+
+.p2-steps {
+  position: relative;
+  width: min(var(--container-narrow), 100% - 64px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--space-2xl);
+  z-index: 2;
+}
+
+.p2-steps-head { display: grid; gap: var(--space-md); }
+.p2-steps-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(28px, 4.4vw, 60px);
+  line-height: 1.06;
+  letter-spacing: -0.018em;
+  margin: 0;
+  color: var(--ink-1);
+}
+.p2-steps-title em { font-style: italic; color: var(--cyan-1); font-weight: 700; }
+
+.p2-steps-rail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.p2-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--space-lg);
+  align-items: start;
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--rule-hairline);
+  will-change: transform, opacity;
+}
+.p2-step:first-child { border-top: none; }
+
+.p2-step__rail {
+  position: relative;
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: oklch(80% 0.030 230 / 0.12);
+  overflow: hidden;
+}
+.p2-step__fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--cyan-1), var(--lime-1));
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.p2-step__num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  color: var(--ink-1);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.p2-step h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 2vw, 28px);
+  letter-spacing: -0.012em;
+  margin: 0 0 6px;
+  color: var(--ink-1);
+}
+.p2-step p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+
+@media (max-width: 720px) {
+  .p2-step { grid-template-columns: 56px 1fr; gap: var(--space-md); }
+  .p2-step__num { font-size: 24px; }
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+.p2-foot {
+  border-top: 1px solid var(--rule-hairline);
+  padding: var(--space-2xl) 36px;
+  background: var(--paper-1);
+}
+.p2-foot-inner {
+  width: min(var(--container), 100% - 64px);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+.p2-foot-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink-1);
+}
+.p2-foot-mark-dot {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: oklch(85% 0.130 190 / 0.14);
+  color: var(--cyan-1);
+  font-size: 11px;
+}
+.p2-foot-line {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+}
+.p2-foot-back {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink-1);
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  transition: background-color var(--dur-quick), color var(--dur-quick);
+}
+.p2-foot-back:hover { background: var(--ink-1); color: var(--paper-1); }

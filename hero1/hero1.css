@@ -1,8 +1,14 @@
 /* hero1 · Robô + Kanban
  * Reuses tokens.css (paper-1 canvas, cyan-1 accent, Manrope).
- * Composition: editorial split · right stage holds the kanban asset,
- * the robot accent, 4 glass cards and SVG connection lines.
- * Animations use transform + opacity only. Reduced-motion respected.
+ * Left column: editorial copy (unchanged).
+ * Right stage: the BChat Copilot pipeline redrawn as a vector plate —
+ * a lit product screen floating in the dark room, with the agent standing
+ * beside it and pushing one card through NOVO LEAD → CONCLUSÃO.
+ *
+ * Scene scaling: the SVG never renders narrower than --scene-min, so the
+ * board's type stays legible at every breakpoint; when the stage is narrower
+ * than that, .h1-viewport crops and .h1-pan tracks the card like a camera.
+ * All motion is transform / opacity. Reduced-motion freezes it mid-flow.
  */
 
 .h1-body {
@@ -12,7 +18,23 @@
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  scrollbar-color: oklch(40% 0.030 245) var(--paper-1);
+  scrollbar-width: thin;
 }
+
+/* ── Browser surfaces ─────────────────────────────────────────────────── */
+.h1-body ::selection {
+  background: oklch(85% 0.130 190 / 0.26);
+  color: var(--ink-1);
+}
+.h1-body ::-webkit-scrollbar { width: 11px; height: 11px; }
+.h1-body ::-webkit-scrollbar-track { background: var(--paper-1); }
+.h1-body ::-webkit-scrollbar-thumb {
+  background: oklch(38% 0.030 245);
+  border: 3px solid var(--paper-1);
+  border-radius: 999px;
+}
+.h1-body ::-webkit-scrollbar-thumb:hover { background: oklch(50% 0.045 240); }
 
 .skip-link {
   position: absolute;
@@ -148,9 +170,9 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: clamp(32px, 5vw, 80px);
-  max-width: 1320px;
+  grid-template-columns: 1fr 1.14fr;
+  gap: clamp(28px, 4vw, 64px);
+  max-width: 1380px;
   margin: 0 auto;
   align-items: center;
   min-height: calc(100dvh - 220px);
@@ -160,6 +182,7 @@
 .h1-copy {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   gap: 26px;
   opacity: 0;
   transform: translateY(20px);
@@ -196,10 +219,11 @@
   margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(40px, 6.6vw, 84px);
-  line-height: 0.98;
+  font-size: clamp(38px, 5.4vw, 76px);
+  line-height: 0.99;
   letter-spacing: -0.03em;
   color: var(--ink-1);
+  text-wrap: balance;
 }
 .h1-title em {
   font-style: normal;
@@ -213,9 +237,9 @@
 @keyframes h1-shimmer { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
 
 .h1-sub {
-  max-width: 520px;
+  max-width: 50ch;
   margin: 0;
-  font-size: clamp(15px, 1.35vw, 18px);
+  font-size: clamp(15px, 1.25vw, 17px);
   line-height: 1.55;
   color: var(--ink-2);
 }
@@ -334,266 +358,518 @@
   50% { opacity: 0.55; transform: scale(0.8); }
 }
 
-/* ── Right · stage ────────────────────────────────────────────────────── */
+/* ══ Right · stage ═══════════════════════════════════════════════════════
+   Layer order: plate glow (0) · cropped scene (1) · robot (2) ·
+   finger halo (3) · glass panels (4).
+   ═══════════════════════════════════════════════════════════════════════ */
 .h1-stage {
+  /* the product plate — a light UI lit from inside a dark room */
+  --kb-plate: oklch(96.4% 0.005 250);
+  --kb-chrome: oklch(99.4% 0.002 250);
+  --kb-col: oklch(94.2% 0.007 250);
+  --kb-card: oklch(100% 0 0);
+  --kb-line: oklch(89% 0.013 250);
+  --kb-ink: var(--ink-on-light);
+  --kb-ink-2: oklch(47% 0.024 250);
+  --kb-hint: oklch(68% 0.018 250);
+  --kb-accent: var(--teal-1);
+  --kb-signal: oklch(57% 0.135 196);
+  --kb-s1: oklch(56% 0.150 252);
+  --kb-s2: oklch(54% 0.100 200);
+  --kb-s3: oklch(62% 0.135 66);
+  --kb-s4: oklch(56% 0.120 155);
+
+  --scene-min: 620px;
+  --kb-cycle: 16s;
+
   position: relative;
-  aspect-ratio: 1000 / 760;
   width: 100%;
-  max-width: 620px;
+  max-width: 760px;
+  aspect-ratio: 1000 / 720;
+  /* keeps the cropped scene fully visible once the stage is narrower than
+     --scene-min; min-width:0 stops aspect-ratio from transferring this back
+     as a 619px minimum width onto the grid track. */
+  min-height: 446px;
+  min-width: 0;
   justify-self: end;
   opacity: 0;
   transform: translateY(20px);
-  animation: h1-reveal var(--dur-stage) var(--ease-spring) 260ms forwards;
+  animation: h1-reveal var(--dur-stage) var(--ease-spring) 240ms forwards;
 }
 
-/* SVG connections sit on top of the kanban but below cards */
-.h1-connections {
+/* cyan halo bleeding out from behind the plate */
+.h1-plateglow {
+  position: absolute;
+  left: -5%; top: 7%;
+  width: 90%; height: 84%;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 44px;
+  background: radial-gradient(58% 58% at 50% 46%, oklch(85% 0.130 190 / 0.30), transparent 74%);
+  filter: blur(44px);
+}
+
+.h1-viewport {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* camera: only travels when the scene is wider than the stage */
+.h1-pan {
+  position: absolute;
+  inset: 0;
+  --overflow: calc(max(100%, var(--scene-min)) - 100%);
+  animation: h1-pan var(--kb-cycle) var(--ease-in-out) infinite;
+}
+@keyframes h1-pan {
+  0%, 12%   { transform: translateX(0); }
+  25%, 37%  { transform: translateX(calc(var(--overflow) * -0.34)); }
+  50%, 62%  { transform: translateX(calc(var(--overflow) * -0.67)); }
+  75%, 100% { transform: translateX(calc(var(--overflow) * -1)); }
+}
+
+.h1-scene {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max(100%, var(--scene-min));
+  aspect-ratio: 1000 / 720;
+}
+
+.kb {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 2;
-  pointer-events: none;
   overflow: visible;
 }
-.h1-conn {
-  fill: none;
-  stroke: var(--cyan-1);
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-dasharray: 4 6;
-  opacity: 0;
-  animation: h1-draw 1.2s var(--ease-spring) forwards;
+
+/* ── Plate typography ─────────────────────────────────────────────────── */
+.kb text {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
 }
-.h1-conn--1 { stroke: url(#h1-line-soft); animation-delay: 600ms; }
-.h1-conn--2 { stroke: url(#h1-line-soft); animation-delay: 800ms; }
-.h1-conn--3 { stroke: url(#h1-line-soft); animation-delay: 1000ms; }
-.h1-conn--4 { stroke: url(#h1-line-soft); animation-delay: 1200ms; }
-@keyframes h1-draw {
-  to { opacity: 0.9; }
+.kb-t-chip   { font-size: 15px; font-weight: 500; fill: var(--kb-ink); }
+.kb-t-strong { font-weight: 700; letter-spacing: 0.06em; }
+.kb-t-mute   { fill: var(--kb-ink-2); }
+.kb-t-invert { fill: oklch(99% 0.006 190); }
+.kb-t-col    { font-size: 14px; font-weight: 700; letter-spacing: 0.05em; fill: var(--kb-ink-2); }
+.kb-t-count  { font-size: 13px; font-weight: 700; fill: var(--kb-ink-2); }
+.kb-t-mini   { font-size: 14.5px; font-weight: 600; fill: var(--kb-ink); letter-spacing: -0.005em; }
+.kb-t-money  { font-size: 13px; font-weight: 700; fill: var(--kb-accent); }
+.kb-t-av     { font-size: 9px; font-weight: 700; fill: var(--kb-ink-2); letter-spacing: 0.03em; }
+.kb-t-name   { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; fill: var(--kb-ink-2); }
+.kb-t-title  { font-size: 17px; font-weight: 700; letter-spacing: 0.005em; fill: var(--kb-ink); }
+.kb-t-value  { font-size: 16px; font-weight: 700; fill: var(--kb-accent); }
+.kb-t-badge  { font-size: 11px; font-weight: 700; fill: var(--kb-ink-2); }
+.kb-t-auto   { font-size: 9.5px; font-weight: 700; letter-spacing: 0.09em; fill: var(--kb-accent); }
+
+/* ── Plate surfaces ───────────────────────────────────────────────────── */
+.kb-hair { stroke: var(--kb-line); stroke-width: 1; }
+
+.kb-chip rect { fill: var(--kb-card); stroke: var(--kb-line); stroke-width: 1; }
+.kb-chip--field rect { fill: var(--kb-col); stroke: none; }
+.kb-btn rect { fill: var(--kb-ink); }
+
+.kb-col { fill: var(--kb-col); }
+.kb-mini rect { fill: var(--kb-card); stroke: var(--kb-line); stroke-width: 1; }
+.kb-lanes rect {
+  fill: none;
+  stroke: var(--kb-line);
+  stroke-width: 1.3;
+  stroke-dasharray: 6 7;
+  stroke-linecap: round;
+  stroke-opacity: 0.75;
+}
+.kb-auto { fill: oklch(93% 0.040 196); }
+.kb-add rect { fill: none; stroke: var(--kb-line); stroke-width: 1.2; stroke-dasharray: 5 6; }
+
+.kb-av { fill: oklch(92% 0.012 250); }
+.kb-av--lead { fill: oklch(88% 0.055 196); }
+.kb-t-av--lead { fill: oklch(37% 0.090 200); }
+.kb-badge { fill: var(--kb-col); }
+
+.kb-dot--1 { fill: var(--kb-s1); }
+.kb-dot--2 { fill: var(--kb-s2); }
+.kb-dot--3 { fill: var(--kb-s3); }
+.kb-dot--4 { fill: var(--kb-s4); }
+
+/* icons: one stroke weight across the whole plate */
+.kb-ic {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--kb-ink-2);
+}
+.kb-ic--accent { color: var(--kb-accent); }
+.kb-ic--ghost { color: var(--kb-hint); }
+.kb-ic--invert { color: oklch(99% 0.006 190); }
+.kb-ic--fill { fill: currentColor; stroke: none; }
+
+/* ── Travelling card ──────────────────────────────────────────────────── */
+.kb-card {
+  fill: var(--kb-card);
+  stroke: var(--kb-signal);
+  stroke-width: 1.5;
+  stroke-opacity: 0.55;
 }
 
-/* traveling data line: short dash that flows along the path */
-.h1-data {
+.kb-fly { animation: kb-fly var(--kb-cycle) var(--ease-in-out) infinite; }
+@keyframes kb-fly {
+  0%        { transform: translateX(0); opacity: 0; }
+  3%        { opacity: 1; }
+  12%       { transform: translateX(0); }
+  25%, 37%  { transform: translateX(194px); }
+  50%, 62%  { transform: translateX(388px); }
+  75%       { transform: translateX(582px); }
+  94%       { transform: translateX(582px); opacity: 1; }
+  100%      { transform: translateX(582px); opacity: 0; }
+}
+
+.kb-lift {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: kb-lift var(--kb-cycle) var(--ease-in-out) infinite;
+}
+@keyframes kb-lift {
+  0%, 13%   { transform: translateY(0) scale(1); }
+  17%, 21%  { transform: translateY(-9px) scale(1.03); }
+  25%, 38%  { transform: translateY(0) scale(1); }
+  42%, 46%  { transform: translateY(-9px) scale(1.03); }
+  50%, 63%  { transform: translateY(0) scale(1); }
+  67%, 71%  { transform: translateY(-9px) scale(1.03); }
+  75%, 100% { transform: translateY(0) scale(1); }
+}
+
+/* luminous wake left behind while the card crosses a gap */
+.kb-streak { opacity: 0; animation: kb-streak var(--kb-cycle) var(--ease-out) infinite; }
+@keyframes kb-streak {
+  0%, 13%   { opacity: 0; }
+  18%       { opacity: 1; }
+  25%, 38%  { opacity: 0; }
+  43%       { opacity: 1; }
+  50%, 63%  { opacity: 0; }
+  68%       { opacity: 1; }
+  75%, 100% { opacity: 0; }
+}
+
+/* ── Stage lighting ───────────────────────────────────────────────────── */
+.kb-light {
+  fill: var(--kb-signal);
+  fill-opacity: 0.10;
+  stroke: var(--kb-signal);
+  stroke-width: 1.4;
+  stroke-opacity: 0.42;
+  opacity: 0;
+  animation: kb-depart var(--kb-cycle) var(--ease-in-out) infinite;
+}
+@keyframes kb-depart {
+  0%, 10%   { opacity: 0; }
+  14%       { opacity: 1; }
+  22%       { opacity: 0.5; }
+  27%, 100% { opacity: 0; }
+}
+.kb-light--2 { animation-delay: calc(var(--kb-cycle) * 0.25); }
+.kb-light--3 { animation-delay: calc(var(--kb-cycle) * 0.5); }
+.kb-light--4 { animation: none; } /* nothing departs Conclusão */
+
+.kb-pulse {
+  fill: var(--kb-signal);
+  fill-opacity: 0.18;
+  stroke: var(--kb-signal);
+  stroke-width: 1.8;
+  stroke-opacity: 0.6;
+  opacity: 0;
+  animation: kb-arrive var(--kb-cycle) var(--ease-out) infinite;
+}
+@keyframes kb-arrive {
+  0%        { opacity: 0; }
+  2%        { opacity: 1; }
+  10%, 100% { opacity: 0; }
+}
+.kb-pulse--2 { animation-delay: calc(var(--kb-cycle) * 0.25); }
+.kb-pulse--3 { animation-delay: calc(var(--kb-cycle) * 0.5); }
+.kb-pulse--4 { animation-delay: calc(var(--kb-cycle) * 0.75); }
+
+/* ── Beams · fingertip → active card ──────────────────────────────────── */
+.kb-beam {
   fill: none;
-  stroke: var(--cyan-1);
+  stroke: var(--kb-signal);
   stroke-width: 2;
   stroke-linecap: round;
-  stroke-dasharray: 22 520;
+  stroke-dasharray: 3 8;
   opacity: 0;
-  filter: drop-shadow(0 0 6px var(--cyan-1));
-  animation: h1-data-flow 5.5s var(--ease-in-out) 1400ms infinite;
+  animation:
+    kb-beam var(--kb-cycle) var(--ease-in-out) infinite,
+    kb-beamflow 1.1s linear infinite;
 }
-@keyframes h1-data-flow {
-  0% { stroke-dashoffset: 540; opacity: 0; }
-  10% { opacity: 0.95; }
-  90% { opacity: 0.95; }
-  100% { stroke-dashoffset: 0; opacity: 0; }
+@keyframes kb-beam {
+  0%   { opacity: 0; }
+  2%   { opacity: 0.9; }
+  20%  { opacity: 0.9; }
+  30%  { opacity: 0; }
+  100% { opacity: 0; }
 }
+@keyframes kb-beamflow { to { stroke-dashoffset: -22; } }
+.kb-beam--2 { animation-delay: calc(var(--kb-cycle) * 0.25), 0s; }
+.kb-beam--3 { animation-delay: calc(var(--kb-cycle) * 0.5), 0s; }
+.kb-beam--4 { animation-delay: calc(var(--kb-cycle) * 0.75), 0s; }
 
-/* Kanban asset — main visual */
-.h1-kanban {
-  position: absolute;
-  left: 18%;
-  top: 12%;
-  width: 64%;
-  margin: 0;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid var(--border-strong);
-  background: oklch(13% 0.018 250);
-  box-shadow:
-    0 30px 80px oklch(0% 0 0 / 0.45),
-    0 0 0 1px oklch(100% 0 0 / 0.02) inset;
-  z-index: 1;
-  transform: perspective(1400px) rotateY(-6deg) rotateX(2deg);
-  transform-origin: center;
-}
-.h1-kanban__img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 18px;
-}
-.h1-kanban-cap {
-  position: absolute;
-  left: 16px;
-  bottom: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: oklch(14% 0.018 250 / 0.7);
-  border: 1px solid var(--border-soft);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  font-family: var(--font-display);
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-.h1-kanban-cap span {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--lime-1); box-shadow: 0 0 8px var(--lime-1);
-}
-
-/* ghost card animating across kanban columns */
-.h1-kanban-card {
-  position: absolute;
-  top: 26%;
-  left: 6%;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: oklch(85% 0.130 190 / 0.18);
-  border: 1px solid oklch(85% 0.130 190 / 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--cyan-3);
-  white-space: nowrap;
-  z-index: 3;
-  animation: h1-card-move 7.5s var(--ease-in-out) 1500ms infinite;
-}
-.h1-kanban-card__dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--cyan-1); box-shadow: 0 0 8px var(--cyan-1);
-}
-@keyframes h1-card-move {
-  0%   { transform: translate(0, 0);     opacity: 0; }
-  10%  { opacity: 1; }
-  45%  { transform: translate(180px, 6px); opacity: 1; }
-  55%  { transform: translate(180px, 6px); opacity: 1; }
-  78%  { transform: translate(360px, -4px); opacity: 0.85; }
-  90%  { transform: translate(360px, -4px); opacity: 0; }
-  100% { transform: translate(360px, -4px); opacity: 0; }
-}
-
-/* robot hand accent */
+/* ── Robot ────────────────────────────────────────────────────────────── */
+/* anchored so the extended index finger (measured at 7.81% / 25.43% of the
+   PNG's alpha) lands at scene coords 751.5 / 410 — the gap right under the
+   active card, where every beam originates. */
 .h1-robot {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 32%;
+  left: 73%;
+  top: 43.67%;
+  width: 27.5%;
   height: auto;
-  opacity: 0.9;
-  filter: drop-shadow(0 12px 24px oklch(0% 0 0 / 0.4))
-          drop-shadow(0 0 22px oklch(85% 0.130 190 / 0.18));
-  z-index: 0;
+  z-index: 2;
   pointer-events: none;
+  /* the plate is a light source: cool spill on the side facing it */
+  filter:
+    drop-shadow(0 18px 26px oklch(0% 0 0 / 0.55))
+    drop-shadow(-8px 0 16px oklch(92% 0.090 192 / 0.26));
 }
 
-/* glass cards */
-.h1-card {
+.h1-ground {
+  position: absolute;
+  left: 78%;
+  top: 93.2%;
+  width: 20%;
+  height: 4.6%;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, oklch(0% 0 0 / 0.6), transparent 78%);
+  filter: blur(5px);
+}
+
+.h1-fingerglow {
+  position: absolute;
+  left: 75.15%;
+  top: 56.94%;
+  width: 7.2%;
+  aspect-ratio: 1;
+  z-index: 3;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    closest-side,
+    oklch(97% 0.060 192 / 0.9),
+    oklch(88% 0.120 192 / 0.3) 44%,
+    transparent 72%
+  );
+  animation: h1-finger 2.8s var(--ease-in-out) infinite;
+}
+@keyframes h1-finger {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.84); }
+  50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.14); }
+}
+
+/* ── Glass panels · the agent's own read-out ──────────────────────────── */
+.h1-pill,
+.h1-panel {
   position: absolute;
   z-index: 4;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: oklch(22% 0.020 250 / 0.55);
-  border: 1px solid var(--border-soft);
-  backdrop-filter: blur(16px) saturate(130%);
-  -webkit-backdrop-filter: blur(16px) saturate(130%);
-  box-shadow:
-    inset 0 1px 0 oklch(100% 0 0 / 0.06),
-    0 14px 40px oklch(0% 0 0 / 0.32),
-    0 0 0 1px oklch(85% 0.130 190 / 0.05);
+  margin: 0;
   font-family: var(--font-display);
-  color: var(--ink-1);
-  animation: h1-float 6s var(--ease-in-out) infinite;
+  background: oklch(19% 0.020 250 / 0.66);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.08),
+    0 18px 40px oklch(0% 0 0 / 0.42);
   opacity: 0;
-  transform: translateY(14px);
-  transition: transform var(--dur-slow) var(--ease-spring);
+  transform: translateY(12px);
+  animation: h1-panel-in var(--dur-slow) var(--ease-spring) forwards;
 }
-.h1-card[data-card="contexto"] { animation-delay: 0ms, 600ms; }
-.h1-card[data-card="sugestao"] { animation-delay: 800ms, 800ms; }
-.h1-card[data-card="automacao"] { animation-delay: 1100ms, 1000ms; }
-.h1-card[data-card="status"]    { animation-delay: 1400ms, 1200ms; }
+@keyframes h1-panel-in { to { opacity: 1; transform: translateY(0); } }
 
-.h1-card { animation: h1-card-in 0.6s var(--ease-spring) forwards, h1-float 6s var(--ease-in-out) infinite; }
-.h1-card[data-card="contexto"] { animation-delay: 600ms, 1800ms; }
-.h1-card[data-card="sugestao"] { animation-delay: 800ms, 2000ms; }
-.h1-card[data-card="automacao"] { animation-delay: 1000ms, 2200ms; }
-.h1-card[data-card="status"]    { animation-delay: 1200ms, 2400ms; }
-
-@keyframes h1-card-in { to { opacity: 1; transform: translateY(0); } }
-@keyframes h1-float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-5px); }
-}
-.h1-card:hover { transform: translateY(-6px); }
-
-.h1-card__kicker {
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--cyan-1);
-  font-weight: 600;
-}
-.h1-card__body {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--ink-1);
-}
-.h1-card__meta {
+/* the top band stays chrome-free: only low pills live above the plate */
+.h1-pill {
+  top: 3.4%;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
+  padding: 7px 15px;
+  border-radius: 999px;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: var(--ink-3);
-  font-family: var(--font-body);
+  white-space: nowrap;
+  color: var(--ink-2); /* ink-3 lands at 4.16:1 on the glass — under the floor */
 }
-.h1-card__pulse {
+.h1-pill strong {
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-1);
+}
+.h1-pill--status { left: 0.5%; animation-delay: 420ms; }
+.h1-pill--contexto { right: 0.5%; animation-delay: 620ms; }
+.h1-pill__dot {
   width: 7px; height: 7px; border-radius: 50%;
+  background: var(--lime-1);
+  box-shadow: 0 0 10px var(--lime-1);
+  animation: h1-pulse 2.4s var(--ease-spring) infinite;
+}
+.h1-pill__dot--cyan {
+  background: var(--cyan-1);
+  box-shadow: 0 0 10px var(--cyan-1);
+  animation-delay: 1.2s;
+}
+
+.h1-panel {
+  box-sizing: border-box;
+  top: 83.6%;
+  padding: 13px 15px 14px;
+  border-radius: 15px;
+}
+/* the rail stops at 72%: past that is the robot's ground */
+.h1-panel--sugestao  { left: 0;   width: 34%; animation-delay: 740ms; }
+.h1-panel--automacao { left: 36%; width: 36%; animation-delay: 860ms; }
+
+.h1-panel__kicker {
+  margin: 0 0 7px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--cyan-1);
+}
+.h1-panel__body {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.34;
+  letter-spacing: -0.008em;
+  color: var(--ink-1);
+  text-wrap: pretty;
+}
+.h1-panel__meta,
+.h1-panel__meter,
+.h1-panel__steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 11px 0 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink-2);
+}
+.h1-panel__av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px; height: 19px;
+  border-radius: 50%;
+  background: oklch(85% 0.130 190 / 0.18);
+  color: var(--cyan-3);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.h1-panel__track {
+  position: relative;
+  width: 44px; height: 3px;
+  border-radius: 999px;
+  background: oklch(100% 0 0 / 0.14);
+  overflow: hidden;
+}
+.h1-panel__track span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--fill);
+  border-radius: 999px;
+  background: var(--cyan-1);
+}
+.h1-panel__num { color: var(--ink-1); font-weight: 700; }
+.h1-panel__steps { gap: 5px; }
+.h1-panel__seg {
+  width: 15px; height: 3px;
+  border-radius: 999px;
+  background: oklch(100% 0 0 / 0.15);
+}
+.h1-panel__seg.is-done { background: var(--lime-1); }
+.h1-panel__seg.is-live {
   background: var(--cyan-1);
   box-shadow: 0 0 8px var(--cyan-1);
-  animation: h1-pulse 2.2s var(--ease-spring) infinite;
+  animation: h1-pulse 1.8s var(--ease-in-out) infinite;
 }
-.h1-card__pulse--cyan { background: var(--cyan-1); box-shadow: 0 0 8px var(--cyan-1); }
-.h1-card__pulse--lime { background: var(--lime-1); box-shadow: 0 0 8px var(--lime-1); }
-.h1-card__pulse--blue { background: var(--blue-soft); box-shadow: 0 0 8px var(--blue-soft); }
+.h1-panel__steps span:last-child { margin-left: 5px; }
 
-/* card positions (in % of stage) */
-.h1-card--1 { left: 1%;  top: 4%;   width: 30%; }
-.h1-card--2 { right: 1%; top: 2%;   width: 30%; }
-.h1-card--3 { left: 3%;  bottom: 8%; width: 30%; }
-.h1-card--4 { right: 3%; bottom: 6%; width: 28%; }
-
-/* ── Mobile ───────────────────────────────────────────────────────────── */
-@media (max-width: 900px) {
-  .h1-split { grid-template-columns: 1fr; gap: 40px; min-height: auto; }
-  .h1-stage { justify-self: stretch; max-width: 100%; }
-  .h1-robot { display: none; }
-  .h1-connections { display: none; }
-  .h1-kanban-card { display: none; }
-  .h1-card--1 { width: 56%; left: 0; top: 2%; }
-  .h1-card--2 { width: 56%; right: 0; top: 0; }
-  .h1-card--3, .h1-card--4 { display: none; }
+/* ── Tablet / stacked ─────────────────────────────────────────────────── */
+/* below this the two pills no longer clear each other above the plate */
+@media (max-width: 1279px) {
+  .h1-pill--contexto { display: none; }
 }
+
+@media (max-width: 1180px) {
+  .h1-split { grid-template-columns: 1fr 1.05fr; }
+  .h1-title { font-size: clamp(34px, 4.6vw, 54px); }
+  .h1-sources { font-size: 11px; }
+}
+
+@media (max-width: 1080px) {
+  .h1-split { grid-template-columns: 1fr; gap: 44px; min-height: auto; }
+  .h1-stage { justify-self: center; max-width: 620px; margin-inline: auto; }
+  .h1-title { font-size: clamp(38px, 7vw, 62px); }
+  .h1-copy { gap: 22px; }
+}
+
+/* ── Compact: the plate is cropped, the camera follows the card ───────── */
+@media (max-width: 860px) {
+  .h1-pill--status { left: 0; top: 1.6%; font-size: 10px; padding: 6px 12px; }
+  .h1-plateglow { left: -8%; width: 116%; }
+}
+
+/* below this the rail no longer fits beside itself: stack it under the plate
+   and grow the stage to hold both panels. */
+@media (max-width: 560px) {
+  .h1-stage { min-height: 620px; }
+  .h1-panel { top: auto; left: 0; right: auto; width: 100%; max-width: none; }
+  .h1-panel--sugestao { bottom: 122px; }
+  .h1-panel--automacao { bottom: 0; }
+}
+
 @media (max-width: 520px) {
-  .h1-title { font-size: clamp(36px, 11vw, 48px); }
+  .h1-title { font-size: clamp(34px, 10.5vw, 46px); }
   .h1-sub { font-size: 14px; }
   .h1-cta__inner { font-size: 14px; padding: 11px 6px 11px 18px; }
+  .h1-panel { padding: 11px 13px 12px; border-radius: 13px; }
+  .h1-panel__body { font-size: 12.5px; }
 }
 
-/* ── Reduced motion ──────────────────────────────────────────────────── */
+/* ── Reduced motion · freeze the flow mid-pipeline ────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .h1-copy, .h1-stage, .h1-card { opacity: 1; transform: none; animation: none; }
-  .h1-mesh__orb, .h1-conn, .h1-data, .h1-kanban-card, .h1-title em, .h1-sources__dot, .h1-card__pulse {
-    animation: none;
-  }
-  .h1-conn { opacity: 0.7; stroke-dasharray: none; }
-  .h1-data { display: none; }
+  .h1-copy,
+  .h1-stage,
+  .h1-panel,
+  .h1-pill { opacity: 1; transform: none; animation: none; }
+
+  .h1-mesh__orb,
+  .h1-title em,
+  .h1-sources__dot,
+  .h1-pill__dot,
+  .h1-fingerglow,
+  .h1-panel__seg.is-live,
+  .kb-lift,
+  .kb-streak,
+  .kb-light,
+  .kb-pulse,
+  .kb-beam { animation: none; }
+
+  .h1-fingerglow { opacity: 0.85; transform: translate(-50%, -50%); }
+  .h1-pan { animation: none; transform: translateX(calc(var(--overflow) * -0.67)); }
+  .kb-fly { animation: none; transform: translateX(388px); opacity: 1; }
+  .kb-streak { opacity: 0; }
+  .kb-beam--3 { opacity: 0.85; }
+  .kb-light--3 { opacity: 0.4; }
   .h1-grain { opacity: 0.02; }
 }

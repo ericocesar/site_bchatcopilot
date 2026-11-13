@@ -1,0 +1,27 @@
+I have loaded tasteskill v2 (experimental) as my only source of design rules.
+
+Brief:
+- this project
+- Mode: overhaul
+
+
+Step 1. Run the Section 11 audit (Section 11.B in the skill):
+- Brand tokens currently in use (primary, accent, type stack, radii)
+- Information architecture (page tree, nav, conversion paths)
+- Patterns to preserve (signature interactions, recognisable hero, copy voice)
+- Patterns to retire (slop tells, broken layouts, dead links)
+- Inferred dial reading of the current site (DESIGN_VARIANCE, MOTION_INTENSITY, VISUAL_DENSITY)
+- SEO baseline (ranking pages, titles, anchors)
+Post the audit in writing. Stop.
+
+Step 2 (after my OK). Declare the mode (Preserve, Overhaul, or Greenfield-with-content-preserved) and which modernisation levers from Section 11.D you will apply, in priority order. Stop.
+
+Step 3 (after my OK). Implement the changes. Keep URL structure, primary nav labels, form field names, brand logo, and legal copy unchanged unless I explicitly approve a change.
+
+Step 4. Run in writing:
+- Em-dash audit
+- Pre-Flight Check (Section 14)
+- Preservation audit: list every URL, nav label, form field, and anchor changed. Should be empty unless I approved.
+- Brand fidelity audit: confirm the existing brand accent color, type stack, and logo treatment survived the redesign.
+
+Any Fail blocks completion.
